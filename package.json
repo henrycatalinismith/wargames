@@ -1,0 +1,22 @@
+{
+  "name": "global-thermonuclear-war",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "Henry Smith <henry@henrysmith.org>",
+  "keywords" : [
+    "nuclear war"
+  ],
+  "repository" : {
+    "type": "git",
+    "url": "http://github.com/urael/global-thermonuclear-war.git"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "grunt-cli": "0.1.13",
+    "grunt-contrib-connect": "0.8.0"
+  },
+  "scripts": {
+    "start": "grunt connect:server"
+  }
+}
