@@ -10,7 +10,11 @@ define(['backbone', 'model/location'], function(Backbone, Location) {
     },
 
     fire: function() {
-      this.set({ status: 'flight' });
+      if (this.get('status') === 'ready') {
+        this.set({ status: 'flight' });
+      } else {
+        throw new Error('Cannot fire missiles that are not ready');
+      }
     }
 
   });
