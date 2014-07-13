@@ -24,5 +24,20 @@ describe('model/missile', function(){
     });
   });
 
+  describe('#detonate', function() {
+    it('detonates missiles in flight', function() {
+      missile.set({ status: 'flight' });
+      missile.detonate();
+      missile.get('status').should.equal('detonated');
+    });
+
+    it('refuses to detonate missiles that are not in flight', function() {
+      missile.set({ status: 'ready' });
+      (function () {
+        missile.detonate();
+      }).should.throw('Cannot detonate missiles that are not in flight');
+    });
+  });
+
 });
 
