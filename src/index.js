@@ -15,7 +15,11 @@ require.config({
 
 });
 
-define(['view/map'], function(Map) {
+define(['jquery', 'view/map'], function($, Map) {
+
+  var map = new Map({
+    el: $('#map')
+  });
 
   console.log(new Map);
 

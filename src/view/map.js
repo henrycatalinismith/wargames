@@ -13,7 +13,7 @@ define(['backbone', 'googlemaps!'], function(Backbone) {
         zoomControl: false
       };
 
-      var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+      this.map = new google.maps.Map(this.el, mapOptions);
     }
 
   });
