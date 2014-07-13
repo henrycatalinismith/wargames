@@ -3,6 +3,8 @@
   "dependencies": {
     "googlemaps-amd": "1.0.1",
     "requirejs": "2.1.14",
-    "requirejs-plugins": "~1.0.2"
+    "requirejs-plugins": "1.0.2",
+    "backbone": "1.1.2",
+    "jquery": "2.1.1"
   }
 }

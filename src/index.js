@@ -2,7 +2,10 @@ require.config({
 
   paths : {
     async: '/bower_components/requirejs-plugins/src/async',
-    googlemaps: '/bower_components/googlemaps-amd/src/googlemaps'
+    backbone: '/bower_components/backbone/backbone',
+    googlemaps: '/bower_components/googlemaps-amd/src/googlemaps',
+    jquery: '/bower_components/jquery/dist/jquery',
+    underscore: '/bower_components/underscore/underscore'
   },
 
   googlemaps: {
