@@ -15,13 +15,14 @@ require.config({
 
 });
 
-define(['jquery', 'view/map'], function($, Map) {
+define(['jquery', 'view/map', 'controller/launch'], function($, Map, LaunchControl) {
 
   var map = new Map({
     el: $('#map')
   });
 
-  console.log(new Map);
+  var launchControl = new LaunchControl(map);
+  launchControl.fireMissile([55.749792, 37.632495], [38.8935965, -77.014576]);
 
   return;
 
