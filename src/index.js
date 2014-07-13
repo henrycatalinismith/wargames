@@ -12,22 +12,18 @@ require.config({
 
 });
 
-define(['googlemaps!'], function() {
+define(['view/map'], function(Map) {
 
-  var mapOptions = {
-    center: new google.maps.LatLng(55.3617609, -3.4433238),
-    disableDefaultUI: true,
-    disableDoubleClickZoom: true,
-    draggable: false,
-    scrollwheel: false,
-    zoom: 3,
-    zoomControl: false
-  };
+  console.log(new Map);
+
+  return;
+
+
   var worldBounds = new google.maps.LatLngBounds(
     new google.maps.LatLng(0, -110),
     new google.maps.LatLng(0, 110)
   );
-  var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
   //map.fitBounds(worldBounds);
 
   var dept_lat = 55.749792;
