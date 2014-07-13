@@ -1,0 +1,8 @@
+{
+  "name": "global-thermonuclear-war",
+  "dependencies": {
+    "googlemaps-amd": "1.0.1",
+    "requirejs": "2.1.14",
+    "requirejs-plugins": "~1.0.2"
+  }
+}

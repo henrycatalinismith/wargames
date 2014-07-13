@@ -1,4 +1,19 @@
-document.addEventListener('DOMContentLoaded', function() {
+require.config({
+
+  paths : {
+    async: '/bower_components/requirejs-plugins/src/async',
+    googlemaps: '/bower_components/googlemaps-amd/src/googlemaps'
+  },
+
+  googlemaps: {
+    key: 'AIzaSyDqRRPaAp8g_m5aOVqJpwMkrU7wV3yyhR0',
+    libraries: 'geometry'
+  }
+
+});
+
+define(['googlemaps!'], function() {
+
   var mapOptions = {
     center: new google.maps.LatLng(55.3617609, -3.4433238),
     disableDefaultUI: true,
@@ -32,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
  });
  var step = 0;
  var numSteps = 250; //Change this to set animation resolution
- var timePerStep = 50; //Change this to alter animation speed
+ var timePerStep = 5; //Change this to alter animation speed
  var interval = setInterval(function() {
      step += 1;
      if (step > numSteps) {
