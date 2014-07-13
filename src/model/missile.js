@@ -7,6 +7,10 @@ define(['backbone', 'model/location'], function(Backbone, Location) {
       target: new Location,
       position: new Location,
       status: 'ready',
+    },
+
+    fire: function() {
+      this.set({ status: 'flight' });
     }
 
   });
