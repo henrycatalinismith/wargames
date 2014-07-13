@@ -11,7 +11,8 @@ describe('model/missile', function(){
   });
 
   describe('#fire', function() {
-    it('fires the missile', function() {
+    it('fires missiles that are ready', function() {
+      missile.set({ status: 'ready' });
       missile.fire();
       missile.get('status').should.equal('flight');
     });
