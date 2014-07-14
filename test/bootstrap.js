@@ -1,25 +1,32 @@
-var requirejs = require('requirejs')
-  , mocha = require('mocha')
-  , fs = require('fs');
-
 requirejs.config({
-  baseUrl: fs.realpathSync(__dirname + "/../src"),
-  nodeRequire: require,
-
   paths: {
-    gtw: fs.realpathSync(__dirname + "/../src")
+    gtw: '../src',
+    test: './',
+
+    backbone: '../bower_components/backbone/backbone',
+    jquery: '../bower_components/jquery/dist/jquery',
+    marionette: '../bower_components/marionette/lib/backbone.marionette',
+    underscore: '../bower_components/underscore/underscore',
+    mocha: '../bower_components/mocha/mocha',
+    should: '../bower_components/should/should'
+  },
+
+  shim: {
+
+    underscore: { exports: '_' },
+    backbone:   { exports: 'Backbone', deps: ['jquery', 'underscore'] },
+    marionette: { exports: 'Marionette', deps: ['jquery', 'underscore', 'backbone'] },
+
+    'mocha': {
+      init: function () {
+        this.mocha.setup('bdd');
+        return this.mocha;
+      }
+    }
   }
 });
 
-requirejs.define("assert", function() { return require("assert"); });
-requirejs.define("mocha", function() { return require("mocha"); });
-requirejs.define("should", function() { return require("should"); });
-requirejs.define("sinon", function() { return require("sinon"); });
-
-requirejs([
-  "jquery",
-  "backbone"
-], function(jQuery, Backbone) {
-  Backbone.$ = jQuery;
+require(['mocha', 'should', 'test/model/missile'], function(mocha) {
+  mochaPhantomJS.run();
 });
 
