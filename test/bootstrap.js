@@ -4,7 +4,11 @@ var requirejs = require('requirejs')
 
 requirejs.config({
   baseUrl: fs.realpathSync(__dirname + "/../src"),
-  nodeRequire: require
+  nodeRequire: require,
+
+  paths: {
+    gtw: fs.realpathSync(__dirname + "/../src")
+  }
 });
 
 requirejs.define("assert", function() { return require("assert"); });

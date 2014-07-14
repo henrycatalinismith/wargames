@@ -1,4 +1,4 @@
-define(['backbone', 'model/location'], function(Backbone, Location) {
+define(['backbone', 'gtw/model/location'], function(Backbone, Location) {
 
   var Missile = Backbone.Model.extend({
 

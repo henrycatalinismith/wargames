@@ -1,6 +1,6 @@
 var requirejs = require('requirejs'),
     should = require('should'),
-    Missile = requirejs('model/missile');
+    Missile = requirejs('gtw/model/missile');
 
 describe('model/missile', function(){
 
