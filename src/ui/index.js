@@ -11,8 +11,10 @@ require.config({
   },
 
   googlemaps: {
-    key: 'AIzaSyDqRRPaAp8g_m5aOVqJpwMkrU7wV3yyhR0',
-    libraries: 'geometry'
+    params: {
+      key: 'AIzaSyDqRRPaAp8g_m5aOVqJpwMkrU7wV3yyhR0',
+      libraries: 'geometry'
+    }
   },
 
   shim: {

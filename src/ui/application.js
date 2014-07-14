@@ -14,17 +14,36 @@ define([
       el: $('#map')
     });
 
-    launchSite = new google.maps.LatLng(55.749792, 37.632495);
-    target = new google.maps.LatLng(38.8935965, -77.014576);
+    var origin = new google.maps.LatLng(55.749792, 37.632495);
+    var target = new google.maps.LatLng(38.8935965, -77.014576);
+    var location = origin;
 
-    var trajectory = new google.maps.Polyline({
+    var heading = google.maps.geometry.spherical.computeHeading(origin, target);
+    console.log(heading);
+
+    var line = new google.maps.Polyline({
       geodesic: true,
       map: map.map,
-      path: [launchSite, target],
+      path: [origin, location],
       strokeColor: "#FF0000",
       strokeOpacity: 1,
       strokeWeight: 1
     });
+
+    var tickLength = 100;
+    function move() {
+      var speed = 1000;
+      var elapsed = tickLength;
+      var distance = speed * elapsed;
+      var heading = google.maps.geometry.spherical.computeHeading(location, target);
+      location = google.maps.geometry.spherical.computeOffset(location, distance, heading);
+      line.setPath([origin, location]);
+      setTimeout(move, tickLength);
+    }
+
+    move();
+
+    /*
 
     var explosion = new google.maps.Circle({
       center: target,
@@ -36,6 +55,7 @@ define([
       strokeOpacity: 0.8,
       strokeWeight: 2,
     });
+    */
 
   });
 
