@@ -1,4 +1,4 @@
-define(['mocha', 'gtw/model/missile'], function(mocha, Missile) {
+define(['mocha', 'sinon', 'gtw/model/missile'], function(mocha, sinon, Missile) {
 
   describe('model/missile', function(){
 
@@ -13,6 +13,14 @@ define(['mocha', 'gtw/model/missile'], function(mocha, Missile) {
         missile.set({ status: 'ready' });
         missile.launch();
         missile.get('status').should.equal('flight');
+      });
+
+      it('dispatches a launch event', function() {
+        var spy = sinon.spy();
+        missile.set({ status: 'ready' });
+        missile.on('launch', spy);
+        missile.launch();
+        spy.calledOnce.should.be.true;
       });
 
       it('fails when launching non-ready missiles', function() {

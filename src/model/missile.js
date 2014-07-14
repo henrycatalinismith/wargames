@@ -12,6 +12,7 @@ define(['backbone', 'gtw/model/location'], function(Backbone, Location) {
     launch: function() {
       if (this.get('status') === 'ready') {
         this.set({ status: 'flight' });
+        this.trigger('launch');
       } else {
         throw new Error('Cannot launch missiles that are not ready');
       }

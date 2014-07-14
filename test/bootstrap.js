@@ -8,6 +8,7 @@ requirejs.config({
     marionette: '../bower_components/marionette/lib/backbone.marionette',
     underscore: '../bower_components/underscore/underscore',
     mocha: '../bower_components/mocha/mocha',
+    sinon: '../bower_components/sinon/lib/sinon',
     should: '../bower_components/should/should'
   },
 
@@ -26,7 +27,7 @@ requirejs.config({
   }
 });
 
-require(['mocha', 'should', 'test/model/missile'], function(mocha) {
+require(['mocha', 'should', 'test/model/missile', 'test/ui/controller/launch'], function(mocha) {
   mochaPhantomJS.run();
 });
 
