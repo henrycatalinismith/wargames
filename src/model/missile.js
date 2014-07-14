@@ -1,12 +1,14 @@
-define(['backbone', 'gtw/model/location'], function(Backbone, Location) {
+define(['backbone'], function(Backbone) {
 
   var Missile = Backbone.Model.extend({
 
     defaults: {
-      origin: new Location,
-      target: new Location,
-      position: new Location,
       status: 'ready',
+      speed: 0,
+      heading: 0,
+      origin: [0, 0],
+      target: [0, 0],
+      location: [0, 0]
     },
 
     launch: function() {
