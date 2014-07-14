@@ -8,6 +8,7 @@ define(['marionette'], function(Marionette) {
 
     launchMissile: function(missile) {
       missile.launch();
+      missile.set({ speed: 5000 });
     }
 
   });

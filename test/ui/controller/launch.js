@@ -10,7 +10,7 @@ define([
 
     var launchControl, missile, barrage;
 
-    before(function () {
+    beforeEach(function () {
       missile = new Missile;
       barrage = new Barrage;
       launchControl = new LaunchControl({
@@ -20,9 +20,14 @@ define([
 
     it('launches missiles as soon as they are added to the barrage', function() {
       var spy = sinon.spy();
-      missile.on('change', spy);
+      missile.on('launch', spy);
       barrage.add(missile);
       spy.calledOnce.should.be.true;
+    });
+
+    it('launches missiles at 5km/s', function() {
+      barrage.add(missile);
+      missile.get('speed').should.equal(5000);
     });
 
   });
