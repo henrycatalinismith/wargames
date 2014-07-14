@@ -10,18 +10,18 @@ describe('model/missile', function(){
     missile = new Missile;
   });
 
-  describe('#fire', function() {
-    it('fires missiles that are ready', function() {
+  describe('#launch', function() {
+    it('launches missiles that are ready', function() {
       missile.set({ status: 'ready' });
-      missile.fire();
+      missile.launch();
       missile.get('status').should.equal('flight');
     });
 
-    it('fails when firing non-ready missiles', function() {
+    it('fails when launching non-ready missiles', function() {
       missile.set({ status: 'detonated' });
       (function () {
-        missile.fire();
-      }).should.throw('Cannot fire missiles that are not ready');
+        missile.launch();
+      }).should.throw('Cannot launch missiles that are not ready');
     });
   });
 

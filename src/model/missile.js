@@ -9,11 +9,11 @@ define(['backbone', 'gtw/model/location'], function(Backbone, Location) {
       status: 'ready',
     },
 
-    fire: function() {
+    launch: function() {
       if (this.get('status') === 'ready') {
         this.set({ status: 'flight' });
       } else {
-        throw new Error('Cannot fire missiles that are not ready');
+        throw new Error('Cannot launch missiles that are not ready');
       }
     },
 
