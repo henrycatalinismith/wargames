@@ -49,7 +49,7 @@ $(document).ready(function() {
     setTimeout(tick, length);
   }
 
-  tick(10);
+  tick(100);
 
   google.maps.event.addListener(map.map, 'click', function(event) {
     missiles.push({
