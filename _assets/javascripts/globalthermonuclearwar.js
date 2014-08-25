@@ -49,6 +49,10 @@ $(document).ready(function() {
         strokeOpacity: 0.8,
         strokeWeight: 2,
       });
+
+      setTimeout(function() {
+        line.setMap(null);
+      }, 1000);
     }
   }
 
