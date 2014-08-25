@@ -12,6 +12,8 @@
 
 $(document).ready(function() {
 
+  var socket = io('http://global.thermonuclearwar.org:3000');
+
   var map = new GlobalThermonuclearWar.View.Map({
     el: $('#map')
   });
@@ -53,10 +55,17 @@ $(document).ready(function() {
 
   google.maps.event.addListener(map.map, 'click', function(event) {
     ga('send', 'event', 'missile', 'launch');
-    missiles.push({
+    var missile = new GlobalThermonuclearWar.Model.Missile({
       origin: [51.454513, -2.58791],
       target: [event.latLng.lat(), event.latLng.lng()]
     });
+    missiles.push(missile);
+    socket.emit('launch', missile.toJSON());
+  });
+
+  socket.on('launch', function(data) {
+    var missile = new GlobalThermonuclearWar.Model.Missile(data);
+    missiles.push(missile);
   });
 
 });
