@@ -1,0 +1,17 @@
+{
+  "name": "joshua",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "Henry Smith <henry@henrysmith.org>",
+  "keywords": [ ],
+  "repository" : {
+    "type": "git",
+    "url": "http://github.com/hnrysmth/joshua.git"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+  }
+}
