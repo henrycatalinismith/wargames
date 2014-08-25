@@ -1,6 +1,8 @@
 //= require bower_components/jquery/dist/jquery
 //= require bower_components/underscore/underscore
 //= require bower_components/backbone/backbone
+//= require src/index
+//= require src/model/missile
 //= require src/map
 
 $(document).ready(function() {
