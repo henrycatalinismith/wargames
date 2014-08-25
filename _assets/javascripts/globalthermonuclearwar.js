@@ -52,6 +52,7 @@ $(document).ready(function() {
   tick(100);
 
   google.maps.event.addListener(map.map, 'click', function(event) {
+    _gaq.push(['_trackEvent', 'Missiles', 'Launch']);
     missiles.push({
       origin: [51.454513, -2.58791],
       target: [event.latLng.lat(), event.latLng.lng()]
