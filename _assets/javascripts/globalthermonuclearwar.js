@@ -17,7 +17,7 @@ $(document).ready(function() {
   });
 
   var missiles = new GlobalThermonuclearWar.Collection.Missile;
-  var explisions = new GlobalThermonuclearWar.Collection.Explosion;
+  var explosions = new GlobalThermonuclearWar.Collection.Explosion;
 
   missiles.push({
     origin: [55.749792, 37.632495],
@@ -26,7 +26,7 @@ $(document).ready(function() {
 
   missiles.push({
     origin: [30.8935965, -87.014576],
-    target: [5.749792, 7.632495]
+    target: [28.8935965, -107.014576]
   });
 
   var missileViews = [
@@ -40,10 +40,25 @@ $(document).ready(function() {
     })
   ];
 
-  function tick(length) {
-    missiles.map(function(missile) {
-      missile.tick();
+  missiles.on('detonation', function(missile) {
+    explosions.push({
+      latitude: missile.get('target')[0],
+      longitude: missile.get('target')[1]
     });
+  });
+
+  explosions.on('add', function(explosion) {
+    var view = new GlobalThermonuclearWar.View.Explosion({
+      map: map,
+      model: explosion
+    });
+    view.render();
+  });
+
+  function tick(length) {
+    missiles
+      .filter(function(missile) { return missile.get('status') === 'flight'; })
+      .map(function(missile) { missile.tick(); });
     setTimeout(tick, length);
   }
 
@@ -54,16 +69,6 @@ $(document).ready(function() {
     if (remaining > 10000) {
       setTimeout(move, tickLength);
     } else {
-      var explosion = new google.maps.Circle({
-        center: target,
-        fillColor: '#FF0000',
-        fillOpacity: 0.35,
-        map: map.map,
-        radius: 100000,
-        strokeColor: '#FF0000',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-      });
     }
   }
 });

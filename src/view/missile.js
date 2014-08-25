@@ -20,7 +20,7 @@ GlobalThermonuclearWar.View.Missile = Backbone.View.extend({
       strokeWeight: 1
     });
 
-    this.listenTo(this.model, 'change', this.render);
+    this.listenTo(this.model, 'change:location', this.render);
     this.listenTo(this.model, 'detonation', this.explode);
   },
 

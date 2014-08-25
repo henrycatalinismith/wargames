@@ -1,6 +1,7 @@
 GlobalThermonuclearWar.Model.Missile = Backbone.Model.extend({
 
   initialize: function() {
+    this.set('status', 'flight');
     this.set('location', [
       this.get('origin')[0],
       this.get('origin')[1]
@@ -22,7 +23,8 @@ GlobalThermonuclearWar.Model.Missile = Backbone.Model.extend({
       location = google.maps.geometry.spherical.computeOffset(location, distance, heading);
       this.set('location', [location.lat(), location.lng()]);
     } else {
-      this.trigger('detonation');
+      this.set('status', 'detonated');
+      this.trigger('detonation', this);
     }
   }
 
