@@ -64,11 +64,4 @@ $(document).ready(function() {
 
   tick(10);
 
-  function move() {
-    var remaining = google.maps.geometry.spherical.computeDistanceBetween(location, target);
-    if (remaining > 10000) {
-      setTimeout(move, tickLength);
-    } else {
-    }
-  }
 });
