@@ -2,8 +2,11 @@
 //= require bower_components/underscore/underscore
 //= require bower_components/backbone/backbone
 //= require src/index
+//= require src/model/explosion
 //= require src/model/missile
+//= require src/collection/explosion
 //= require src/collection/missile
+//= require src/view/explosion
 //= require src/view/map
 //= require src/view/missile
 
@@ -14,6 +17,7 @@ $(document).ready(function() {
   });
 
   var missiles = new GlobalThermonuclearWar.Collection.Missile;
+  var explisions = new GlobalThermonuclearWar.Collection.Explosion;
 
   missiles.push({
     origin: [55.749792, 37.632495],
