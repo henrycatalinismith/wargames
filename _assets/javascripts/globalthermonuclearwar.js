@@ -16,12 +16,12 @@ $(document).ready(function() {
   var missiles = new GlobalThermonuclearWar.Collection.Missile;
 
   missiles.push({
-    origin: [50.749792, 37.632495],
+    origin: [55.749792, 37.632495],
     target: [38.8935965, -77.014576]
   });
 
   missiles.push({
-    origin: [38.8935965, -77.014576],
+    origin: [30.8935965, -87.014576],
     target: [5.749792, 7.632495]
   });
 
