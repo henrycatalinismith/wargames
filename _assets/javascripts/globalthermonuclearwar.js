@@ -5,6 +5,7 @@
 //= require src/model/missile
 //= require src/collection/missile
 //= require src/view/map
+//= require src/view/missile
 
 $(document).ready(function() {
 
@@ -19,14 +20,16 @@ $(document).ready(function() {
     target: [38.8935965, -77.014576]
   })
 
-  console.log(missiles.at(0));
+  var missileView = new GlobalThermonuclearWar.View.Missile({
+    map: map,
+    model: missiles.at(0)
+  });
 
   var origin = new google.maps.LatLng(55.749792, 37.632495);
   var target = new google.maps.LatLng(38.8935965, -77.014576);
   var location = origin;
 
   var heading = google.maps.geometry.spherical.computeHeading(origin, target);
-  console.log(heading);
 
   var line = new google.maps.Polyline({
     geodesic: true,
