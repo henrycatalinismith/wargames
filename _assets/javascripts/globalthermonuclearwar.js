@@ -3,6 +3,7 @@
 //= require bower_components/backbone/backbone
 //= require src/index
 //= require src/model/missile
+//= require src/collection/missile
 //= require src/view/map
 
 $(document).ready(function() {
@@ -11,6 +12,14 @@ $(document).ready(function() {
     el: $('#map')
   });
 
+  var missiles = new GlobalThermonuclearWar.Collection.Missile;
+
+  missiles.push({
+    origin: [55.749792, 37.632495],
+    target: [38.8935965, -77.014576]
+  })
+
+  console.log(missiles.at(0));
 
   var origin = new google.maps.LatLng(55.749792, 37.632495);
   var target = new google.maps.LatLng(38.8935965, -77.014576);
