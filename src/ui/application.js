@@ -2,10 +2,9 @@ define([
   'marionette',
   'jquery',
   'gtw/ui/view/map',
-  'gtw/ui/controller/launch',
   'gtw/collection/barrage',
   'gtw/model/missile'
-], function(Marionette, $, Map, LaunchControl, Barrage, Missile) {
+], function(Marionette, $, Map, Barrage, Missile) {
 
   var Application = new Marionette.Application;
 
