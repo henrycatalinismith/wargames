@@ -16,14 +16,25 @@ $(document).ready(function() {
   var missiles = new GlobalThermonuclearWar.Collection.Missile;
 
   missiles.push({
-    origin: [55.749792, 37.632495],
+    origin: [50.749792, 37.632495],
     target: [38.8935965, -77.014576]
-  })
-
-  var missileView = new GlobalThermonuclearWar.View.Missile({
-    map: map,
-    model: missiles.at(0)
   });
+
+  missiles.push({
+    origin: [38.8935965, -77.014576],
+    target: [5.749792, 7.632495]
+  });
+
+  var missileViews = [
+    new GlobalThermonuclearWar.View.Missile({
+      map: map,
+      model: missiles.at(0)
+    }),
+    new GlobalThermonuclearWar.View.Missile({
+      map: map,
+      model: missiles.at(1)
+    })
+  ];
 
   function tick(length) {
     missiles.map(function(missile) {
