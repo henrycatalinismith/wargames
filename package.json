@@ -9,6 +9,7 @@
     "url": "http://github.com/hnrysmth/joshua.git"
   },
   "dependencies": {
+    "socket.io": "1.0.6"
   },
   "devDependencies": {
   },
