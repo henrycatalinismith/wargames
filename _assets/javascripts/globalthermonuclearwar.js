@@ -51,7 +51,11 @@ $(document).ready(function() {
 
   tick(10);
 
-  missiles.push({ origin: [55.749792, 37.632495], target: [38.8935965, -77.014576] });
-  missiles.push({ origin: [30.8935965, -87.014576], target: [28.8935965, -107.014576] });
+  google.maps.event.addListener(map.map, 'click', function(event) {
+    missiles.push({
+      origin: [51.454513, -2.58791],
+      target: [event.latLng.lat(), event.latLng.lng()]
+    });
+  });
 
 });

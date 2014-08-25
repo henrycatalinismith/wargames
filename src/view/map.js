@@ -6,6 +6,7 @@ GlobalThermonuclearWar.View.Map = Backbone.View.extend({
       disableDefaultUI: true,
       disableDoubleClickZoom: true,
       draggable: true,
+      draggableCursor: 'crosshair',
       scrollwheel: true,
       zoom: 3,
       zoomControl: false
