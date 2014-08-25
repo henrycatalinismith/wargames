@@ -21,6 +21,7 @@ GlobalThermonuclearWar.View.Missile = Backbone.View.extend({
     });
 
     this.listenTo(this.model, 'change', this.render);
+    this.listenTo(this.model, 'detonation', this.explode);
   },
 
   render: function() {
@@ -29,6 +30,15 @@ GlobalThermonuclearWar.View.Missile = Backbone.View.extend({
       this.model.get('location')[1]
     );
     this.line.setPath([this.origin, location]);
+  },
+
+  explode: function() {
+    this.stopListening();
+    setTimeout(this.disappear.bind(this), 1000);
+  },
+
+  disappear: function() {
+    this.line.setMap(null);
   }
 
 });

@@ -22,7 +22,7 @@ GlobalThermonuclearWar.Model.Missile = Backbone.Model.extend({
       location = google.maps.geometry.spherical.computeOffset(location, distance, heading);
       this.set('location', [location.lat(), location.lng()]);
     } else {
-      console.log('boom');
+      this.trigger('detonation');
     }
   }
 
