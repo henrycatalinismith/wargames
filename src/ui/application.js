@@ -58,21 +58,6 @@ define([
 
     move();
 
-    /*
-
-    var explosion = new google.maps.Circle({
-      center: target,
-      fillColor: '#FF0000',
-      fillOpacity: 0.35,
-      map: map.map,
-      radius: 100000,
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-    });
-
-    */
-
   });
 
   return Application;
