@@ -3,11 +3,11 @@
 //= require bower_components/backbone/backbone
 //= require src/index
 //= require src/model/missile
-//= require src/map
+//= require src/view/map
 
 $(document).ready(function() {
 
-  var map = new Map({
+  var map = new GlobalThermonuclearWar.View.Map({
     el: $('#map')
   });
 

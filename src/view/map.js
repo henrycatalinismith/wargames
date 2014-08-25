@@ -1,4 +1,4 @@
-var Map = Backbone.View.extend({
+GlobalThermonuclearWar.View.Map = Backbone.View.extend({
 
   initialize: function(options) {
     var mapOptions = {
