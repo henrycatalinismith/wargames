@@ -25,6 +25,15 @@ $(document).ready(function() {
     model: missiles.at(0)
   });
 
+  function tick(length) {
+    missiles.map(function(missile) {
+      missile.tick();
+    });
+    setTimeout(tick, length);
+  }
+
+  tick(10);
+
   var origin = new google.maps.LatLng(55.749792, 37.632495);
   var target = new google.maps.LatLng(38.8935965, -77.014576);
   var location = origin;
@@ -42,6 +51,7 @@ $(document).ready(function() {
 
   var tickLength = 10;
   function move() {
+    return;
     var speed = 1000;
     var elapsed = tickLength;
     var distance = speed * elapsed;

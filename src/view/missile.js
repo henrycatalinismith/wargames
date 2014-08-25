@@ -20,9 +20,15 @@ GlobalThermonuclearWar.View.Missile = Backbone.View.extend({
       strokeWeight: 1
     });
 
-    this.model.on('change', function() {
-      console.log('ee');
-    });
+    this.model.on('change', _.bind(this.render, this));
+  },
+
+  render: function() {
+    var location = new google.maps.LatLng(
+      this.model.get('location')[0],
+      this.model.get('location')[1]
+    );
+    this.line.setPath([this.origin, location]);
   }
 
 });
