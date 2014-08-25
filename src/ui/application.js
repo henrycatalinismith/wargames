@@ -30,7 +30,7 @@ define([
       strokeWeight: 1
     });
 
-    var tickLength = 100;
+    var tickLength = 10;
     function move() {
       var speed = 1000;
       var elapsed = tickLength;
@@ -38,7 +38,11 @@ define([
       var heading = google.maps.geometry.spherical.computeHeading(location, target);
       location = google.maps.geometry.spherical.computeOffset(location, distance, heading);
       line.setPath([origin, location]);
-      setTimeout(move, tickLength);
+
+      var remaining = google.maps.geometry.spherical.computeDistanceBetween(location, target);
+      if (remaining > 10000) {
+        setTimeout(move, tickLength);
+      }
     }
 
     move();
