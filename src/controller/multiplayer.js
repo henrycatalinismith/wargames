@@ -2,9 +2,12 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
 
   initialize: function(options) {
     this.missiles = options.missiles;
+    this.listenTo(options.missiles, 'launch', this.sendMissile);
+
     this.socket = this.setupSocket(options.url);
     this.socket.on('launch', this.receiveMissile.bind(this));
-    this.listenTo(options.missiles, 'launch', this.sendMissile);
+    this.socket.on('player:joined', this.addPlayer.bind(this));
+    this.socket.on('player:left', this.removePlayer.bind(this));
   },
 
   setupSocket: function(url) {
@@ -21,6 +24,14 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
 
   receiveMissile: function(rawMissileData) {
     this.missiles.push(new GlobalThermonuclearWar.Model.Missile(rawMissileData));
+  },
+
+  addPlayer: function(rawPlayerData) {
+    console.log(rawPlayerData);
+  },
+
+  removePlayer: function(playerId) {
+    console.log(playerId);
   }
 
 });
