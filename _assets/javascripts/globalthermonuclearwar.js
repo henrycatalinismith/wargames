@@ -1,11 +1,13 @@
 //= require bower_components/jquery/dist/jquery
 //= require bower_components/underscore/underscore
 //= require bower_components/backbone/backbone
+//= require bower_components/marionette/lib/backbone.marionette
 //= require src/index
 //= require src/model/explosion
 //= require src/model/missile
 //= require src/collection/explosion
 //= require src/collection/missile
+//= require src/controller/flight
 //= require src/view/explosion
 //= require src/view/map
 //= require src/view/missile
@@ -25,6 +27,10 @@ $(document).ready(function() {
 
   var missiles = new GlobalThermonuclearWar.Collection.Missile;
   var explosions = new GlobalThermonuclearWar.Collection.Explosion;
+
+  var flightController = new GlobalThermonuclearWar.Controller.Flight({
+    missiles: missiles
+  });
 
   missiles.on('add', function(missile) {
     var view = new GlobalThermonuclearWar.View.Missile({
@@ -48,15 +54,6 @@ $(document).ready(function() {
     });
     view.render();
   });
-
-  function tick(length) {
-    missiles
-      .filter(function(missile) { return missile.get('status') === 'flight'; })
-      .map(function(missile) { missile.tick(); });
-    setTimeout(tick, length);
-  }
-
-  tick(100);
 
   google.maps.event.addListener(map.map, 'click', function(event) {
     ga('send', 'event', 'missile', 'launch');
