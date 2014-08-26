@@ -8,6 +8,11 @@ GlobalThermonuclearWar.Model.Missile = Backbone.Model.extend({
     ]);
   },
 
+  launch: function() {
+    this.set('status', 'flight');
+    this.trigger('launch', this);
+  },
+
   detonate: function() {
     this.set('status', 'detonated');
     this.trigger('detonation', this);

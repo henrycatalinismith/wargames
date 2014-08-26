@@ -9,18 +9,12 @@
 //= require src/collection/missile
 //= require src/controller/detonation
 //= require src/controller/flight
+//= require src/controller/multiplayer
 //= require src/view/explosion
 //= require src/view/map
 //= require src/view/missile
 
 $(document).ready(function() {
-
-  var socket;
-  if (window.location.href.match(/^http:\/\/localhost/)) {
-    socket = io('http://localhost:3000');
-  } else {
-    socket = io('http://global.thermonuclearwar.org:3000');
-  }
 
   var map = new GlobalThermonuclearWar.View.Map({
     el: $('#map')
@@ -34,6 +28,11 @@ $(document).ready(function() {
   });
 
   var detonationController = new GlobalThermonuclearWar.Controller.Detonation({
+    missiles: missiles
+  });
+
+  var multiplayerController = new GlobalThermonuclearWar.Controller.Multiplayer({
+    url: window.location.href,
     missiles: missiles
   });
 
@@ -67,12 +66,7 @@ $(document).ready(function() {
       target: [event.latLng.lat(), event.latLng.lng()]
     });
     missiles.push(missile);
-    socket.emit('launch', missile.toJSON());
-  });
-
-  socket.on('launch', function(data) {
-    var missile = new GlobalThermonuclearWar.Model.Missile(data);
-    missiles.push(missile);
+    missile.launch();
   });
 
 });
