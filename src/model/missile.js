@@ -8,6 +8,11 @@ GlobalThermonuclearWar.Model.Missile = Backbone.Model.extend({
     ]);
   },
 
+  detonate: function() {
+    this.set('status', 'detonated');
+    this.trigger('detonation', this);
+  },
+
   tick: function() {
     var tickLength = 10;
     var speed = 1000;
@@ -17,15 +22,9 @@ GlobalThermonuclearWar.Model.Missile = Backbone.Model.extend({
     var target = new google.maps.LatLng(this.get('target')[0], this.get('target')[1]);
     var location = new google.maps.LatLng(this.get('location')[0], this.get('location')[1]);
     var heading = google.maps.geometry.spherical.computeHeading(location, target);
-    var remaining = google.maps.geometry.spherical.computeDistanceBetween(location, target);
 
-    if (remaining > 10000) {
-      location = google.maps.geometry.spherical.computeOffset(location, distance, heading);
-      this.set('location', [location.lat(), location.lng()]);
-    } else {
-      this.set('status', 'detonated');
-      this.trigger('detonation', this);
-    }
+    location = google.maps.geometry.spherical.computeOffset(location, distance, heading);
+    this.set('location', [location.lat(), location.lng()]);
   }
 
 });

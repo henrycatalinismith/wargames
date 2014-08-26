@@ -7,6 +7,7 @@
 //= require src/model/missile
 //= require src/collection/explosion
 //= require src/collection/missile
+//= require src/controller/detonation
 //= require src/controller/flight
 //= require src/view/explosion
 //= require src/view/map
@@ -29,6 +30,10 @@ $(document).ready(function() {
   var explosions = new GlobalThermonuclearWar.Collection.Explosion;
 
   var flightController = new GlobalThermonuclearWar.Controller.Flight({
+    missiles: missiles
+  });
+
+  var detonationController = new GlobalThermonuclearWar.Controller.Detonation({
     missiles: missiles
   });
 
