@@ -24,6 +24,7 @@ $(document).ready(function() {
   var explosions = new GlobalThermonuclearWar.Collection.Explosion;
 
   var flightController = new GlobalThermonuclearWar.Controller.Flight({
+    map: map,
     missiles: missiles
   });
 
@@ -36,13 +37,6 @@ $(document).ready(function() {
   var multiplayerController = new GlobalThermonuclearWar.Controller.Multiplayer({
     url: window.location.href,
     missiles: missiles
-  });
-
-  missiles.on('add', function(missile) {
-    var view = new GlobalThermonuclearWar.View.Missile({
-      map: map,
-      model: missile
-    });
   });
 
   google.maps.event.addListener(map.map, 'click', function(event) {
