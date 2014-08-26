@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+  var overlay = new GlobalThermonuclearWar.View.Overlay({
+    el: $('#overlay')
+  });
+
   var map = new GlobalThermonuclearWar.View.Map({
     el: $('#map')
   });
@@ -10,9 +14,25 @@ $(document).ready(function() {
   var missiles = new GlobalThermonuclearWar.Collection.Missile;
   var explosions = new GlobalThermonuclearWar.Collection.Explosion;
 
+  var multiplayerController = new GlobalThermonuclearWar.Controller.Multiplayer({
+    url: window.location.href,
+    map: map,
+    missiles: missiles,
+    player: player,
+    players: players
+  });
+
+  var geolocationController = new GlobalThermonuclearWar.Controller.Geolocation({
+    overlay: overlay,
+    player: player
+  });
+
+  geolocationController.locateUser();
+
   var targettingController = new GlobalThermonuclearWar.Controller.Targetting({
     map: map,
-    missiles: missiles
+    missiles: missiles,
+    player: player
   });
 
   var flightController = new GlobalThermonuclearWar.Controller.Flight({
@@ -26,13 +46,4 @@ $(document).ready(function() {
     missiles: missiles
   });
 
-  var multiplayerController = new GlobalThermonuclearWar.Controller.Multiplayer({
-    url: window.location.href,
-    map: map,
-    missiles: missiles,
-    player: player,
-    players: players
-  });
-
-  player.locate(51.454513, -2.58791);
 });
