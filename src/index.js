@@ -4,6 +4,9 @@ $(document).ready(function() {
     el: $('#map')
   });
 
+  var player = new GlobalThermonuclearWar.Model.Player;
+
+  var players = new GlobalThermonuclearWar.Collection.Player;
   var missiles = new GlobalThermonuclearWar.Collection.Missile;
   var explosions = new GlobalThermonuclearWar.Collection.Explosion;
 
@@ -25,7 +28,11 @@ $(document).ready(function() {
 
   var multiplayerController = new GlobalThermonuclearWar.Controller.Multiplayer({
     url: window.location.href,
-    missiles: missiles
+    map: map,
+    missiles: missiles,
+    player: player,
+    players: players
   });
 
+  player.locate(51.454513, -2.58791);
 });
