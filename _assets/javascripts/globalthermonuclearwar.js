@@ -28,6 +28,8 @@ $(document).ready(function() {
   });
 
   var detonationController = new GlobalThermonuclearWar.Controller.Detonation({
+    map: map,
+    explosions: explosions,
     missiles: missiles
   });
 
@@ -41,22 +43,6 @@ $(document).ready(function() {
       map: map,
       model: missile
     });
-  });
-
-  missiles.on('detonation', function(missile) {
-    explosions.push({
-      latitude: missile.get('target')[0],
-      longitude: missile.get('target')[1]
-    });
-  });
-
-
-  explosions.on('add', function(explosion) {
-    var view = new GlobalThermonuclearWar.View.Explosion({
-      map: map,
-      model: explosion
-    });
-    view.render();
   });
 
   google.maps.event.addListener(map.map, 'click', function(event) {
