@@ -12,7 +12,12 @@
 
 $(document).ready(function() {
 
-  var socket = io('http://global.thermonuclearwar.org:3000');
+  var socket;
+  if (window.location.href.match(/^http:\/\/localhost/)) {
+    socket = io('http://localhost:3000');
+  } else {
+    socket = io('http://global.thermonuclearwar.org:3000');
+  }
 
   var map = new GlobalThermonuclearWar.View.Map({
     el: $('#map')
