@@ -17,9 +17,13 @@ GlobalThermonuclearWar.View.Player = Backbone.View.extend({
       strokeOpacity: 0.8,
       strokeWeight: 1,
       fillColor: '#B58900',
-      radius: 40000,
+      radius: 30000,
       fillOpacity: 0.35
     });
+  },
+
+  hide: function() {
+    this.marker.setMap(null);
   }
 
 });
