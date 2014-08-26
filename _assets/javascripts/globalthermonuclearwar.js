@@ -10,6 +10,7 @@
 //= require src/controller/detonation
 //= require src/controller/flight
 //= require src/controller/multiplayer
+//= require src/controller/targetting
 //= require src/view/explosion
 //= require src/view/map
 //= require src/view/missile
@@ -22,6 +23,11 @@ $(document).ready(function() {
 
   var missiles = new GlobalThermonuclearWar.Collection.Missile;
   var explosions = new GlobalThermonuclearWar.Collection.Explosion;
+
+  var targettingController = new GlobalThermonuclearWar.Controller.Targetting({
+    map: map,
+    missiles: missiles
+  });
 
   var flightController = new GlobalThermonuclearWar.Controller.Flight({
     map: map,
@@ -37,16 +43,6 @@ $(document).ready(function() {
   var multiplayerController = new GlobalThermonuclearWar.Controller.Multiplayer({
     url: window.location.href,
     missiles: missiles
-  });
-
-  google.maps.event.addListener(map.map, 'click', function(event) {
-    ga('send', 'event', 'missile', 'launch');
-    var missile = new GlobalThermonuclearWar.Model.Missile({
-      origin: [51.454513, -2.58791],
-      target: [event.latLng.lat(), event.latLng.lng()]
-    });
-    missiles.push(missile);
-    missile.launch();
   });
 
 });
