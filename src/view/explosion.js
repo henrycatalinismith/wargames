@@ -10,6 +10,7 @@ GlobalThermonuclearWar.View.Explosion = Backbone.View.extend({
         lat: this.model.get('latitude'),
         lng: this.model.get('longitude')
       },
+      clickable: false,
       fillColor: '#FF0000',
       fillOpacity: 0.35,
       map: this.map.map,
