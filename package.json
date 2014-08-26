@@ -1,18 +1,18 @@
 {
   "name": "joshua",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "author": "Henry Smith <henry@henrysmith.org>",
-  "keywords": [ ],
-  "repository" : {
+  "keywords": [],
+  "repository": {
     "type": "git",
     "url": "http://github.com/hnrysmth/joshua.git"
   },
   "dependencies": {
-    "socket.io": "1.0.6"
+    "guid": "0.0.12",
+    "socket.io": "1.0.6",
+    "underscore": "^1.6.0"
   },
-  "devDependencies": {
-  },
-  "scripts": {
-  }
+  "devDependencies": {},
+  "scripts": {}
 }
