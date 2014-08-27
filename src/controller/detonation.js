@@ -21,6 +21,7 @@ GlobalThermonuclearWar.Controller.Detonation = Marionette.Controller.extend({
       latitude: missile.get('target')[0],
       longitude: missile.get('target')[1]
     });
+    this.missiles.remove(missile);
   },
 
   showExplosion: function(explosion) {

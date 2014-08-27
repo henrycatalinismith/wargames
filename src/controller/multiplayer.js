@@ -35,7 +35,9 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
   },
 
   receiveMissile: function(rawMissileData) {
-    this.missiles.push(new GlobalThermonuclearWar.Model.Missile(rawMissileData));
+    if (this.missiles.length < 150 ) {
+      this.missiles.push(new GlobalThermonuclearWar.Model.Missile(rawMissileData));
+    }
   },
 
   registerLocation: function(player) {
