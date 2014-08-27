@@ -13,7 +13,7 @@ GlobalThermonuclearWar.Controller.Targetting = Marionette.Controller.extend({
     var that = this;
     if (!this.waiting) {
       this.launchMissile(event);
-      setTimeout(function() { that.waiting = false; }, 1000);
+      setTimeout(function() { that.waiting = false; }, 600);
       this.waiting = true;
     }
   },
