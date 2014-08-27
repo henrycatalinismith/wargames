@@ -45,7 +45,6 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
   },
 
   removePlayer: function(playerId) {
-    this.playerViews[playerId].hide();
   },
 
   showPlayer: function(player) {
