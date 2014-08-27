@@ -34,6 +34,7 @@ GlobalThermonuclearWar.Controller.Geolocation = Marionette.Controller.extend({
         this.player.get('longitude')
       )
     );
+    this.map.map.setZoom(3);
   }
 
 });

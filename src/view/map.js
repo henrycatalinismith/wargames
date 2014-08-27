@@ -8,7 +8,7 @@ GlobalThermonuclearWar.View.Map = Backbone.View.extend({
       draggable: true,
       draggableCursor: 'crosshair',
       scrollwheel: true,
-      zoom: 3,
+      zoom: 2,
       zoomControl: false
     };
     this.map = new google.maps.Map(this.el, mapOptions);
