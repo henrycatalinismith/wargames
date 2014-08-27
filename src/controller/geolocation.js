@@ -23,7 +23,7 @@ GlobalThermonuclearWar.Controller.Geolocation = Marionette.Controller.extend({
 
   geolocationFailure: function(error) {
     var that = this;
-    this.player.locate(51.389122, 30.104233);
+    this.player.locate(55.751244, 37.618423);
     setTimeout(function() { that.overlay.fadeOut() }, 500);
   },
 
