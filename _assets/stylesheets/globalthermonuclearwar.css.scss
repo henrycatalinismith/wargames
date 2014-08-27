@@ -6,7 +6,11 @@ body { height: 100%; margin: 0; padding: 0; }
 }
 
 #map {
-  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 32px;
+  left: 0;
+  right: 0;
 }
 
 #overlay {
@@ -16,4 +20,49 @@ body { height: 100%; margin: 0; padding: 0; }
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+#bar {
+  color: #eee8d5;
+  background-color: #002b36;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  font-size: 16px;
+  font-family: 'Helvetica', sans-serif;
+
+  p#name {
+    float: left;
+    line-height: 16px;
+    margin: 8px 16px;
+    padding: 0;
+    span {
+      font-size: 10px;
+    }
+    a:link, a:visited {
+      color: #268bd2;
+      text-decoration: none;
+    }
+  }
+
+  p#playerCountText {
+    float: right;
+    line-height: 16px;
+    font-size: 12px;
+    margin: 8px 16px;
+    padding: 0;
+    span {
+      color: #dc322f;
+      font-weight: bold;
+      font-size: 16px;
+      padding-left: 8px;
+    }
+    a:link, a:visited {
+      color: #268bd2;
+      text-decoration: none;
+    }
+  }
+
 }

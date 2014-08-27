@@ -2,6 +2,8 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
 
   initialize: function(options) {
     this.map = options.map;
+    this.bar = options.bar;
+    this.count = 0;
 
     this.player = options.player;
     this.listenTo(this.player, 'located', this.registerLocation);
@@ -41,10 +43,14 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
   },
 
   addPlayer: function(rawPlayerData) {
+    this.count++;
+    this.bar.updatePlayerCount(this.count);
     this.players.push(new GlobalThermonuclearWar.Model.Player(rawPlayerData));
   },
 
   removePlayer: function(playerId) {
+    this.count--;
+    this.bar.updatePlayerCount(this.count);
   },
 
   showPlayer: function(player) {

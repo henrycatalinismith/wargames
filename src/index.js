@@ -8,6 +8,10 @@ $(document).ready(function() {
     el: $('#map')
   });
 
+  var bar = new GlobalThermonuclearWar.View.Bar({
+    el: $('#bar')
+  });
+
   var player = new GlobalThermonuclearWar.Model.Player;
 
   var players = new GlobalThermonuclearWar.Collection.Player;
@@ -16,6 +20,7 @@ $(document).ready(function() {
 
   var multiplayerController = new GlobalThermonuclearWar.Controller.Multiplayer({
     url: window.location.href,
+    bar: bar,
     map: map,
     missiles: missiles,
     player: player,
