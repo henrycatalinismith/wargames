@@ -28,6 +28,7 @@ $(document).ready(function() {
   });
 
   var geolocationController = new GlobalThermonuclearWar.Controller.Geolocation({
+    map: map,
     overlay: overlay,
     player: player
   });
