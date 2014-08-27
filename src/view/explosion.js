@@ -5,7 +5,7 @@ GlobalThermonuclearWar.View.Explosion = Backbone.View.extend({
   },
 
   render: function() {
-    var explosion = new google.maps.Circle({
+    this.explosion = new google.maps.Circle({
       center: {
         lat: this.model.get('latitude'),
         lng: this.model.get('longitude')
@@ -19,6 +19,11 @@ GlobalThermonuclearWar.View.Explosion = Backbone.View.extend({
       strokeOpacity: 0.8,
       strokeWeight: 2,
     });
-  }
+  },
+
+  hide: function() {
+    this.explosion.setMap(null);
+    delete this.explosion;
+  },
 
 });
