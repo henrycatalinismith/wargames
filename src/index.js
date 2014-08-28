@@ -8,15 +8,17 @@ $(document).ready(function() {
     el: $('#map')
   });
 
-  var info = new GlobalThermonuclearWar.View.Info({
-    el: $('#icons')
-  });
-
-  var player = new GlobalThermonuclearWar.Model.Player;
-
   var players = new GlobalThermonuclearWar.Collection.Player;
   var missiles = new GlobalThermonuclearWar.Collection.Missile;
   var explosions = new GlobalThermonuclearWar.Collection.Explosion;
+
+  var player = new GlobalThermonuclearWar.Model.Player;
+  players.push(player);
+
+  var info = new GlobalThermonuclearWar.View.Info({
+    el: $('#icons'),
+    players: players
+  });
 
   var multiplayerController = new GlobalThermonuclearWar.Controller.Multiplayer({
     url: window.location.href,

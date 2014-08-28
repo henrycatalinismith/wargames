@@ -11,7 +11,8 @@ GlobalThermonuclearWar.Controller.Geolocation = Marionette.Controller.extend({
   locateUser: function() {
     navigator.geolocation.getCurrentPosition(
       this.geolocationSuccess.bind(this),
-      this.geolocationFailure.bind(this)
+      this.geolocationFailure.bind(this),
+      { timeout: 4000 }
     );
   },
 
