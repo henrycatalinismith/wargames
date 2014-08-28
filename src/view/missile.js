@@ -13,6 +13,7 @@ GlobalThermonuclearWar.View.Missile = Backbone.View.extend({
 
     this.line = new google.maps.Polyline({
       geodesic: true,
+      clickable: false,
       map: options.map.map,
       path: [this.origin, this.origin],
       strokeColor: "#FF0000",

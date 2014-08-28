@@ -53,7 +53,6 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
 
   setupSocket: function(url) {
     if (url.match(/^http:\/\/localhost/)) {
-      //return io('http://global.thermonuclearwar.org:3000');
       return io('http://localhost:3000');
     } else {
       return io('http://global.thermonuclearwar.org:3000');
