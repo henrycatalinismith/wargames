@@ -25,7 +25,7 @@ GlobalThermonuclearWar.Controller.Flight = Marionette.Controller.extend({
 
   moveMissile: function(missile) {
     var tickLength = 10;
-    var speed = 1000;
+    var speed = 1000 + Math.min(this.missiles.length * 10, 999);
     var elapsed = tickLength;
     var distance = speed * elapsed;
     var origin = new google.maps.LatLng(missile.get('origin')[0], missile.get('origin')[1]);
