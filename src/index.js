@@ -8,8 +8,8 @@ $(document).ready(function() {
     el: $('#map')
   });
 
-  var bar = new GlobalThermonuclearWar.View.Bar({
-    el: $('#bar')
+  var info = new GlobalThermonuclearWar.View.Info({
+    el: $('#icons')
   });
 
   var player = new GlobalThermonuclearWar.Model.Player;
@@ -20,7 +20,7 @@ $(document).ready(function() {
 
   var multiplayerController = new GlobalThermonuclearWar.Controller.Multiplayer({
     url: window.location.href,
-    bar: bar,
+    info: info,
     map: map,
     missiles: missiles,
     player: player,
@@ -28,7 +28,6 @@ $(document).ready(function() {
   });
 
   var geolocationController = new GlobalThermonuclearWar.Controller.Geolocation({
-    bar: bar,
     map: map,
     overlay: overlay,
     player: player
