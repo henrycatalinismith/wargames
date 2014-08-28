@@ -23,17 +23,14 @@ io.on('connection', function(socket){
     socket.broadcast.emit('broadcast:location', data);
   });
 
-  socket.on('report:launch', function(data) {
+  var broadcastLaunch = function(data) {
     data.playerId = player.id;
     socket.broadcast.emit('broadcast:launch', data);
     socket.broadcast.emit('launch', data);
-  });
+  }
 
-  socket.on('launch', function(data) {
-    data.playerId = player.id;
-    socket.broadcast.emit('broadcast:launch', data);
-    socket.broadcast.emit('launch', data);
-  });
+  socket.on('report:launch', broadcastLaunch);
+  socket.on('launch', broadcastLaunch);
 
   socket.on('disconnect', function() {
     socket.broadcast.emit('broadcast:exit', player.id);
