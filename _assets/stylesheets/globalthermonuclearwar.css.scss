@@ -1,5 +1,10 @@
 html { height: 100%; }
-body { height: 100%; margin: 0; padding: 0; }
+body {
+  font-family: 'Helvetica', sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 #wrapper {
   height: 100%;
@@ -22,6 +27,18 @@ body { height: 100%; margin: 0; padding: 0; }
   right: 0;
 }
 
+#icons {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  height: 32px;
+  font-size: 18px;
+  a:link, a:visited {
+    color: #268bd2;
+    text-decoration: none;
+  }
+}
+
 #bar {
   color: #eee8d5;
   background-color: #002b36;
@@ -31,7 +48,6 @@ body { height: 100%; margin: 0; padding: 0; }
   right: 0;
   height: 32px;
   font-size: 16px;
-  font-family: 'Helvetica', sans-serif;
 
   p#name {
     float: left;
@@ -66,3 +82,4 @@ body { height: 100%; margin: 0; padding: 0; }
   }
 
 }
+
