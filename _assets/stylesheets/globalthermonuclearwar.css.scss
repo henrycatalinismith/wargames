@@ -36,13 +36,16 @@ body {
   font-size: 18px;
   a:link, a:visited {
     color: #268bd2;
+    font-size: 22px;
     text-decoration: none;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
   }
 
   #count {
     color: #dc322f;
     color: #eee8d5;
     text-shadow: 0 0 8px #000;
+    margin-bottom: 4px;
   }
 }
 
