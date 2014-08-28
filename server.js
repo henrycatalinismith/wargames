@@ -17,6 +17,8 @@ io.on('connection', function(socket){
     .filter(function(player) { return typeof player.latitude !== 'undefined'; })
     .map(function(player) { socket.emit('player:located', player); });
 
+  socket.broadcast.emit('player:joined', player.id);
+
   socket.on('player:located', function(data) {
     data.id = player.id;
     players[player.id] = data;
