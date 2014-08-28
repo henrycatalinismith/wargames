@@ -14,6 +14,22 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
     this.socket = this.setupSocket(options.url);
 
     var that = this;
+
+    this.socket.on('reconnect', function() {
+      that.registerLocation();
+    });
+
+    this.socket.on('reconnect_error', function() {
+      _.map(that.playerViews, function(view) {
+        view.hide();
+      });
+    });
+
+    this.socket.on('broadcast:launch', this.receiveMissile.bind(this));
+    this.socket.on('broadcast:entrance', this.addPlayer.bind(this));
+    this.socket.on('broadcast:location', this.receiveLocation.bind(this));
+    this.socket.on('broadcast:exit', this.removePlayer.bind(this));
+
     this.players = options.players;
     this.socket.on('initialize:player', function(playerData) {
       that.player.set(playerData);
@@ -30,11 +46,6 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
         }
       });
     });
-
-    this.socket.on('broadcast:launch', this.receiveMissile.bind(this));
-    this.socket.on('broadcast:entrance', this.addPlayer.bind(this));
-    this.socket.on('broadcast:location', this.receiveLocation.bind(this));
-    this.socket.on('broadcast:exit', this.removePlayer.bind(this));
 
 
     this.playerViews = {};
@@ -89,7 +100,6 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
   },
 
   showPlayer: function(player) {
-    console.log('showing', player);
     this.playerViews[player.get('id')] = new GlobalThermonuclearWar.View.Player({
       map: this.map,
       player: player
