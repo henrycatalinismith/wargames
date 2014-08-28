@@ -6,6 +6,12 @@ GlobalThermonuclearWar.Controller.Geolocation = Marionette.Controller.extend({
     this.player = options.player;
 
     this.listenTo(this.player, 'located', this.centerMapOnPlayer);
+
+    this.fallbackLocations = {
+      havana: [23.133333, -82.383333],
+      moscow: [55.751244, 37.618423],
+      norad: [38.744332, -104.82772]
+    };
   },
 
   locateUser: function() {
@@ -26,7 +32,8 @@ GlobalThermonuclearWar.Controller.Geolocation = Marionette.Controller.extend({
 
   geolocationFailure: function(error) {
     var that = this;
-    this.player.locate(55.751244, 37.618423);
+    var coords = _.sample(_.values(this.fallbackLocations));
+    this.player.locate(coords[0], coords[1]);
     setTimeout(function() {
       that.overlay.fadeOut();
     }, 500);
