@@ -8,7 +8,6 @@ GlobalThermonuclearWar.Controller.Geolocation = Marionette.Controller.extend({
     this.listenTo(this.player, 'located', this.centerMapOnPlayer);
 
     this.fallbackLocations = {
-      havana: [23.133333, -82.383333],
       moscow: [55.751244, 37.618423],
       norad: [38.744332, -104.82772]
     };
