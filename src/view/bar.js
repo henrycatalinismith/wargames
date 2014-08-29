@@ -8,7 +8,10 @@ GlobalThermonuclearWar.View.Info = Backbone.View.extend({
   },
 
   updatePlayerCount: function() {
-    this.$playerCount.text(this.players.length);
+    var locatedPlayers = this.players.filter(function(player) {
+      return typeof player.get('latitude') !== 'undefined';
+    });
+    this.$playerCount.text(locatedPlayers.length);
   }
 
 });
