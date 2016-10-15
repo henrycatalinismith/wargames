@@ -2,13 +2,8 @@
   "name": "global-thermonuclear-war",
   "dependencies": {
     "googlemaps-amd": "1.0.1",
-    "requirejs": "2.1.14",
-    "requirejs-plugins": "1.0.2",
     "backbone": "1.1.2",
     "jquery": "2.1.1",
-    "marionette": "2.0.2",
-    "mocha": "~1.20.1",
-    "should": "~3.3.1",
-    "sinon": "~1.10.3"
+    "marionette": "2.0.2"
   }
 }
