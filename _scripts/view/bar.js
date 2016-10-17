@@ -1,4 +1,6 @@
-GlobalThermonuclearWar.View.Info = Backbone.View.extend({
+import Backbone from 'backbone';
+
+const Bar = Backbone.View.extend({
 
   initialize: function(options) {
     this.players = options.players;
@@ -15,3 +17,5 @@ GlobalThermonuclearWar.View.Info = Backbone.View.extend({
   }
 
 });
+
+export default Bar;

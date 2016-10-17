@@ -1,4 +1,6 @@
-GlobalThermonuclearWar.View.Missile = Backbone.View.extend({
+import Backbone from 'backbone';
+
+const Missile = Backbone.View.extend({
 
   initialize: function(options) {
     this.origin = new google.maps.LatLng(
@@ -43,3 +45,5 @@ GlobalThermonuclearWar.View.Missile = Backbone.View.extend({
   }
 
 });
+
+export default Missile;

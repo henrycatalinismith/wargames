@@ -1,4 +1,7 @@
-GlobalThermonuclearWar.Controller.Flight = Marionette.Controller.extend({
+import Marionette from 'backbone.marionette';
+import Missile from '../view/missile';
+
+const Flight = Marionette.Object.extend({
 
   initialize: function(options) {
     var that = this;
@@ -17,7 +20,7 @@ GlobalThermonuclearWar.Controller.Flight = Marionette.Controller.extend({
   },
 
   showMissile: function(missile) {
-    var view = new GlobalThermonuclearWar.View.Missile({
+    var view = new Missile({
       map: this.map,
       model: missile
     });
@@ -37,3 +40,5 @@ GlobalThermonuclearWar.Controller.Flight = Marionette.Controller.extend({
   }
 
 });
+
+export default Flight;

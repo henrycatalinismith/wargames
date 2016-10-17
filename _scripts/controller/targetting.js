@@ -1,4 +1,7 @@
-GlobalThermonuclearWar.Controller.Targetting = Marionette.Controller.extend({
+import Marionette from 'backbone.marionette';
+import Missile from '../model/missile';
+
+const Targetting = Marionette.Object.extend({
 
   initialize: function(options) {
     this.map = options.map;
@@ -19,7 +22,7 @@ GlobalThermonuclearWar.Controller.Targetting = Marionette.Controller.extend({
   },
 
   launchMissile: function(event) {
-    var missile = new GlobalThermonuclearWar.Model.Missile({
+    var missile = new Missile({
       origin: [this.player.get('latitude'), this.player.get('longitude')],
       target: [event.latLng.lat(), event.latLng.lng()]
     });
@@ -33,3 +36,5 @@ GlobalThermonuclearWar.Controller.Targetting = Marionette.Controller.extend({
   }
 
 });
+
+export default Targetting;

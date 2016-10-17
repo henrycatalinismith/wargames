@@ -1,4 +1,6 @@
-GlobalThermonuclearWar.View.Map = Backbone.View.extend({
+import Backbone from 'backbone';
+
+const Map = Backbone.View.extend({
 
   initialize: function(options) {
     var mapOptions = {
@@ -15,3 +17,5 @@ GlobalThermonuclearWar.View.Map = Backbone.View.extend({
   }
 
 });
+
+export default Map;

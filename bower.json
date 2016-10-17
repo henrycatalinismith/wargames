@@ -1,9 +1,0 @@
-{
-  "name": "global-thermonuclear-war",
-  "dependencies": {
-    "googlemaps-amd": "1.0.1",
-    "backbone": "1.1.2",
-    "jquery": "2.1.1",
-    "marionette": "2.0.2"
-  }
-}

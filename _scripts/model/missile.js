@@ -1,4 +1,6 @@
-GlobalThermonuclearWar.Model.Missile = Backbone.Model.extend({
+import Backbone from 'backbone';
+
+const Missile = Backbone.Model.extend({
 
   initialize: function() {
     this.set('status', 'flight');
@@ -19,3 +21,5 @@ GlobalThermonuclearWar.Model.Missile = Backbone.Model.extend({
   }
 
 });
+
+export default Missile;

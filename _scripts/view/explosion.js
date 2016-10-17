@@ -1,4 +1,6 @@
-GlobalThermonuclearWar.View.Explosion = Backbone.View.extend({
+import Backbone from 'backbone';
+
+const Explosion = Backbone.View.extend({
 
   initialize: function(options) {
     this.map = options.map;
@@ -27,3 +29,5 @@ GlobalThermonuclearWar.View.Explosion = Backbone.View.extend({
   },
 
 });
+
+export default Explosion;

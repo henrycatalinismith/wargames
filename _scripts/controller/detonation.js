@@ -1,4 +1,7 @@
-GlobalThermonuclearWar.Controller.Detonation = Marionette.Controller.extend({
+import Marionette from 'backbone.marionette';
+import Explosion from '../view/explosion';
+
+const Detonation = Marionette.Object.extend({
 
   initialize: function(options) {
     this.map = options.map;
@@ -25,7 +28,7 @@ GlobalThermonuclearWar.Controller.Detonation = Marionette.Controller.extend({
   },
 
   showExplosion: function(explosion) {
-    var view = new GlobalThermonuclearWar.View.Explosion({
+    var view = new Explosion({
       map: this.map,
       model: explosion
     });
@@ -42,3 +45,5 @@ GlobalThermonuclearWar.Controller.Detonation = Marionette.Controller.extend({
   }
 
 });
+
+export default Detonation;

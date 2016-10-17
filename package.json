@@ -11,10 +11,17 @@
     "url": "http://github.com/urael/global-thermonuclear-war.git"
   },
   "dependencies": {
+    "backbone": "^1.3.3",
+    "backbone.marionette": "^3.1.0",
+    "jquery": "^3.1.1",
+    "socket.io": "^1.0.6"
   },
   "devDependencies": {
-    "bower": "1.3.8"
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
   },
-  "scripts": {
-  }
+  "scripts": {}
 }

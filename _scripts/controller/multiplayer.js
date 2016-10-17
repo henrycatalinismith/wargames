@@ -1,4 +1,10 @@
-GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
+import Marionette from 'backbone.marionette';
+import _ from 'underscore';
+import PlayerView from '../view/player';
+import Missile from '../model/missile';
+import Player from '../model/player';
+
+const Multiplayer = Marionette.Object.extend({
 
   initialize: function(options) {
     this.map = options.map;
@@ -39,7 +45,7 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
       that.players.reset();
       that.players.add(that.player);
       _.values(players).map(function(player) {
-        player = new GlobalThermonuclearWar.Model.Player(player);
+        player = new Player(player);
         that.players.add(player);
         if (typeof player.get('latitude') !== 'undefined') {
           that.showPlayer(player);
@@ -65,7 +71,7 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
 
   receiveMissile: function(rawMissileData) {
     if (this.missiles.length < 300 ) {
-      this.missiles.push(new GlobalThermonuclearWar.Model.Missile(rawMissileData));
+      this.missiles.push(new Missile(rawMissileData));
     }
   },
 
@@ -99,7 +105,7 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
   },
 
   showPlayer: function(player) {
-    this.playerViews[player.get('id')] = new GlobalThermonuclearWar.View.Player({
+    this.playerViews[player.get('id')] = new PlayerView({
       map: this.map,
       player: player
     });
@@ -108,3 +114,5 @@ GlobalThermonuclearWar.Controller.Multiplayer = Marionette.Controller.extend({
 
 
 });
+
+export default Multiplayer;

@@ -1,4 +1,6 @@
-GlobalThermonuclearWar.Model.Player = Backbone.Model.extend({
+import Backbone from 'backbone';
+
+const Player = Backbone.Model.extend({
 
   locate: function(latitude, longitude) {
     this.set('latitude', latitude);
@@ -7,3 +9,5 @@ GlobalThermonuclearWar.Model.Player = Backbone.Model.extend({
   }
 
 });
+
+export default Player;

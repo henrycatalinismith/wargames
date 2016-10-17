@@ -1,4 +1,6 @@
-GlobalThermonuclearWar.View.Overlay = Backbone.View.extend({
+import Backbone from 'backbone';
+
+const Overlay = Backbone.View.extend({
 
   initialize: function(options) {
   },
@@ -8,3 +10,5 @@ GlobalThermonuclearWar.View.Overlay = Backbone.View.extend({
   }
 
 });
+
+export default Overlay;

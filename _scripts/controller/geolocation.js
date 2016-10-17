@@ -1,4 +1,7 @@
-GlobalThermonuclearWar.Controller.Geolocation = Marionette.Controller.extend({
+import Marionette from 'backbone.marionette';
+import _ from 'underscore';
+
+const GeoLocation = Marionette.Object.extend({
 
   initialize: function(options) {
     this.map = options.map;
@@ -49,3 +52,5 @@ GlobalThermonuclearWar.Controller.Geolocation = Marionette.Controller.extend({
   }
 
 });
+
+export default GeoLocation;
