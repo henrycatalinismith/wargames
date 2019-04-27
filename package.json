@@ -1,27 +1,27 @@
 {
-  "name": "global-thermonuclear-war",
+  "name": "wargames.glitch.me",
   "version": "0.0.0",
-  "license": "MIT",
-  "author": "Henry Smith <henry@henrysmith.org>",
-  "keywords": [
-    "nuclear war"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/urael/global-thermonuclear-war.git"
+  "description": "global thermonuclear war",
+  "scripts": {
+    "start": "node joshua.js"
   },
   "dependencies": {
-    "backbone": "^1.3.3",
-    "backbone.marionette": "^3.1.0",
-    "jquery": "^3.1.1",
-    "socket.io": "^1.0.6"
+    "@highvalley.systems/signalbox": "0.7.0",
+    "@slack/client": "^4.8.0",
+    "@slack/events-api": "^2.1.1",
+    "express": "^4.16.4",
+    "next": "^8.0.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.6.3",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "serve-static": "^1.13.2",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0",
+    "uuid": "^3.3.2"
   },
-  "devDependencies": {
-    "babel-core": "^6.10.4",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.9.0",
-    "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+  "engines": {
+    "node": "10"
   },
-  "scripts": {}
+  "license": "MIT"
 }

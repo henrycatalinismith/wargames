@@ -1,0 +1,19 @@
+{
+  "install": {
+    "include": [
+      "^package\\.json$"
+    ]
+  },
+  "restart": {
+    "exclude": [
+      "^components/",
+      "^pages/"
+    ],
+    "include": [
+      "\\.json$",
+      "^next\\.config\\.js$",
+      "^joshua\\.js$"
+    ]
+  },
+  "throttle": 400
+}

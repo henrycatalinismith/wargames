@@ -1,4 +1,0 @@
-source: .
-destination: _site
-exclude: [.git, Gemfile, Gemfile.lock, Rakefile, node_modules]
-port: 8080
