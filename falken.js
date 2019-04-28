@@ -60,9 +60,10 @@ const reducers = redux.combineReducers({
       count: 0,
       time: new Date,
       interval: NaN,
-    }), {fronte
-    tick: fifo("frame"),
-  }),
+    }), {
+      tick: fifo("frame"),
+    }
+  ),
 
   missiles: reducer({}, {
     launch: insert("missile"),

@@ -1,7 +1,5 @@
 const fs = require("fs")
 const http = require("http")
-const serveStatic = require("serve-static")
-const url = require("url")
 const uuid = require("uuid")
 
 
@@ -91,12 +89,26 @@ io.on("connection", socket => {
   const player = { id }
   store.dispatch(actions.connect(player))
 
+  try {
+    say(`connect ${Object.values(store.getState().players).length}`)
+  } catch (e) {
+    console.error(e)
+    // ignore
+  }
+
   socket.on("target", data => {
     store.dispatch(actions.target(player, data.origin, data.target))
   })
   
   socket.on("disconnect", () => {
     store.dispatch(actions.disconnect(player))
+
+    try {
+      say(`disconnect ${Object.values(store.getState().players).length}`)
+    } catch (e) {
+      // ignore
+    }
+
   })
 })
 
@@ -123,3 +135,4 @@ events.on("message", message => {
 next.prepare().then(() => {
   store.dispatch(actions.listen(process.env.PORT || 3000))
 })
+
