@@ -1,15 +1,64 @@
 /* global google */
 
-const {
-  action,
-  before,
-  after,
-  reducer,
-  insert,
-  update,
-  remove,
-  fifo,
-} = require("@highvalley.systems/signalbox")
+const action = (type, args = []) => ({
+  [type]: (...argv) => ({
+    type,
+    ...argv.reduce((acc, curr) => {
+      acc[args[Object.values(acc).length]] = curr
+      return acc
+    }, {})
+  })
+})
+
+const before = (actionType, handler) => store => next => action => {
+  if (action.type.match(actionType)) {
+    return Promise
+      .resolve(handler.call(null, store, action))
+      .then(ret => ret !== false && next(action))
+  }
+  return next(action)
+}
+
+const reducer = (initialState, actions) => (state, action) => {
+  switch (true) {
+    case state === undefined:
+      return initialState
+    case actions.hasOwnProperty(action.type):
+      return actions[action.type](state, action)
+    default:
+      return state
+  }
+}
+
+const after = (actionType, handler) => store => next => action => {
+  const result = next(action)
+  if (action.type.match(actionType)) {
+    handler.call(null, store, action)
+  }
+  return result
+}
+
+const insert = entityName => (entityState, action) => ({
+  ...entityState,
+  [action[entityName].id]: action[entityName],
+})
+
+const replace = entityName => (entityState, action) => action[entityName]
+
+const update = entityName => (entityState, action) => ({
+  ...entityState,
+  ...action[entityName],
+})
+
+const remove = entityName => (entityState, action) => {
+  const { [action[entityName].id]: deleted, ...remaining } = entityState
+  return remaining
+}
+
+const fifo = entityName => ([forgotten, ...remaining], action) => [
+  ...remaining,
+  action[entityName],
+]
 
 const React = require("react")
 const ReactRedux = require("react-redux")

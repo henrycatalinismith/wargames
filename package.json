@@ -6,7 +6,6 @@
     "start": "node joshua.js"
   },
   "dependencies": {
-    "@highvalley.systems/signalbox": "0.7.0",
     "@slack/client": "^4.8.0",
     "@slack/events-api": "^2.1.1",
     "express": "^4.16.4",
@@ -19,9 +18,6 @@
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "uuid": "^3.3.2"
-  },
-  "engines": {
-    "node": "10"
   },
   "license": "MIT"
 }
