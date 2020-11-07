@@ -4,3 +4,5 @@ _site
 bower_components/
 .sass-cache
 .next
+logs/*
+
