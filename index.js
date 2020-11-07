@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const day = await loadTexture("day.jpg")
   const night = await loadTexture("night.jpg")
-  const sky = await loadTexture("sky.jpg")
+  const skyTexture = await loadTexture("sky.jpg")
 
   const earthBump = await loadTexture("earth-bump.jpg")
   const earthSpecular = await loadTexture("earth-specular.jpg")
@@ -130,9 +130,22 @@ document.addEventListener("DOMContentLoaded", async () => {
   outerAtmosphere.scale.multiplyScalar(1.06);
   earth.add(outerAtmosphere)
 
+  const skyGeometry = new THREE.SphereGeometry(2, 50, 50);
+  const skyMaterial = new THREE.MeshPhongMaterial({
+    side: THREE.BackSide,
+    shininess: 0.4,
+  });
+  skyMaterial.map = skyTexture
+  skyMaterial.needsUpdate = true
+  const sky = new THREE.Mesh(skyGeometry, skyMaterial);
+
+  scenery.add(sky)
+
   scenery.add(earth)
 
   const controls = new THREE.OrbitControls(camera, renderer.domElement)
+  controls.maxDistance = 3
+  controls.minDistance = 1.5
   // controls.rotateSpeed = 0.1
   // controls.noZoom = true
   // controls.noPan = true
@@ -143,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   animate()
 
   function animate() {
-    // scenery.rotation.y -= 0.005
+    scenery.rotation.y -= 0.005
     controls.update();
     renderer.render(scene, camera)
 
