@@ -5,4 +5,5 @@ bower_components/
 .sass-cache
 .next
 logs/*
+wargames.js
 

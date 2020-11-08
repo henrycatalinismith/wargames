@@ -1,5 +1,9 @@
-document.addEventListener("DOMContentLoaded", async () => {
+import createAtmosphereMaterial from "./threex.atmospherematerial"
+import { geoInterpolate } from "d3-geo"
+import * as THREE from "three"
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 
+document.addEventListener("DOMContentLoaded", async () => {
   function loadTexture(filename) {
     const loader = new THREE.TextureLoader
     return new Promise((resolve, reject) => {
@@ -27,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const minAltitude = earthRadius * 0.2
     const maxAltitude = earthRadius * 0.3
     const altitude = Math.min(Math.max(distance, minAltitude), maxAltitude)
-    const interpolate = d3.geoInterpolate([lon1, lat1], [lon2, lat2])
+    const interpolate = geoInterpolate([lon1, lat1], [lon2, lat2])
     const midCoord1 = interpolate(0.25)
     const midCoord2 = interpolate(0.75)
     const mid1 = pos(midCoord1[1], midCoord1[0], earthRadius + altitude)
@@ -82,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     earthMaterial,
   )
 
-  const innerAtmosphereMaterial = THREEx.createAtmosphereMaterial()
+  const innerAtmosphereMaterial = createAtmosphereMaterial()
   innerAtmosphereMaterial.uniforms.glowColor.value.set(0x88ffff)
   innerAtmosphereMaterial.uniforms.coeficient.value = 1
   innerAtmosphereMaterial.uniforms.power.value = 5
@@ -94,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   innerAtmosphereMesh.scale.multiplyScalar(1.008)
   earthMesh.add(innerAtmosphereMesh)
 
-  const outerAtmosphereMaterial = THREEx.createAtmosphereMaterial()
+  const outerAtmosphereMaterial = createAtmosphereMaterial()
   outerAtmosphereMaterial.side = THREE.BackSide
   outerAtmosphereMaterial.uniforms.glowColor.value.set(0x0088ff)
   outerAtmosphereMaterial.uniforms.coeficient.value = .68
@@ -193,7 +197,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.body.appendChild(renderer.domElement)
   renderer.render(scene, camera)
 
-  const controls = new THREE.OrbitControls(camera, renderer.domElement)
+  const controls = new OrbitControls(camera, renderer.domElement)
   controls.maxDistance = 3
   controls.minDistance = 1.5
 
