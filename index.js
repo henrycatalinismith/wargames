@@ -10,6 +10,35 @@ document.addEventListener("DOMContentLoaded", async () => {
   const earthRadius = 0.5
   const earthSegments = 64
 
+  function pos(lat, lng, radius) {
+    const φ = (90 - lat) * Math.PI / 180
+    const θ = (lng + 180) * Math.PI / 180
+    return new THREE.Vector3(
+      - radius * Math.sin(φ) * Math.cos(θ),
+      radius * Math.cos(φ),
+      radius * Math.sin(φ) * Math.sin(θ)
+    )
+  }
+
+  function spline({ lat1, lon1, lat2, lon2 }) {
+    const start = pos(lat1, lon1, earthRadius)
+    const end = pos(lat2, lon2, earthRadius)
+    const distance = start.distanceTo(end)
+    const minAltitude = earthRadius * 0.2
+    const maxAltitude = earthRadius * 0.3
+    const altitude = Math.min(Math.max(distance, minAltitude), maxAltitude)
+    const interpolate = d3.geoInterpolate([lon1, lat1], [lon2, lat2])
+    const midCoord1 = interpolate(0.25)
+    const midCoord2 = interpolate(0.75)
+    const mid1 = pos(midCoord1[1], midCoord1[0], earthRadius + altitude)
+    const mid2 = pos(midCoord2[1], midCoord2[0], earthRadius + altitude)
+    return {
+      start,
+      end,
+      spline: new THREE.CubicBezierCurve3(start, mid1, mid2, end),
+    }
+  }
+
   const earthGeometry = new THREE.SphereGeometry(
     earthRadius,
     earthSegments,
@@ -95,12 +124,50 @@ document.addEventListener("DOMContentLoaded", async () => {
     skyMaterial,
   )
 
+  const missilesMaterial = new THREE.MeshBasicMaterial({
+    blending: THREE.AdditiveBlending,
+    opacity: 1,
+    // transparent: true,
+    color: 0xe43c59,
+  })
+  const missilesMesh = new THREE.Mesh()
+
+  const missileSpline = spline({
+    lat1: 58,
+    lon1: 56,
+    lat2: 62,
+    lon2: -136,
+  })
+
+  const missileCurveSegments = 32
+  const missileTubeRadiusSegments = 2
+  const missileTubeDefaultRadius = 0.005
+  const missileDrawRangeDelta = 16
+  const missileMaxDrawRange = missileDrawRangeDelta * missileCurveSegments
+
+  const missileGeometery = new THREE.TubeBufferGeometry(
+    missileSpline.spline,
+    missileCurveSegments,
+    missileTubeDefaultRadius,
+    missileTubeRadiusSegments,
+    false
+  )
+  missileGeometery.setDrawRange(0, missileMaxDrawRange)
+
+  const missileMesh = new THREE.Mesh(
+    missileGeometery,
+    missilesMaterial,
+  )
+
+  missilesMesh.add(missileMesh)
+
   const axes = new THREE.AxesHelper(earthRadius * 1.2)
 
   const scenery = new THREE.Object3D
   scenery.add(axes)
   scenery.add(skyMesh)
   scenery.add(earthMesh)
+  scenery.add(missilesMesh)
 
   const scene = new THREE.Scene
   scene.add(new THREE.AmbientLight(0xffffff))
@@ -141,6 +208,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     requestAnimationFrame(animate)
   }
 })
+
 
 const dayNightShader = {
   vertex: `
