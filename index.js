@@ -1,8 +1,125 @@
+/*
+import {
+  AmbientLight,
+  Color,
+  Mesh,
+  Object3D,
+  PerspectiveCamera,
+  Scene,
+  ShaderMaterial,
+  SphereGeometry,
+  Vector3,
+  WebGLRenderer,
+} from "three"
+import createAtmosphereMaterial from "./threex.atmospherematerial"
+
+import {
+  fragmentShader,
+  vertexShader,
+} from "./shader.js"
+
+const sun = {}
+sun.direction = new Vector3(1, 0, .5)
+
+const earth = {}
+earth.radius = 0.5
+earth.segments = 64
+
+earth.geometry = new SphereGeometry(
+  earth.radius,
+  earth.segments,
+  earth.segments,
+)
+
+earth.material = new ShaderMaterial({
+  bumpScale: 5,
+  specular: new Color(0x333333),
+  shininess: 50,
+  uniforms: {
+    sunDirection: {
+      value: sun.direction,
+    },
+    dayTexture: {
+      value: "",
+    },
+    nightTexture: {
+      value: "",
+    }
+  },
+  vertexShader,
+  fragmentShader,
+})
+
+earth.mesh = new Mesh(
+  earth.geometry,
+  earth.material,
+)
+
+const innerAtmosphere = {}
+innerAtmosphere.material = createAtmosphereMaterial()
+innerAtmosphere.material.uniforms.glowColor.value.set(0x88ffff)
+innerAtmosphere.material.uniforms.coeficient.value = 1
+innerAtmosphere.material.uniforms.power.value = 5
+
+innerAtmosphere.mesh = new Mesh(
+  earth.geometry.clone(),
+  innerAtmosphere.material
+)
+innerAtmosphere.mesh.scale.multiplyScalar(1.008)
+earth.mesh.add(innerAtmosphere.mesh)
+
+const scenery = new Object3D
+scenery.add(earth.mesh)
+
+const scene = new Scene
+scene.add(new AmbientLight(0xffffff))
+scene.add(new AmbientLight(0xffffff))
+scene.add(scenery)
+
+const renderer = new WebGLRenderer
+renderer.setClearColor(0x000000, 1.0)
+renderer.setPixelRatio(window.devicePixelRatio)
+renderer.setSize(window.innerWidth, window.innerHeight)
+
+const camera = new PerspectiveCamera(
+  45,
+  window.innerWidth / window.innerHeight,
+  0.01,
+  100,
+)
+camera.position.x = 0
+camera.position.y = 1
+camera.position.z = 2
+camera.rotation.x = 20
+
+document.addEventListener("DOMContentLoaded", async () => {
+  document.body.appendChild(renderer.domElement)
+  renderer.render(scene, camera)
+
+  animate()
+
+  function animate() {
+    // scenery.rotation.y -= 0.005
+    // sunDirection.x += 0.005
+    // controls.update()
+    renderer.render(scene, camera)
+
+    requestAnimationFrame(animate)
+  }
+})
+
+*/
 import createAtmosphereMaterial from "./threex.atmospherematerial"
 import { geoInterpolate } from "d3-geo"
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import launches from "./launches.json"
+
+import {
+  fragmentShader,
+  vertexShader,
+} from "./shader.js"
+
 console.log(launches)
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -79,8 +196,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         value: night,
       }
     },
-    vertexShader: dayNightShader.vertex,
-    fragmentShader: dayNightShader.fragment
+    vertexShader,
+    fragmentShader,
   })
 
   const earthMesh = new THREE.Mesh(
@@ -212,32 +329,3 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 })
 
-
-const dayNightShader = {
-  vertex: `
-    varying vec2 vUv;
-    varying vec3 vNormal;
-    void main() {
-      vUv = uv;
-      vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-      vNormal = normalMatrix * normal;
-      gl_Position = projectionMatrix * mvPosition;
-    }
-  `,
-  fragment: `
-    uniform sampler2D dayTexture;
-    uniform sampler2D nightTexture;
-    uniform vec3 sunDirection;
-    varying vec2 vUv;
-    varying vec3 vNormal;
-    void main(void) {
-      vec3 dayColor = texture2D(dayTexture, vUv).rgb;
-      vec3 nightColor = texture2D(nightTexture, vUv).rgb;
-      float cosineAngleSunToNormal = dot(normalize(vNormal), sunDirection);
-      cosineAngleSunToNormal = clamp(cosineAngleSunToNormal * 5.0, -1.0, 1.0);
-      float mixAmount = cosineAngleSunToNormal * 0.5 + 0.5;
-      vec3 color = mix(nightColor, dayColor, mixAmount);
-      gl_FragColor = vec4(color, 1.0);
-    }
-  `
-}
