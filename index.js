@@ -2,6 +2,8 @@ import createAtmosphereMaterial from "./threex.atmospherematerial"
 import { geoInterpolate } from "d3-geo"
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+import launches from "./launches.json"
+console.log(launches)
 
 document.addEventListener("DOMContentLoaded", async () => {
   function loadTexture(filename) {
@@ -130,40 +132,37 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const missilesMaterial = new THREE.MeshBasicMaterial({
     blending: THREE.AdditiveBlending,
-    opacity: 1,
-    // transparent: true,
+    opacity: 0.5,
+    transparent: true,
     color: 0xe43c59,
   })
   const missilesMesh = new THREE.Mesh()
 
-  const missileSpline = spline({
-    lat1: 58,
-    lon1: 56,
-    lat2: 62,
-    lon2: -136,
+  launches.forEach(launch => {
+    const missileSpline = spline(launch)
+
+    const missileCurveSegments = 32
+    const missileTubeRadiusSegments = 2
+    const missileTubeDefaultRadius = 0.005
+    const missileDrawRangeDelta = 16
+    const missileMaxDrawRange = missileDrawRangeDelta * missileCurveSegments
+
+    const missileGeometery = new THREE.TubeBufferGeometry(
+      missileSpline.spline,
+      missileCurveSegments,
+      missileTubeDefaultRadius,
+      missileTubeRadiusSegments,
+      false
+    )
+    missileGeometery.setDrawRange(0, missileMaxDrawRange)
+
+    const missileMesh = new THREE.Mesh(
+      missileGeometery,
+      missilesMaterial,
+    )
+
+    missilesMesh.add(missileMesh)
   })
-
-  const missileCurveSegments = 32
-  const missileTubeRadiusSegments = 2
-  const missileTubeDefaultRadius = 0.005
-  const missileDrawRangeDelta = 16
-  const missileMaxDrawRange = missileDrawRangeDelta * missileCurveSegments
-
-  const missileGeometery = new THREE.TubeBufferGeometry(
-    missileSpline.spline,
-    missileCurveSegments,
-    missileTubeDefaultRadius,
-    missileTubeRadiusSegments,
-    false
-  )
-  missileGeometery.setDrawRange(0, missileMaxDrawRange)
-
-  const missileMesh = new THREE.Mesh(
-    missileGeometery,
-    missilesMaterial,
-  )
-
-  missilesMesh.add(missileMesh)
 
   const axes = new THREE.AxesHelper(earthRadius * 1.2)
 

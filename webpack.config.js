@@ -9,9 +9,23 @@ module.exports = {
 
   entry: "./index.js",
 
+	module: {
+    rules: [
+      {
+        test: /\.(js)$/,
+        exclude: /node_modules/,
+        use: ["babel-loader"]
+      }
+    ]
+  },
+
   output: {
     filename: "wargames.js",
     path: __dirname,
+  },
+
+  resolve: {
+    extensions: ["*", ".js"]
   },
 
 	watch: true,
