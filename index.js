@@ -55,7 +55,8 @@ scene.add(new AmbientLight(0xffffff))
 scene.add(new AmbientLight(0xffffff))
 scene.add(scenery)
 
-const renderer = new THREE.WebGLRenderer
+const renderer = new THREE.WebGLRenderer({
+})
 renderer.setClearColor(0x000000, 1.0)
 renderer.setPixelRatio(window.devicePixelRatio)
 renderer.setSize(window.innerWidth, window.innerHeight)
