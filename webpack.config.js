@@ -12,6 +12,9 @@ entry.wargames = {}
 entry.wargames.import = "./index.js"
 entry.wargames.dependOn = "three"
 
+const experiments = {}
+experiments.topLevelAwait = true
+
 const module_ = {}
 module_.rules = []
 module_.rules.push({
@@ -37,6 +40,7 @@ const watch = process.argv.includes("serve")
 module.exports = {
 	devServer,
   entry,
+	experiments,
 	module: module_,
   output,
 	plugins,

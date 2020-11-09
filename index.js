@@ -1,10 +1,3 @@
-const client = new XMLHttpRequest
-client.open("GET", "three.bundle.js")
-client.onprogress = function(pe) {
-  console.log(pe)
-}
-client.send()
-
 /*
 
 const earth = {}
@@ -131,7 +124,7 @@ const sun = {}
 sun.direction = new Vector3(1, 0, .5)
 
 
-document.addEventListener("DOMContentLoaded", async () => {
+//document.addEventListener("DOMContentLoaded", async () => {
   function loadTexture(filename) {
     const loader = new TextureLoader
     return new Promise((resolve, reject) => {
@@ -334,5 +327,5 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     requestAnimationFrame(animate)
   }
-})
+//})
 

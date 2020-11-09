@@ -112,7 +112,7 @@
 				await Promise.all(dependencies.map(load))
 				await delay(loadingTransitionDuration * 2)
 
-				dependencies.forEach(d => {
+				dependencies.forEach(async d => {
 					if (d.path.endsWith("js")) {
 						inject(d)
 					}
