@@ -2,7 +2,12 @@
   "name": "@hendotcat/wargames",
   "version": "0.0.0",
   "description": "global thermonuclear war",
-  "scripts": {},
+  "scripts": {
+    "build-orbitcontrols": "uglifyjs node_modules/three/examples/js/controls/OrbitControls.js -o OrbitControls.min.js",
+    "build-three": "cp node_modules/three/build/three.min.js .",
+    "pre-start": "yarn build-orbitcontrols; yarn build-three",
+    "start": "yarn pre-start; webpack serve"
+  },
   "dependencies": {
     "d3-geo": "^2.0.1",
     "three": "^0.122.0"
@@ -14,6 +19,7 @@
     "@babel/preset-env": "^7.12.1",
     "babel-loader": "^8.1.0",
     "line-reader": "^0.4.0",
+    "uglify-js": "^3.11.5",
     "webpack": "^5.4.0",
     "webpack-bundle-analyzer": "^4.1.0",
     "webpack-cli": "^4.2.0",

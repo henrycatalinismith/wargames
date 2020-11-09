@@ -7,10 +7,8 @@ devServer.compress = true
 devServer.port = 8080
 
 const entry = {}
-entry.three = "three"
 entry.wargames = {}
 entry.wargames.import = "./index.js"
-entry.wargames.dependOn = "three"
 
 const experiments = {}
 experiments.topLevelAwait = true

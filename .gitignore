@@ -8,4 +8,6 @@ logs/*
 wargames.js
 *.bundle.js
 yarn-error.log
+three.min.js
+OrbitControls.min.js
 
