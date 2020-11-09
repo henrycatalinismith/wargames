@@ -1,15 +1,11 @@
+const client = new XMLHttpRequest
+client.open("GET", "three.bundle.js")
+client.onprogress = function(pe) {
+  console.log(pe)
+}
+client.send()
+
 /*
-
-
-import createAtmosphereMaterial from "./threex.atmospherematerial"
-
-import {
-  fragmentShader,
-  vertexShader,
-} from "./shader.js"
-
-const sun = {}
-sun.direction = new Vector3(1, 0, .5)
 
 const earth = {}
 earth.radius = 0.5
@@ -131,7 +127,9 @@ import {
   vertexShader,
 } from "./shader.js"
 
-console.log(launches)
+const sun = {}
+sun.direction = new Vector3(1, 0, .5)
+
 
 document.addEventListener("DOMContentLoaded", async () => {
   function loadTexture(filename) {
@@ -187,8 +185,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const earthSpecular = await loadTexture("earth-specular.jpg")
   const earthTexture = await loadTexture("earth-texture.jpg")
 
-  const sunDirection = new Vector3(1, 0, .5)
-
   const earthMaterial = new ShaderMaterial({
     map: earthTexture,
     bumpMap: earthBump,
@@ -198,7 +194,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     shininess: 50,
     uniforms: {
       sunDirection: {
-        value: sunDirection,
+        value: sun.direction,
       },
       dayTexture: {
         value: day,

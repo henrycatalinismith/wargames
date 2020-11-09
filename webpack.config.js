@@ -32,7 +32,7 @@ resolve.extensions = []
 resolve.extensions.push("*")
 resolve.extensions.push(".js")
 
-const watch = true
+const watch = process.argv.includes("serve")
 
 module.exports = {
 	devServer,

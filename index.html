@@ -4,11 +4,122 @@
     <title>
       Wargames
     </title>
-		<link rel="stylesheet" type="text/css" href="index.css" />
-		<script type="text/javascript" src="three.bundle.js"></script>
-		<script type="text/javascript" src="wargames.bundle.js"></script>
+		<style type="text/css">
+			:root {
+				--loadingTransitionDuration: 64ms;
+			}
+
+			body {
+				margin: 0;
+			}
+
+			path {
+				transition-property: stroke-dashoffset;
+				transition-duration: var(--loadingTransitionDuration);
+				transition-timing-function: ease-in-out;
+			}
+		</style>
+
   </head>
   <body>
+		<svg viewBox="0 0 128 32">
+			<rect
+				x="0"
+				y="0"
+				width="128"
+				height="32"
+				fill="gray"
+			/>
+			<path
+			  d="M8,16 L120,16"
+				stroke="blue"
+				stroke-width="16"
+				stroke-dasharray="128"
+				stroke-dashoffset="128"
+			/>
+		</svg>
+
+		<script type="text/javascript">
+
+			function delay(ms) {
+				return new Promise(resolve => setTimeout(resolve, ms))
+			}
+
+			const dependencies = []
+			function dependency(path, size) {
+				dependencies.push({
+					path,
+					size,
+					loaded: 0,
+					payload: undefined,
+				})
+			}
+
+			function inject(dependency) {
+				const script = document.createElement("script")
+				script.type = "text/javascript"
+				script.text = dependency.payload
+				document.body.appendChild(script)
+			}
+
+			dependency("day.jpg", 1276100)
+			dependency("earth-bump.jpg", 2089984)
+			dependency("earth-specular.jpg", 1554535)
+			dependency("earth-texture.jpg", 1276100)
+			dependency("night.jpg", 1142915)
+			dependency("sky.jpg", 1119355)
+			dependency("three.bundle.js", 565892, inject)
+			dependency("wargames.bundle.js", 79473, inject)
+
+			const path = document.querySelector("path")
+			const total = dependencies.reduce((a, c) => a + c.size, 0)
+			function update() {
+				const loaded = dependencies.reduce((a, c) => a + c.loaded, 0)
+				const progress = Math.min(loaded / total, 1)
+				path.style.strokeDashoffset = 128 - (
+					128 * progress
+				)
+			}
+
+			function load(dependency) {
+				return new Promise((resolve, reject) => {
+					const request = new XMLHttpRequest
+					request.open("GET", dependency.path)
+					request.onprogress = pe => {
+						dependency.loaded = pe.loaded
+						update()
+					}
+					request.onload = () => {
+						dependency.loaded = dependency.size
+						dependency.payload = request.response
+						update()
+						resolve()
+					}
+					request.send()
+				})
+			}
+
+			const style = getComputedStyle(document.body)
+			const loadingTransitionProperty = style.getPropertyValue(
+				"--loadingTransitionDuration"
+			)
+			const loadingTransitionDuration = parseInt(
+				loadingTransitionProperty,
+				10,
+			)
+
+			document.addEventListener("DOMContentLoaded", async () => {
+				await Promise.all(dependencies.map(load))
+				await delay(loadingTransitionDuration * 2)
+
+				dependencies.forEach(d => {
+					if (d.path.endsWith("js")) {
+						inject(d)
+					}
+				})
+			})
+
+		</script>
   </body>
 </html>
 
