@@ -1,117 +1,213 @@
-/*
-
-const earth = {}
-earth.radius = 0.5
-earth.segments = 64
-
-earth.geometry = new THREE.SphereGeometry(
-  earth.radius,
-  earth.segments,
-  earth.segments,
-)
-
-earth.material = new THREE.ShaderMaterial({
-  bumpScale: 5,
-  specular: new THREE.Color(0x333333),
-  shininess: 50,
-  uniforms: {
-    sunDirection: {
-      value: sun.direction,
-    },
-    dayTexture: {
-      value: "",
-    },
-    nightTexture: {
-      value: "",
-    }
-  },
-  vertexShader,
-  fragmentShader,
-})
-
-earth.mesh = new THREE.Mesh(
-  earth.geometry,
-  earth.material,
-)
-
-const innerAtmosphere = {}
-innerAtmosphere.material = createAtmosphereMaterial()
-innerAtmosphere.material.uniforms.glowColor.value.set(0x88ffff)
-innerAtmosphere.material.uniforms.coeficient.value = 1
-innerAtmosphere.material.uniforms.power.value = 5
-
-innerAtmosphere.mesh = new THREE.Mesh(
-  earth.geometry.clone(),
-  innerAtmosphere.material
-)
-innerAtmosphere.mesh.scale.multiplyScalar(1.008)
-earth.mesh.add(innerAtmosphere.mesh)
-
-const scenery = new THREE.Object3D
-scenery.add(earth.mesh)
-
-const scene = new THREE.Scene
-scene.add(new AmbientLight(0xffffff))
-scene.add(new AmbientLight(0xffffff))
-scene.add(scenery)
-
-const renderer = new THREE.WebGLRenderer({
-})
-renderer.setClearColor(0x000000, 1.0)
-renderer.setPixelRatio(window.devicePixelRatio)
-renderer.setSize(window.innerWidth, window.innerHeight)
-
-const camera = new THREE.PerspectiveCamera(
-  45,
-  window.innerWidth / window.innerHeight,
-  0.01,
-  100,
-)
-camera.position.x = 0
-camera.position.y = 1
-camera.position.z = 2
-camera.rotation.x = 20
-
-document.addEventListener("DOMContentLoaded", async () => {
-  document.body.appendChild(renderer.domElement)
-  renderer.render(scene, camera)
-
-  animate()
-
-  function animate() {
-    // scenery.rotation.y -= 0.005
-    // sunDirection.x += 0.005
-    // controls.update()
-    renderer.render(scene, camera)
-
-    requestAnimationFrame(animate)
-  }
-})
-
-*/
-
 import createAtmosphereMaterial from "./threex.atmospherematerial"
 import { geoInterpolate } from "d3-geo"
 import launches from "./launches.json"
+import { fragmentShader, vertexShader } from "./shader.js"
 
-import {
-  fragmentShader,
-  vertexShader,
-} from "./shader.js"
+initRenderer()
+initScenery()
+initScene()
+initCamera()
+initControls()
+animate()
 
-const sun = {}
-sun.direction = new THREE.Vector3(1, 0, .5)
+await initSpace()
 
+initSun()
+await initEarth()
+initInnerAtmosphere()
+initOuterAtmosphere()
 
-function loadTexture(filename) {
-  const loader = new THREE.TextureLoader
-  return new Promise((resolve, reject) => {
-    loader.load(filename, resolve, undefined, reject)
+initConflict()
+initMissiles()
+initAxes()
+
+function initRenderer() {
+  window.renderer = new THREE.WebGLRenderer
+  window.renderer.setClearColor(0x000000, 1.0)
+  window.renderer.setPixelRatio(window.devicePixelRatio)
+  window.renderer.setSize(window.innerWidth, window.innerHeight)
+  document.body.appendChild(window.renderer.domElement)
+}
+
+function initScenery() {
+  window.scenery = new THREE.Object3D
+}
+
+function initScene() {
+  window.scene = new THREE.Scene
+  window.scene.add(new THREE.AmbientLight(0xffffff))
+  window.scene.add(new THREE.AmbientLight(0xffffff))
+  window.scene.add(window.scenery)
+}
+
+function initCamera() {
+  window.camera = new THREE.PerspectiveCamera(
+    45,
+    window.innerWidth / window.innerHeight,
+    0.01,
+    100,
+  )
+  window.camera.position.x = 0
+  window.camera.position.y = 1
+  window.camera.position.z = 2
+  window.camera.rotation.x = 20
+}
+
+function initSun() {
+  window.sun = {}
+  sun.direction = new THREE.Vector3(1, 0, .5)
+}
+
+async function initEarth() {
+  const day = await loadTexture("day.jpg")
+  const night = await loadTexture("night.jpg")
+
+  window.earth = {}
+  window.earth.radius = 0.5
+  window.earth.segments = 64
+
+  window.earth.geometry = new THREE.SphereGeometry(
+    window.earth.radius,
+    window.earth.segments,
+    window.earth.segments,
+  )
+
+  window.earth.material = new THREE.ShaderMaterial({
+    uniforms: {
+      sunDirection: {
+        value: sun.direction,
+      },
+      dayTexture: {
+        value: day,
+      },
+      nightTexture: {
+        value: night,
+      }
+    },
+    vertexShader,
+    fragmentShader,
+  })
+
+  window.earth.mesh = new THREE.Mesh(
+    window.earth.geometry,
+    window.earth.material,
+  )
+
+  window.scenery.add(window.earth.mesh)
+}
+
+function initInnerAtmosphere() {
+  window.innerAtmosphere = {}
+  window.innerAtmosphere.material = createAtmosphereMaterial()
+  window.innerAtmosphere.material.uniforms.glowColor.value.set(0x88ffff)
+  window.innerAtmosphere.material.uniforms.coeficient.value = 1
+  window.innerAtmosphere.material.uniforms.power.value = 5
+  window.innerAtmosphere.mesh = new THREE.Mesh(
+    window.earth.geometry.clone(),
+    window.innerAtmosphere.material
+  )
+  window.innerAtmosphere.mesh.scale.multiplyScalar(1.008)
+  window.earth.mesh.add(window.innerAtmosphere.mesh)
+}
+
+function initOuterAtmosphere() {
+  window.outerAtmosphere = {}
+  window.outerAtmosphere.material = createAtmosphereMaterial()
+  window.outerAtmosphere.material.side = THREE.BackSide
+  window.outerAtmosphere.material.uniforms.glowColor.value.set(0x0088ff)
+  window.outerAtmosphere.material.uniforms.coeficient.value = .68
+  window.outerAtmosphere.material.uniforms.power.value = 10
+  window.outerAtmosphere.mesh = new THREE.Mesh(
+    window.earth.geometry.clone(),
+    window.outerAtmosphere.material
+  )
+  window.outerAtmosphere.mesh.scale.multiplyScalar(1.06)
+  window.earth.mesh.add(window.outerAtmosphere.mesh)
+}
+
+async function initSpace() {
+  const skyTexture = await loadTexture("sky.jpg")
+  window.space = {}
+  window.space.geometry = new THREE.SphereGeometry(
+    2,
+    64,
+    64,
+  )
+  window.space.material = new THREE.MeshPhongMaterial({
+    side: THREE.BackSide,
+    shininess: 0.4,
+  })
+  window.space.material.map = skyTexture
+  window.space.material.needsUpdate = true
+  window.space.mesh = new THREE.Mesh(
+    window.space.geometry,
+    window.space.material,
+  )
+  window.scenery.add(window.space.mesh)
+}
+
+function initConflict() {
+  window.conflict = {}
+  window.conflict.material = new THREE.MeshBasicMaterial({
+    blending: THREE.AdditiveBlending,
+    opacity: 0.5,
+    transparent: true,
+    color: 0xe43c59,
+  })
+  window.conflict.mesh = new THREE.Mesh()
+  window.scenery.add(window.conflict.mesh)
+}
+
+function initMissiles() {
+  launches.forEach(launch => {
+    const missileSpline = spline(launch)
+
+    const missileCurveSegments = 32
+    const missileTubeRadiusSegments = 2
+    const missileTubeDefaultRadius = 0.005
+    const missileDrawRangeDelta = 16
+    const missileMaxDrawRange = missileDrawRangeDelta * missileCurveSegments
+
+    const missileGeometery = new THREE.TubeBufferGeometry(
+      missileSpline.spline,
+      missileCurveSegments,
+      missileTubeDefaultRadius,
+      missileTubeRadiusSegments,
+      false
+    )
+    missileGeometery.setDrawRange(0, missileMaxDrawRange)
+
+    const missileMesh = new THREE.Mesh(
+      missileGeometery,
+      window.conflict.material,
+    )
+
+    window.conflict.mesh.add(missileMesh)
   })
 }
 
-const earthRadius = 0.5
-const earthSegments = 64
+function initAxes() {
+  window.axes = new THREE.AxesHelper(window.earth.radius * 1.2)
+  window.scenery.add(window.axes)
+}
+
+function initControls() {
+  window.controls = new THREE.OrbitControls(
+    window.camera,
+    window.renderer.domElement,
+  )
+  window.controls.maxDistance = 3
+  window.controls.minDistance = 1.5
+}
+
+function animate() {
+  scenery.rotation.y -= 0.005
+  // sunDirection.x += 0.005
+  window.controls.update()
+  window.renderer.render(window.scene, window.camera)
+
+  requestAnimationFrame(animate)
+}
 
 function pos(lat, lng, radius) {
   const φ = (90 - lat) * Math.PI / 180
@@ -124,17 +220,17 @@ function pos(lat, lng, radius) {
 }
 
 function spline({ lat1, lon1, lat2, lon2 }) {
-  const start = pos(lat1, lon1, earthRadius)
-  const end = pos(lat2, lon2, earthRadius)
+  const start = pos(lat1, lon1, window.earth.radius)
+  const end = pos(lat2, lon2, window.earth.radius)
   const distance = start.distanceTo(end)
-  const minAltitude = earthRadius * 0.2
-  const maxAltitude = earthRadius * 0.3
+  const minAltitude = window.earth.radius * 0.2
+  const maxAltitude = window.earth.radius * 0.3
   const altitude = Math.min(Math.max(distance, minAltitude), maxAltitude)
   const interpolate = geoInterpolate([lon1, lat1], [lon2, lat2])
   const midCoord1 = interpolate(0.25)
   const midCoord2 = interpolate(0.75)
-  const mid1 = pos(midCoord1[1], midCoord1[0], earthRadius + altitude)
-  const mid2 = pos(midCoord2[1], midCoord2[0], earthRadius + altitude)
+  const mid1 = pos(midCoord1[1], midCoord1[0], window.earth.radius + altitude)
+  const mid2 = pos(midCoord2[1], midCoord2[0], window.earth.radius + altitude)
   return {
     start,
     end,
@@ -142,167 +238,10 @@ function spline({ lat1, lon1, lat2, lon2 }) {
   }
 }
 
-const earthGeometry = new THREE.SphereGeometry(
-  earthRadius,
-  earthSegments,
-  earthSegments,
-)
-
-const day = await loadTexture("day.jpg")
-const night = await loadTexture("night.jpg")
-const skyTexture = await loadTexture("sky.jpg")
-
-const earthBump = await loadTexture("earth-bump.jpg")
-const earthSpecular = await loadTexture("earth-specular.jpg")
-const earthTexture = await loadTexture("earth-texture.jpg")
-
-const earthMaterial = new THREE.ShaderMaterial({
-  map: earthTexture,
-  bumpMap: earthBump,
-  bumpScale: 5,
-  specular: new THREE.Color(0x333333),
-  specularMap: earthSpecular,
-  shininess: 50,
-  uniforms: {
-    sunDirection: {
-      value: sun.direction,
-    },
-    dayTexture: {
-      value: day,
-    },
-    nightTexture: {
-      value: night,
-    }
-  },
-  vertexShader,
-  fragmentShader,
-})
-
-const earthMesh = new THREE.Mesh(
-  earthGeometry,
-  earthMaterial,
-)
-
-const innerAtmosphereMaterial = createAtmosphereMaterial()
-innerAtmosphereMaterial.uniforms.glowColor.value.set(0x88ffff)
-innerAtmosphereMaterial.uniforms.coeficient.value = 1
-innerAtmosphereMaterial.uniforms.power.value = 5
-
-const innerAtmosphereMesh = new THREE.Mesh(
-  earthGeometry.clone(),
-  innerAtmosphereMaterial
-)
-innerAtmosphereMesh.scale.multiplyScalar(1.008)
-earthMesh.add(innerAtmosphereMesh)
-
-const outerAtmosphereMaterial = createAtmosphereMaterial()
-outerAtmosphereMaterial.side = THREE.BackSide
-outerAtmosphereMaterial.uniforms.glowColor.value.set(0x0088ff)
-outerAtmosphereMaterial.uniforms.coeficient.value = .68
-outerAtmosphereMaterial.uniforms.power.value = 10
-const outerAtmosphereMesh = new THREE.Mesh(
-  earthGeometry.clone(),
-  outerAtmosphereMaterial
-)
-outerAtmosphereMesh.scale.multiplyScalar(1.06)
-earthMesh.add(outerAtmosphereMesh)
-
-const skyGeometry = new THREE.SphereGeometry(
-  earthRadius * 4,
-  earthSegments,
-  earthSegments,
-)
-
-const skyMaterial = new THREE.MeshPhongMaterial({
-  side: THREE.BackSide,
-  shininess: 0.4,
-})
-skyMaterial.map = skyTexture
-skyMaterial.needsUpdate = true
-
-const skyMesh = new THREE.Mesh(
-  skyGeometry,
-  skyMaterial,
-)
-
-const missilesMaterial = new THREE.MeshBasicMaterial({
-  blending: THREE.AdditiveBlending,
-  opacity: 0.5,
-  transparent: true,
-  color: 0xe43c59,
-})
-const missilesMesh = new THREE.Mesh()
-
-launches.forEach(launch => {
-  const missileSpline = spline(launch)
-
-  const missileCurveSegments = 32
-  const missileTubeRadiusSegments = 2
-  const missileTubeDefaultRadius = 0.005
-  const missileDrawRangeDelta = 16
-  const missileMaxDrawRange = missileDrawRangeDelta * missileCurveSegments
-
-  const missileGeometery = new THREE.TubeBufferGeometry(
-    missileSpline.spline,
-    missileCurveSegments,
-    missileTubeDefaultRadius,
-    missileTubeRadiusSegments,
-    false
-  )
-  missileGeometery.setDrawRange(0, missileMaxDrawRange)
-
-  const missileMesh = new THREE.Mesh(
-    missileGeometery,
-    missilesMaterial,
-  )
-
-  missilesMesh.add(missileMesh)
-})
-
-const axes = new THREE.AxesHelper(earthRadius * 1.2)
-
-const scenery = new THREE.Object3D
-scenery.add(axes)
-scenery.add(skyMesh)
-scenery.add(earthMesh)
-scenery.add(missilesMesh)
-
-const scene = new THREE.Scene
-scene.add(new THREE.AmbientLight(0xffffff))
-scene.add(new THREE.AmbientLight(0xffffff))
-scene.add(scenery)
-
-const renderer = new THREE.WebGLRenderer
-renderer.setClearColor(0x000000, 1.0)
-renderer.setPixelRatio(window.devicePixelRatio)
-renderer.setSize(window.innerWidth, window.innerHeight)
-
-const camera = new THREE.PerspectiveCamera(
-  45,
-  window.innerWidth / window.innerHeight,
-  0.01,
-  100,
-)
-camera.position.x = 0
-camera.position.y = 1
-camera.position.z = 2
-camera.rotation.x = 20
-
-document.body.appendChild(renderer.domElement)
-renderer.render(scene, camera)
-
-const controls = new THREE.OrbitControls(camera, renderer.domElement)
-controls.maxDistance = 3
-controls.minDistance = 1.5
-
-animate()
-
-function animate() {
-  // scenery.rotation.y -= 0.005
-  // sunDirection.x += 0.005
-  controls.update()
-  renderer.render(scene, camera)
-
-  requestAnimationFrame(animate)
+function loadTexture(filename) {
+  const loader = new THREE.TextureLoader
+  return new Promise((resolve, reject) => {
+    loader.load(window[filename], resolve, undefined, reject)
+  })
 }
 

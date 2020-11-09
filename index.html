@@ -83,9 +83,6 @@
 
 			function initDependencies() {
 				addDependency("day.jpg", 1276100)
-				addDependency("earth-bump.jpg", 2089984)
-				addDependency("earth-specular.jpg", 1554535)
-				addDependency("earth-texture.jpg", 1276100)
 				addDependency("night.jpg", 1142915)
 				addDependency("sky.jpg", 1119355)
 				addDependency("three.min.js", 565892)
@@ -96,7 +93,21 @@
       function injectDependencies() {
         dependencies.forEach(async d => {
           if (d.path.endsWith("js")) {
-            injectDependency(d)
+            const script = document.createElement("script")
+            script.type = "text/javascript"
+            script.text = d.payload
+            document.body.appendChild(script)
+          } else {
+            // window[d.path] = URL.createObjectURL(d.payload)
+            const arr = new Uint8Array(d.payload)
+            let raw = ''
+            for (i = 0, j = arr.length; i < j; i += 5000) {
+              raw += String.fromCharCode.apply(
+                null,
+                arr.subarray(i, i + 5000),
+              );
+            }
+            window[d.path] = `data:image/jpeg;base64,${btoa(raw)}`
           }
         })
       }
@@ -104,13 +115,6 @@
 			async function loadDependencies() {
         await Promise.all(dependencies.map(loadDependency))
 			}
-
-      function injectDependency(dependency) {
-        const script = document.createElement("script")
-        script.type = "text/javascript"
-        script.text = dependency.payload
-        document.body.appendChild(script)
-      }
 
       function addDependency(path, size) {
         dependencies.push({
@@ -125,6 +129,10 @@
         return new Promise((resolve, reject) => {
           const request = new XMLHttpRequest
           request.open("GET", dependency.path)
+          if (dependency.path.endsWith("jpg")) {
+            request.responseType = "arraybuffer"
+            // request.responseType = "blob"
+          }
           request.onprogress = pe => {
             dependency.loaded = pe.loaded
             updateProgressBar()
