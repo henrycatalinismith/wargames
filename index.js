@@ -1,16 +1,6 @@
 /*
-import {
-  AmbientLight,
-  Color,
-  Mesh,
-  Object3D,
-  PerspectiveCamera,
-  Scene,
-  ShaderMaterial,
-  SphereGeometry,
-  Vector3,
-  WebGLRenderer,
-} from "three"
+
+
 import createAtmosphereMaterial from "./threex.atmospherematerial"
 
 import {
@@ -111,7 +101,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 */
 import createAtmosphereMaterial from "./threex.atmospherematerial"
 import { geoInterpolate } from "d3-geo"
-import * as THREE from "three"
+
+import {
+  AdditiveBlending,
+  AmbientLight,
+  AxesHelper,
+  BackSide,
+  Color,
+  CubicBezierCurve3,
+  Mesh,
+  MeshBasicMaterial,
+  MeshPhongMaterial,
+  Object3D,
+  PerspectiveCamera,
+  Scene,
+  ShaderMaterial,
+  SphereGeometry,
+  TextureLoader,
+  TubeBufferGeometry,
+  Vector3,
+  WebGLRenderer,
+} from "three"
+
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
 import launches from "./launches.json"
 
@@ -124,7 +135,7 @@ console.log(launches)
 
 document.addEventListener("DOMContentLoaded", async () => {
   function loadTexture(filename) {
-    const loader = new THREE.TextureLoader
+    const loader = new TextureLoader
     return new Promise((resolve, reject) => {
       loader.load(filename, resolve, undefined, reject)
     })
@@ -136,7 +147,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   function pos(lat, lng, radius) {
     const φ = (90 - lat) * Math.PI / 180
     const θ = (lng + 180) * Math.PI / 180
-    return new THREE.Vector3(
+    return new Vector3(
       - radius * Math.sin(φ) * Math.cos(θ),
       radius * Math.cos(φ),
       radius * Math.sin(φ) * Math.sin(θ)
@@ -158,11 +169,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     return {
       start,
       end,
-      spline: new THREE.CubicBezierCurve3(start, mid1, mid2, end),
+      spline: new CubicBezierCurve3(start, mid1, mid2, end),
     }
   }
 
-  const earthGeometry = new THREE.SphereGeometry(
+  const earthGeometry = new SphereGeometry(
     earthRadius,
     earthSegments,
     earthSegments,
@@ -176,13 +187,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const earthSpecular = await loadTexture("earth-specular.jpg")
   const earthTexture = await loadTexture("earth-texture.jpg")
 
-  const sunDirection = new THREE.Vector3(1, 0, .5)
+  const sunDirection = new Vector3(1, 0, .5)
 
-  const earthMaterial = new THREE.ShaderMaterial({
-    // map: earthTexture,
-    // bumpMap: earthBump,
+  const earthMaterial = new ShaderMaterial({
+    map: earthTexture,
+    bumpMap: earthBump,
     bumpScale: 5,
-    specular: new THREE.Color(0x333333),
+    specular: new Color(0x333333),
     specularMap: earthSpecular,
     shininess: 50,
     uniforms: {
@@ -200,7 +211,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     fragmentShader,
   })
 
-  const earthMesh = new THREE.Mesh(
+  const earthMesh = new Mesh(
     earthGeometry,
     earthMaterial,
   )
@@ -210,7 +221,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   innerAtmosphereMaterial.uniforms.coeficient.value = 1
   innerAtmosphereMaterial.uniforms.power.value = 5
 
-  const innerAtmosphereMesh = new THREE.Mesh(
+  const innerAtmosphereMesh = new Mesh(
     earthGeometry.clone(),
     innerAtmosphereMaterial
   )
@@ -218,42 +229,42 @@ document.addEventListener("DOMContentLoaded", async () => {
   earthMesh.add(innerAtmosphereMesh)
 
   const outerAtmosphereMaterial = createAtmosphereMaterial()
-  outerAtmosphereMaterial.side = THREE.BackSide
+  outerAtmosphereMaterial.side = BackSide
   outerAtmosphereMaterial.uniforms.glowColor.value.set(0x0088ff)
   outerAtmosphereMaterial.uniforms.coeficient.value = .68
   outerAtmosphereMaterial.uniforms.power.value = 10
-  const outerAtmosphereMesh = new THREE.Mesh(
+  const outerAtmosphereMesh = new Mesh(
     earthGeometry.clone(),
     outerAtmosphereMaterial
   )
   outerAtmosphereMesh.scale.multiplyScalar(1.06)
   earthMesh.add(outerAtmosphereMesh)
 
-  const skyGeometry = new THREE.SphereGeometry(
+  const skyGeometry = new SphereGeometry(
     earthRadius * 4,
     earthSegments,
     earthSegments,
   )
 
-  const skyMaterial = new THREE.MeshPhongMaterial({
-    side: THREE.BackSide,
+  const skyMaterial = new MeshPhongMaterial({
+    side: BackSide,
     shininess: 0.4,
   })
   skyMaterial.map = skyTexture
   skyMaterial.needsUpdate = true
 
-  const skyMesh = new THREE.Mesh(
+  const skyMesh = new Mesh(
     skyGeometry,
     skyMaterial,
   )
 
-  const missilesMaterial = new THREE.MeshBasicMaterial({
-    blending: THREE.AdditiveBlending,
+  const missilesMaterial = new MeshBasicMaterial({
+    blending: AdditiveBlending,
     opacity: 0.5,
     transparent: true,
     color: 0xe43c59,
   })
-  const missilesMesh = new THREE.Mesh()
+  const missilesMesh = new Mesh()
 
   launches.forEach(launch => {
     const missileSpline = spline(launch)
@@ -264,7 +275,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const missileDrawRangeDelta = 16
     const missileMaxDrawRange = missileDrawRangeDelta * missileCurveSegments
 
-    const missileGeometery = new THREE.TubeBufferGeometry(
+    const missileGeometery = new TubeBufferGeometry(
       missileSpline.spline,
       missileCurveSegments,
       missileTubeDefaultRadius,
@@ -273,7 +284,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     )
     missileGeometery.setDrawRange(0, missileMaxDrawRange)
 
-    const missileMesh = new THREE.Mesh(
+    const missileMesh = new Mesh(
       missileGeometery,
       missilesMaterial,
     )
@@ -281,25 +292,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     missilesMesh.add(missileMesh)
   })
 
-  const axes = new THREE.AxesHelper(earthRadius * 1.2)
+  const axes = new AxesHelper(earthRadius * 1.2)
 
-  const scenery = new THREE.Object3D
+  const scenery = new Object3D
   scenery.add(axes)
   scenery.add(skyMesh)
   scenery.add(earthMesh)
   scenery.add(missilesMesh)
 
-  const scene = new THREE.Scene
-  scene.add(new THREE.AmbientLight(0xffffff))
-  scene.add(new THREE.AmbientLight(0xffffff))
+  const scene = new Scene
+  scene.add(new AmbientLight(0xffffff))
+  scene.add(new AmbientLight(0xffffff))
   scene.add(scenery)
 
-  const renderer = new THREE.WebGLRenderer
+  const renderer = new WebGLRenderer
   renderer.setClearColor(0x000000, 1.0)
   renderer.setPixelRatio(window.devicePixelRatio)
   renderer.setSize(window.innerWidth, window.innerHeight)
 
-  const camera = new THREE.PerspectiveCamera(
+  const camera = new PerspectiveCamera(
     45,
     window.innerWidth / window.innerHeight,
     0.01,
