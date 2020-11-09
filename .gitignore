@@ -7,4 +7,5 @@ bower_components/
 logs/*
 wargames.js
 *.bundle.js
+yarn-error.log
 

@@ -179,8 +179,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sunDirection = new THREE.Vector3(1, 0, .5)
 
   const earthMaterial = new THREE.ShaderMaterial({
-    map: earthTexture,
-    bumpMap: earthBump,
+    // map: earthTexture,
+    // bumpMap: earthBump,
     bumpScale: 5,
     specular: new THREE.Color(0x333333),
     specularMap: earthSpecular,
