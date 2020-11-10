@@ -18,7 +18,7 @@ initOuterAtmosphere()
 
 initConflict()
 initMissiles()
-initAxes()
+// initAxes()
 
 animate()
 
@@ -49,9 +49,8 @@ function initCamera() {
     100,
   )
   window.camera.position.x = 0
-  window.camera.position.y = 1
+  window.camera.position.y = 0
   window.camera.position.z = 2
-  window.camera.rotation.x = 20
 }
 
 function initSun() {
@@ -160,37 +159,56 @@ function initConflict() {
 }
 
 function initMissiles() {
+  window.missileLimit = 64
+  window.missileQueue = launches
   window.missiles = []
-  launches.slice(0,100).forEach(launch => {
 
-    const missile = {}
+  launchMissiles()
+}
 
-    missile.curveSegments = 128
-    missile.tubeRadiusSegments = 2
-    missile.tubeDefaultRadius = 0.005
-    missile.drawRangeDelta = 16
-    missile.maxDrawRange = missile.drawRangeDelta * missile.curveSegments
+function launchMissiles() {
+  const missilesNeeded = window.missileLimit - window.missiles.length
+  const missilesAvailable = window.missileQueue.length
+  const missilesToLaunch = Math.min(missilesNeeded, missilesAvailable)
 
-    missile.spline = spline(launch)
-    missile.speed = 1 / missile.spline.getLength()
+  if (missilesNeeded > missilesAvailable) {
+    console.log("missile stock depleted")
+  }
 
-    missile.geometry = new THREE.TubeBufferGeometry(
-      missile.spline,
-      missile.curveSegments,
-      missile.tubeDefaultRadius,
-      missile.tubeRadiusSegments,
-      false
-    )
-    missile.geometry.setDrawRange(0, 0)
+  for (i = 0; i < missilesToLaunch; i++) {
+    launchMissile()
+  }
+}
 
-    missile.mesh = new THREE.Mesh(
-      missile.geometry,
-      window.conflict.material,
-    )
+function launchMissile() {
+  const launch = window.missileQueue.pop()
+  const missile = {}
 
-    window.conflict.mesh.add(missile.mesh)
-    window.missiles.push(missile)
-  })
+  missile.curveSegments = 128
+  missile.tubeRadiusSegments = 2
+  missile.tubeDefaultRadius = 0.005
+  missile.drawRangeDelta = 16
+  missile.maxDrawRange = missile.drawRangeDelta * missile.curveSegments
+
+  missile.spline = spline(launch)
+  missile.speed = 1 / missile.spline.getLength()
+
+  missile.geometry = new THREE.TubeBufferGeometry(
+    missile.spline,
+    missile.curveSegments,
+    missile.tubeDefaultRadius,
+    missile.tubeRadiusSegments,
+    false
+  )
+  missile.geometry.setDrawRange(0, 0)
+
+  missile.mesh = new THREE.Mesh(
+    missile.geometry,
+    window.conflict.material,
+  )
+
+  window.conflict.mesh.add(missile.mesh)
+  window.missiles.push(missile)
 }
 
 function updateMissiles() {
@@ -204,15 +222,20 @@ function updateMissiles() {
         count + missile.speed,
       )
     } else if (start < missile.maxDrawRange) {
-      // start += 1
+      start = Math.min(
+        missile.maxDrawRange,
+        start + 3,
+      )
     } else {
-      // window.missiles.splice(m, 1)
+      window.missiles.splice(m, 1)
       // console.log(window.missiles.length)
       continue
     }
 
     missile.geometry.setDrawRange(start, count)
   }
+
+  launchMissiles()
 }
 
 function initAxes() {
