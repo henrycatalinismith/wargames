@@ -8,7 +8,6 @@ initScenery()
 initScene()
 initCamera()
 initControls()
-animate()
 
 await initSpace()
 
@@ -20,6 +19,8 @@ initOuterAtmosphere()
 initConflict()
 initMissiles()
 initAxes()
+
+animate()
 
 function initRenderer() {
   window.renderer = new THREE.WebGLRenderer
@@ -159,31 +160,59 @@ function initConflict() {
 }
 
 function initMissiles() {
-  launches.forEach(launch => {
-    const missileSpline = spline(launch)
+  window.missiles = []
+  launches.slice(0,100).forEach(launch => {
 
-    const missileCurveSegments = 32
-    const missileTubeRadiusSegments = 2
-    const missileTubeDefaultRadius = 0.005
-    const missileDrawRangeDelta = 16
-    const missileMaxDrawRange = missileDrawRangeDelta * missileCurveSegments
+    const missile = {}
 
-    const missileGeometery = new THREE.TubeBufferGeometry(
-      missileSpline.spline,
-      missileCurveSegments,
-      missileTubeDefaultRadius,
-      missileTubeRadiusSegments,
+    missile.curveSegments = 128
+    missile.tubeRadiusSegments = 2
+    missile.tubeDefaultRadius = 0.005
+    missile.drawRangeDelta = 16
+    missile.maxDrawRange = missile.drawRangeDelta * missile.curveSegments
+
+    missile.spline = spline(launch)
+    missile.speed = 1 / missile.spline.getLength()
+
+    missile.geometry = new THREE.TubeBufferGeometry(
+      missile.spline,
+      missile.curveSegments,
+      missile.tubeDefaultRadius,
+      missile.tubeRadiusSegments,
       false
     )
-    missileGeometery.setDrawRange(0, missileMaxDrawRange)
+    missile.geometry.setDrawRange(0, 0)
 
-    const missileMesh = new THREE.Mesh(
-      missileGeometery,
+    missile.mesh = new THREE.Mesh(
+      missile.geometry,
       window.conflict.material,
     )
 
-    window.conflict.mesh.add(missileMesh)
+    window.conflict.mesh.add(missile.mesh)
+    window.missiles.push(missile)
   })
+}
+
+function updateMissiles() {
+  for (const m in window.missiles) {
+    const missile = window.missiles[m]
+    let { start, count } = missile.geometry.drawRange
+
+    if (count < missile.maxDrawRange) {
+      count = Math.min(
+        missile.maxDrawRange,
+        count + missile.speed,
+      )
+    } else if (start < missile.maxDrawRange) {
+      // start += 1
+    } else {
+      // window.missiles.splice(m, 1)
+      // console.log(window.missiles.length)
+      continue
+    }
+
+    missile.geometry.setDrawRange(start, count)
+  }
 }
 
 function initAxes() {
@@ -201,6 +230,7 @@ function initControls() {
 }
 
 function animate() {
+  updateMissiles()
   scenery.rotation.y -= 0.005
   // sunDirection.x += 0.005
   window.controls.update()
@@ -231,11 +261,7 @@ function spline({ lat1, lon1, lat2, lon2 }) {
   const midCoord2 = interpolate(0.75)
   const mid1 = pos(midCoord1[1], midCoord1[0], window.earth.radius + altitude)
   const mid2 = pos(midCoord2[1], midCoord2[0], window.earth.radius + altitude)
-  return {
-    start,
-    end,
-    spline: new THREE.CubicBezierCurve3(start, mid1, mid2, end),
-  }
+  return new THREE.CubicBezierCurve3(start, mid1, mid2, end)
 }
 
 function loadTexture(filename) {
