@@ -55,7 +55,11 @@ function initCamera() {
 
 function initSun() {
   window.sun = {}
-  sun.direction = new THREE.Vector3(1, 0, .5)
+  sun.direction = new THREE.Vector3(
+    1.25,
+    0,
+    0.5,
+  )
 }
 
 async function initEarth() {
@@ -159,7 +163,10 @@ function initConflict() {
 }
 
 function initMissiles() {
-  window.missileLimit = 64
+  window.missileCooldownDelay = Math.pow(2, 5)
+  window.missileCooldownActive = false
+  window.missileCooldownTimeout = undefined
+  window.missileLimit = Math.pow(2, 9)
   window.missileQueue = launches
   window.missiles = []
 
@@ -171,13 +178,24 @@ function launchMissiles() {
   const missilesAvailable = window.missileQueue.length
   const missilesToLaunch = Math.min(missilesNeeded, missilesAvailable)
 
+  if (window.missileCooldownActive) {
+    return
+  }
+
   if (missilesNeeded > missilesAvailable) {
     console.log("missile stock depleted")
   }
 
-  for (i = 0; i < missilesToLaunch; i++) {
+  if (missilesToLaunch > 0) {
     launchMissile()
   }
+
+  window.missileCooldownActive = true
+  window.clearTimeout(window.missileCooldownTimeout)
+  window.missileCooldownTimeout = window.setTimeout(
+    () => window.missileCooldownActive = false,
+    window.missileCooldownDelay,
+  )
 }
 
 function launchMissile() {
@@ -191,7 +209,7 @@ function launchMissile() {
   missile.maxDrawRange = missile.drawRangeDelta * missile.curveSegments
 
   missile.spline = spline(launch)
-  missile.speed = 1 / missile.spline.getLength()
+  missile.speed = 4 / missile.spline.getLength()
 
   missile.geometry = new THREE.TubeBufferGeometry(
     missile.spline,
@@ -227,8 +245,9 @@ function updateMissiles() {
         start + 3,
       )
     } else {
+      window.conflict.mesh.remove(missile)
+      missile.geometry.dispose()
       window.missiles.splice(m, 1)
-      // console.log(window.missiles.length)
       continue
     }
 
@@ -254,7 +273,7 @@ function initControls() {
 
 function animate() {
   updateMissiles()
-  scenery.rotation.y -= 0.005
+  scenery.rotation.y -= 0.001
   // sunDirection.x += 0.005
   window.controls.update()
   window.renderer.render(window.scene, window.camera)
@@ -276,8 +295,8 @@ function spline({ lat1, lon1, lat2, lon2 }) {
   const start = pos(lat1, lon1, window.earth.radius)
   const end = pos(lat2, lon2, window.earth.radius)
   const distance = start.distanceTo(end)
-  const minAltitude = window.earth.radius * 0.2
-  const maxAltitude = window.earth.radius * 0.3
+  const minAltitude = window.earth.radius * 0.3
+  const maxAltitude = window.earth.radius * 0.5
   const altitude = Math.min(Math.max(distance, minAltitude), maxAltitude)
   const interpolate = geoInterpolate([lon1, lat1], [lon2, lat2])
   const midCoord1 = interpolate(0.25)
