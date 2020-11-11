@@ -42,11 +42,21 @@ const output = {}
 output.filename = "src/[name].js"
 output.path = `${__dirname}/build`
 
+const performance = {}
+performance.assetFilter = function(assetFilename) {
+  if (assetFilename === "vendor/three.js") {
+    // Stop nagging me about three.js being huge. I've tried building a custom
+    // bundle to make it smaller and it doesn't help. It's just big.
+    return false
+  }
+  return true
+}
+
 const plugins = []
 // plugins.push(new BundleAnalyzerPlugin)
 
 plugins.push(new CleanWebpackPlugin({
-  verbose: true,
+  verbose: false,
 }))
 
 plugins.push(new CopyPlugin({
@@ -91,6 +101,7 @@ module.exports = {
   module: module_,
   optimization,
   output,
+  performance,
   plugins,
   resolve,
 }
