@@ -20,22 +20,22 @@ experiments.topLevelAwait = true
 const module_ = {}
 module_.rules = []
 module_.rules.push({
-	test: /\.js$/,
-	exclude: /node_modules/,
-	use: ["babel-loader"]
+  test: /\.js$/,
+  exclude: /node_modules/,
+  use: ["babel-loader"]
 })
 module_.rules.push({
-	test: /\.glsl$/,
-	use: ["webpack-glsl-loader"]
+  test: /\.glsl$/,
+  use: ["webpack-glsl-loader"]
 })
 
 const optimization = {}
 optimization.minimizer = [new TerserPlugin({
-	extractComments: false,
-	parallel: true,
-	terserOptions: {
-		sourceMap: true,
-	},
+  extractComments: false,
+  parallel: true,
+  terserOptions: {
+    sourceMap: true,
+  },
 })]
 
 const output = {}
@@ -46,41 +46,37 @@ const plugins = []
 // plugins.push(new BundleAnalyzerPlugin)
 
 plugins.push(new CleanWebpackPlugin({
-	verbose: true,
+  verbose: true,
 }))
 
 plugins.push(new CopyPlugin({
-	patterns: [
-		{
-			from: "public/*",
-			flatten: true,
-		},
-		{
-			from: "images",
-			to: "images",
-			globOptions: {
-				ignore: [
-					"**/screenshot.png",
-				],
-			},
-		},
-		{
-			from: "missiles",
-			to: "missiles",
-		},
-		{
-			from: "vendor",
-			to: "vendor",
-		},
-		{
-			from: "node_modules/three/build/three.min.js",
-			to: "vendor/three.js",
-		},
-		{
-			from: "node_modules/three/examples/js/controls/OrbitControls.js",
-			to: "vendor/OrbitControls.js",
-		},
-	],
+  patterns: [
+    {
+      from: "public/*",
+      flatten: true,
+    },
+    {
+      from: "images",
+      to: "images",
+      globOptions: {
+        ignore: [
+          "**/screenshot.png",
+        ],
+      },
+    },
+    {
+      from: "missiles",
+      to: "missiles",
+    },
+    {
+      from: "node_modules/three/build/three.min.js",
+      to: "vendor/three.js",
+    },
+    {
+      from: "node_modules/three/examples/js/controls/OrbitControls.js",
+      to: "vendor/OrbitControls.js",
+    },
+  ],
 }))
 
 const resolve = {}
@@ -89,13 +85,13 @@ resolve.extensions.push("*")
 resolve.extensions.push(".js")
 
 module.exports = {
-	devServer,
+  devServer,
   entry,
-	experiments,
-	module: module_,
-	optimization,
+  experiments,
+  module: module_,
+  optimization,
   output,
-	plugins,
+  plugins,
   resolve,
 }
 

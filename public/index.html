@@ -81,15 +81,15 @@
       const dependencies = []
       const progressBar = document.querySelector("path")
 
-			function initDependencies() {
-				addDependency("images/day.jpg", 237143)
-				addDependency("images/night.jpg", 118078)
-				addDependency("images/space.jpg", 232952)
-				addDependency("missiles/000.json", 211082)
-				addDependency("vendor/three.js", 565892)
-				addDependency("vendor/OrbitControls.js", 17127)
-				addDependency("src/wargames.js", 79473)
-			}
+      function initDependencies() {
+        addDependency("images/day.jpg", 237143)
+        addDependency("images/night.jpg", 118078)
+        addDependency("images/space.jpg", 232952)
+        addDependency("missiles/000.json", 211082)
+        addDependency("vendor/three.js", 565892)
+        addDependency("vendor/OrbitControls.js", 17127)
+        addDependency("src/wargames.js", 79473)
+      }
 
       function injectDependencies() {
         dependencies.forEach(async d => {
@@ -115,9 +115,9 @@
         })
       }
 
-			async function loadDependencies() {
+      async function loadDependencies() {
         await Promise.all(dependencies.map(loadDependency))
-			}
+      }
 
       function addDependency(path, size) {
         dependencies.push({

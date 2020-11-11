@@ -133,7 +133,6 @@ function initInnerAtmosphere() {
 
 function initOuterAtmosphere() {
   window.outerAtmosphere = {}
-  window.outerAtmosphere.material = window.createAtmosphereMaterial()
   window.outerAtmosphere.material = new THREE.ShaderMaterial({
     uniforms: {
       coeficient: {
