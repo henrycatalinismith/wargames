@@ -18,9 +18,13 @@ experiments.topLevelAwait = true
 const module_ = {}
 module_.rules = []
 module_.rules.push({
-	test: /\.(js)$/,
+	test: /\.js$/,
 	exclude: /node_modules/,
 	use: ["babel-loader"]
+})
+module_.rules.push({
+	test: /\.glsl$/,
+	use: ["webpack-glsl-loader"]
 })
 
 const output = {}

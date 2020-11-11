@@ -1,7 +1,8 @@
 import { geoInterpolate } from "d3-geo"
 import createAtmosphereMaterial from "../vendor/threex.atmospherematerial"
 import launches from "../missiles/00.json"
-import { fragmentShader, vertexShader } from "./shader.js"
+import fragmentShader from "./fragment.glsl";
+import vertexShader from "./vertex.glsl";
 
 initRenderer()
 initScenery()
