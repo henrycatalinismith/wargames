@@ -82,9 +82,10 @@
       const progressBar = document.querySelector("path")
 
 			function initDependencies() {
-				addDependency("images/day.jpg", 1276100)
-				addDependency("images/night.jpg", 1142915)
-				addDependency("images/space.jpg", 1119355)
+				addDependency("images/day.jpg", 237143)
+				addDependency("images/night.jpg", 118078)
+				addDependency("images/space.jpg", 232952)
+				addDependency("missiles/000.json", 211082)
 				addDependency("vendor/three.js", 565892)
 				addDependency("vendor/OrbitControls.js", 17127)
 				addDependency("src/wargames.js", 79473)
@@ -97,6 +98,8 @@
             script.type = "text/javascript"
             script.text = d.payload
             document.body.appendChild(script)
+          } else if (d.path.endsWith("json")) {
+            window.missileQueue = JSON.parse(d.payload)
           } else {
             // window[d.path] = URL.createObjectURL(d.payload)
             const arr = new Uint8Array(d.payload)

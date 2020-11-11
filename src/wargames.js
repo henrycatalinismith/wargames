@@ -1,9 +1,7 @@
 import { geoInterpolate } from "d3-geo"
 import createAtmosphereMaterial from "../vendor/threex.atmospherematerial"
-import launches from "../missiles/00.json"
 import fragmentShader from "./fragment.glsl";
 import vertexShader from "./vertex.glsl";
-
 
 initRenderer()
 initScenery()
@@ -140,8 +138,10 @@ async function initSpace() {
     64,
   )
   window.space.material = new THREE.MeshPhongMaterial({
+    opacity: 0.5,
     side: THREE.BackSide,
     shininess: 0.4,
+    transparent: true,
   })
   window.space.material.map = skyTexture
   window.space.material.needsUpdate = true
@@ -169,7 +169,6 @@ function initMissiles() {
   window.missileCooldownActive = false
   window.missileCooldownTimeout = undefined
   window.missileLimit = Math.pow(2, 9)
-  window.missileQueue = launches
   window.missiles = []
 
   launchMissiles()

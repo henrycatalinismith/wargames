@@ -16,7 +16,7 @@ function get(cmd) {
 const filename = "logs/launches.txt"
 const directory = "missiles"
 const launchCount = parseInt(get(`wc -l ${filename}`))
-const chunkSize = Math.pow(2, 16)
+const chunkSize = Math.pow(2, 14)
 const chunkCount = Math.ceil(launchCount / chunkSize)
 
 console.log({
@@ -34,7 +34,7 @@ for (let i = 0; i < chunkCount; i++) {
   const cmd = [
     `tail -n +${start + 1} ${filename}`,
     `head -n ${chunkSize}`,
-    `node anonymize.js > ${directory}/${i.toString().padStart(2, "0")}.json`
+    `node src/anonymize.js > ${directory}/${i.toString().padStart(3, "0")}.json`
   ].join(" | ")
 
   console.log({ start, end, cmd })

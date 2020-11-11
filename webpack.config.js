@@ -58,12 +58,23 @@ plugins.push(new CopyPlugin({
 		{
 			from: "images",
 			to: "images",
+			globOptions: {
+				ignore: [
+					"images/screenshot.png",
+				],
+			},
+		},
+		{
+			from: "missiles",
+			to: "missiles",
 		},
 		{
 			from: "vendor",
 			to: "vendor",
 			globOptions: {
-				ignore: ["threex.atmospherematerial.js"],
+				ignore: [
+					"vendor/threex.atmospherematerial.js"
+				],
 			},
 		},
 		{
