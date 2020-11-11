@@ -1,7 +1,7 @@
 /**
  * from http://stemkoski.blogspot.fr/2013/07/shaders-in-threejs-glow-and-halo.html
  */
-export default function createAtmosphereMaterial() {
+window.createAtmosphereMaterial = function() {
 	var vertexShader	= [
 		'varying vec3	vVertexWorldPosition;',
 		'varying vec3	vVertexNormal;',

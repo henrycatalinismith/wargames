@@ -60,7 +60,7 @@ plugins.push(new CopyPlugin({
 			to: "images",
 			globOptions: {
 				ignore: [
-					"images/screenshot.png",
+					"**/screenshot.png",
 				],
 			},
 		},
@@ -71,11 +71,6 @@ plugins.push(new CopyPlugin({
 		{
 			from: "vendor",
 			to: "vendor",
-			globOptions: {
-				ignore: [
-					"vendor/threex.atmospherematerial.js"
-				],
-			},
 		},
 		{
 			from: "node_modules/three/build/three.min.js",

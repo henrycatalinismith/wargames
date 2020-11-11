@@ -1,7 +1,8 @@
 import { geoInterpolate } from "d3-geo"
-import createAtmosphereMaterial from "../vendor/threex.atmospherematerial"
-import fragmentShader from "./fragment.glsl";
-import vertexShader from "./vertex.glsl";
+import atmosphereFragmentShader from "../atmosphere/fragment.glsl"
+import atmosphereVertexShader from "../atmosphere/vertex.glsl"
+import sunlightFragmentShader from "../sunlight/fragment.glsl"
+import sunlightVertexShader from "../sunlight/vertex.glsl"
 
 initRenderer()
 initScenery()
@@ -88,8 +89,8 @@ async function initEarth() {
         value: night,
       }
     },
-    vertexShader,
-    fragmentShader,
+    vertexShader: sunlightVertexShader,
+    fragmentShader: sunlightFragmentShader,
   })
 
   window.earth.mesh = new THREE.Mesh(
@@ -102,10 +103,26 @@ async function initEarth() {
 
 function initInnerAtmosphere() {
   window.innerAtmosphere = {}
-  window.innerAtmosphere.material = createAtmosphereMaterial()
-  window.innerAtmosphere.material.uniforms.glowColor.value.set(0x88ffff)
-  window.innerAtmosphere.material.uniforms.coeficient.value = 1
-  window.innerAtmosphere.material.uniforms.power.value = 5
+  window.innerAtmosphere.material = new THREE.ShaderMaterial({
+    uniforms: {
+      coeficient: {
+        type: "f",
+        value: 1.0
+      },
+      power: {
+        type: "f",
+        value: 5
+      },
+      glowColor: {
+        type: "c",
+        value: new THREE.Color(0x88ffff),
+      },
+    },
+    vertexShader: atmosphereVertexShader,
+    fragmentShader: atmosphereFragmentShader,
+    transparent: true,
+    depthWrite: false,
+  })
   window.innerAtmosphere.mesh = new THREE.Mesh(
     window.earth.geometry.clone(),
     window.innerAtmosphere.material
@@ -116,11 +133,28 @@ function initInnerAtmosphere() {
 
 function initOuterAtmosphere() {
   window.outerAtmosphere = {}
-  window.outerAtmosphere.material = createAtmosphereMaterial()
-  window.outerAtmosphere.material.side = THREE.BackSide
-  window.outerAtmosphere.material.uniforms.glowColor.value.set(0x0088ff)
-  window.outerAtmosphere.material.uniforms.coeficient.value = .68
-  window.outerAtmosphere.material.uniforms.power.value = 10
+  window.outerAtmosphere.material = window.createAtmosphereMaterial()
+  window.outerAtmosphere.material = new THREE.ShaderMaterial({
+    uniforms: {
+      coeficient: {
+        type: "f",
+        value: 0.68,
+      },
+      power: {
+        type: "f",
+        value: 10,
+      },
+      glowColor: {
+        type: "c",
+        value: new THREE.Color(0x0088ff),
+      },
+    },
+    side: THREE.BackSide,
+    vertexShader: atmosphereVertexShader,
+    fragmentShader: atmosphereFragmentShader,
+    transparent: true,
+    depthWrite: false,
+  })
   window.outerAtmosphere.mesh = new THREE.Mesh(
     window.earth.geometry.clone(),
     window.outerAtmosphere.material
