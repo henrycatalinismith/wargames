@@ -1,14 +1,16 @@
+const CopyPlugin = require("copy-webpack-plugin")
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 const path = require("path")
 
 const devServer = {}
-devServer.contentBase == __dirname
 devServer.compress = true
+devServer.contentBase = `${__dirname}/build`
 devServer.port = 8080
+devServer.writeToDisk = true
 
 const entry = {}
 entry.wargames = {}
-entry.wargames.import = "./index.js"
+entry.wargames.import = "./src/wargames.js"
 
 const experiments = {}
 experiments.topLevelAwait = true
@@ -22,11 +24,39 @@ module_.rules.push({
 })
 
 const output = {}
-output.filename = "[name].bundle.js"
-output.path = __dirname
+output.filename = "src/[name].js"
+output.path = `${__dirname}/build`
 
 const plugins = []
 // plugins.push(new BundleAnalyzerPlugin)
+
+plugins.push(new CopyPlugin({
+	patterns: [
+		{
+			from: "public/*",
+			flatten: true,
+		},
+		{
+			from: "images",
+			to: "images",
+		},
+		{
+			from: "vendor",
+			to: "vendor",
+			globOptions: {
+				ignore: ["threex.atmospherematerial.js"],
+			},
+		},
+		{
+			from: "node_modules/three/build/three.min.js",
+			to: "vendor/three.js",
+		},
+		{
+			from: "node_modules/three/examples/js/controls/OrbitControls.js",
+			to: "vendor/OrbitControls.js",
+		},
+	],
+}))
 
 const resolve = {}
 resolve.extensions = []

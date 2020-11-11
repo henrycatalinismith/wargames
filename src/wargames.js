@@ -1,6 +1,6 @@
-import createAtmosphereMaterial from "./threex.atmospherematerial"
 import { geoInterpolate } from "d3-geo"
-import launches from "./launches.json"
+import createAtmosphereMaterial from "../vendor/threex.atmospherematerial"
+import launches from "../missiles/00.json"
 import { fragmentShader, vertexShader } from "./shader.js"
 
 initRenderer()
@@ -63,8 +63,8 @@ function initSun() {
 }
 
 async function initEarth() {
-  const day = await loadTexture("day.jpg")
-  const night = await loadTexture("night.jpg")
+  const day = await loadTexture("images/day.jpg")
+  const night = await loadTexture("images/night.jpg")
 
   window.earth = {}
   window.earth.radius = 0.5
@@ -130,7 +130,7 @@ function initOuterAtmosphere() {
 }
 
 async function initSpace() {
-  const skyTexture = await loadTexture("sky.jpg")
+  const skyTexture = await loadTexture("images/space.jpg")
   window.space = {}
   window.space.geometry = new THREE.SphereGeometry(
     2,
@@ -175,7 +175,7 @@ function initMissiles() {
 
 function launchMissiles() {
   const missilesNeeded = window.missileLimit - window.missiles.length
-  const missilesAvailable = window.missileQueue.length
+  const missilesAvailable = window.missileQueue.length / 4
   const missilesToLaunch = Math.min(missilesNeeded, missilesAvailable)
 
   if (window.missileCooldownActive) {
@@ -199,7 +199,7 @@ function launchMissiles() {
 }
 
 function launchMissile() {
-  const launch = window.missileQueue.pop()
+  const [lat1, lon1, lat2, lon2] = window.missileQueue.splice(0, 4)
   const missile = {}
 
   missile.curveSegments = 128
@@ -208,7 +208,7 @@ function launchMissile() {
   missile.drawRangeDelta = 16
   missile.maxDrawRange = missile.drawRangeDelta * missile.curveSegments
 
-  missile.spline = spline(launch)
+  missile.spline = spline(lat1, lon1, lat2, lon2)
   missile.speed = 4 / missile.spline.getLength()
 
   missile.geometry = new THREE.TubeBufferGeometry(
@@ -291,7 +291,7 @@ function pos(lat, lng, radius) {
   )
 }
 
-function spline({ lat1, lon1, lat2, lon2 }) {
+function spline(lat1, lon1, lat2, lon2) {
   const start = pos(lat1, lon1, window.earth.radius)
   const end = pos(lat2, lon2, window.earth.radius)
   const distance = start.distanceTo(end)

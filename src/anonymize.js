@@ -2,10 +2,9 @@
 
 const linereader = require("line-reader")
 
-let first = null
-const launches = []
+let launches = []
 
-linereader.eachLine("./logs/launches.txt", (line) => {
+linereader.eachLine(process.stdin, (line, last) => {
 
   const [,
     date,
@@ -16,14 +15,6 @@ linereader.eachLine("./logs/launches.txt", (line) => {
     /^([^,]+),([^,]*),([^,]+),([^}]+\})/
   )
 
-  let time
-  if (!first) {
-    first = new Date(date)
-    time = 0
-  } else {
-    time = (new Date(date)) - first
-  }
-
   const { origin, target } = JSON.parse(payload)
   let [lat1, lon1] = origin
   let [lat2, lon2] = target
@@ -33,26 +24,23 @@ linereader.eachLine("./logs/launches.txt", (line) => {
   lon1 = Math.round(lon1)
   lon2 = Math.round(lon2)
 
-  const missile = {
-    // date,
-    time,
+  const missile = [
     lat1,
     lon1,
     lat2,
     lon2,
-  }
+  ]
 
-  launches.push(missile)
+  launches = launches.concat(missile)
 
-  if (launches.length >= 1000) {
+  if (last) {
     console.log(
       JSON.stringify(
         launches,
-        undefined,
-        2
+        // undefined,
+        // 2,
       )
     )
-    return false
   }
 })
 
