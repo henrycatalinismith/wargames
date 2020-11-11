@@ -4,6 +4,7 @@ import launches from "../missiles/00.json"
 import fragmentShader from "./fragment.glsl";
 import vertexShader from "./vertex.glsl";
 
+
 initRenderer()
 initScenery()
 initScene()

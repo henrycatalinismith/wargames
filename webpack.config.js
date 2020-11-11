@@ -1,6 +1,8 @@
+const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 const path = require("path")
+const TerserPlugin = require("terser-webpack-plugin")
 
 const devServer = {}
 devServer.compress = true
@@ -27,12 +29,25 @@ module_.rules.push({
 	use: ["webpack-glsl-loader"]
 })
 
+const optimization = {}
+optimization.minimizer = [new TerserPlugin({
+	extractComments: false,
+	parallel: true,
+	terserOptions: {
+		sourceMap: true,
+	},
+})]
+
 const output = {}
 output.filename = "src/[name].js"
 output.path = `${__dirname}/build`
 
 const plugins = []
 // plugins.push(new BundleAnalyzerPlugin)
+
+plugins.push(new CleanWebpackPlugin({
+	verbose: true,
+}))
 
 plugins.push(new CopyPlugin({
 	patterns: [
@@ -67,16 +82,14 @@ resolve.extensions = []
 resolve.extensions.push("*")
 resolve.extensions.push(".js")
 
-const watch = process.argv.includes("serve")
-
 module.exports = {
 	devServer,
   entry,
 	experiments,
 	module: module_,
+	optimization,
   output,
 	plugins,
   resolve,
-	watch,
 }
 
