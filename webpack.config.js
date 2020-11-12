@@ -1,5 +1,6 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 const path = require("path")
 const TerserPlugin = require("terser-webpack-plugin")
@@ -62,10 +63,6 @@ plugins.push(new CleanWebpackPlugin({
 plugins.push(new CopyPlugin({
   patterns: [
     {
-      from: "public/*",
-      flatten: true,
-    },
-    {
       from: "images",
       to: "images",
       globOptions: {
@@ -87,6 +84,12 @@ plugins.push(new CopyPlugin({
       to: "vendor/OrbitControls.js",
     },
   ],
+}))
+
+plugins.push(new HtmlWebpackPlugin({
+  filename: "index.html",
+  inject: false,
+  template: "index.ejs",
 }))
 
 const resolve = {}

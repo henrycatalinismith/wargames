@@ -17,6 +17,7 @@
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.3.0",
+    "html-webpack-plugin": "^4.5.0",
     "line-reader": "^0.4.0",
     "uglify-js": "^3.11.5",
     "webpack": "^5.4.0",

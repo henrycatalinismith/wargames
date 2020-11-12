@@ -82,13 +82,13 @@
       const progressBar = document.querySelector("path")
 
       function initDependencies() {
-        addDependency("images/day.jpg", 237143)
-        addDependency("images/night.jpg", 118078)
-        addDependency("images/space.jpg", 232952)
-        addDependency("missiles/000.json", 211082)
-        addDependency("vendor/three.js", 565892)
-        addDependency("vendor/OrbitControls.js", 17127)
-        addDependency("src/wargames.js", 79473)
+        addDependency("images/day.jpg", <%= require("fs").statSync("./build/images/day.jpg").size %>)
+        addDependency("images/night.jpg", <%= require("fs").statSync("./build/images/night.jpg").size %>)
+        addDependency("images/space.jpg", <%= require("fs").statSync("./build/images/space.jpg").size %>)
+        addDependency("missiles/000.json", <%= require("fs").statSync("./build/missiles/000.json").size %>)
+        addDependency("vendor/three.js", <%= require("fs").statSync("./build/vendor/three.js").size %>)
+        addDependency("vendor/OrbitControls.js", <%= require("fs").statSync("./build/vendor/OrbitControls.js").size %>)
+        addDependency("src/wargames.js", <%= require("fs").statSync("./build/src/wargames.js").size %>)
       }
 
       function injectDependencies() {
