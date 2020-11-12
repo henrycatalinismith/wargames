@@ -1,4 +1,0 @@
-source: .
-destination: _site
-plugins: ./_plugins
-exclude: [.git, Gemfile, Gemfile.lock, Rakefile, test, node_modules]
