@@ -73,109 +73,18 @@
     </svg>
 
     <script type="text/javascript">
-
-      function delay(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms))
+      window.dependencies = {
+        "images/day.jpg": <%= compilation.assets["images/day.jpg"].source().length %>,
+        "images/night.jpg": <%= compilation.assets["images/night.jpg"].source().length %>,
+        "images/space.jpg": <%= compilation.assets["images/space.jpg"].source().length %>,
+        "missiles/000.json": <%= compilation.assets["missiles/000.json"].source().length %>,
+        "vendor/three.js": <%= compilation.assets["vendor/three.js"].source().length %>,
+        "vendor/OrbitControls.js": <%= compilation.assets["vendor/OrbitControls.js"].source().length %>,
+        "src/wargames.js": <%= compilation.assets["src/wargames.js"].source().length %>,
       }
-
-      const dependencies = []
-      const progressBar = document.querySelector("path")
-
-      function initDependencies() {
-        addDependency("images/day.jpg", <%= require("fs").statSync("./build/images/day.jpg").size %>)
-        addDependency("images/night.jpg", <%= require("fs").statSync("./build/images/night.jpg").size %>)
-        addDependency("images/space.jpg", <%= require("fs").statSync("./build/images/space.jpg").size %>)
-        addDependency("missiles/000.json", <%= require("fs").statSync("./build/missiles/000.json").size %>)
-        addDependency("vendor/three.js", <%= require("fs").statSync("./build/vendor/three.js").size %>)
-        addDependency("vendor/OrbitControls.js", <%= require("fs").statSync("./build/vendor/OrbitControls.js").size %>)
-        addDependency("src/wargames.js", <%= require("fs").statSync("./build/src/wargames.js").size %>)
-      }
-
-      function injectDependencies() {
-        dependencies.forEach(async d => {
-          if (d.path.endsWith("js")) {
-            const script = document.createElement("script")
-            script.type = "text/javascript"
-            script.text = d.payload
-            document.body.appendChild(script)
-          } else if (d.path.endsWith("json")) {
-            window.missileQueue = JSON.parse(d.payload)
-          } else {
-            // window[d.path] = URL.createObjectURL(d.payload)
-            const arr = new Uint8Array(d.payload)
-            let raw = ''
-            for (i = 0, j = arr.length; i < j; i += 5000) {
-              raw += String.fromCharCode.apply(
-                null,
-                arr.subarray(i, i + 5000),
-              );
-            }
-            window[d.path] = `data:image/jpeg;base64,${btoa(raw)}`
-          }
-        })
-      }
-
-      async function loadDependencies() {
-        await Promise.all(dependencies.map(loadDependency))
-      }
-
-      function addDependency(path, size) {
-        dependencies.push({
-          path,
-          size,
-          loaded: 0,
-          payload: undefined,
-        })
-      }
-
-      function loadDependency(dependency) {
-        return new Promise((resolve, reject) => {
-          const request = new XMLHttpRequest
-          request.open("GET", dependency.path)
-          if (dependency.path.endsWith("jpg")) {
-            request.responseType = "arraybuffer"
-            // request.responseType = "blob"
-          }
-          request.onprogress = pe => {
-            dependency.loaded = pe.loaded
-            updateProgressBar()
-          }
-          request.onload = () => {
-            dependency.loaded = dependency.size
-            dependency.payload = request.response
-            updateProgressBar()
-            resolve()
-          }
-          request.send()
-        })
-      }
-
-      function updateProgressBar() {
-        const total = dependencies.reduce((a, c) => a + c.size, 0)
-        const loaded = dependencies.reduce((a, c) => a + c.loaded, 0)
-        const progress = Math.min(loaded / total, 1)
-        progressBar.style.strokeDashoffset = 128 - (
-          128 * progress
-        )
-      }
-
-      const style = getComputedStyle(document.body)
-      const loadingTransitionProperty = style.getPropertyValue(
-        "--loadingTransitionDuration"
-      )
-      const loadingTransitionDuration = parseInt(
-        loadingTransitionProperty,
-        10,
-      )
-
-      initDependencies()
       document.addEventListener("DOMContentLoaded", async () => {
-        await loadDependencies()
-        await delay(loadingTransitionDuration * 2)
-        injectDependencies()
-        document.body.dataset.mode = "play"
+        ;<%= compilation.assets["src/menu.js"].source() %>
       })
-
     </script>
   </body>
 </html>

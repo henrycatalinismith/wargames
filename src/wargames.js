@@ -4,25 +4,6 @@ import atmosphereVertexShader from "../atmosphere/vertex.glsl"
 import sunlightFragmentShader from "../sunlight/fragment.glsl"
 import sunlightVertexShader from "../sunlight/vertex.glsl"
 
-initRenderer()
-initScenery()
-initScene()
-initCamera()
-initControls()
-
-await initSpace()
-
-initSun()
-await initEarth()
-initInnerAtmosphere()
-initOuterAtmosphere()
-
-initConflict()
-initMissiles()
-// initAxes()
-
-animate()
-
 function initRenderer() {
   window.renderer = new THREE.WebGLRenderer
   window.renderer.setClearColor(0x000000, 1.0)
@@ -305,14 +286,22 @@ function initControls() {
   window.controls.minDistance = 1.5
 }
 
-function animate() {
+window.startAnimation = function() {
+  window.animationRequest = requestAnimationFrame(window.updateAnimation)
+}
+
+window.updateAnimation = function() {
   updateMissiles()
   scenery.rotation.y -= 0.001
   // sunDirection.x += 0.005
   window.controls.update()
   window.renderer.render(window.scene, window.camera)
 
-  requestAnimationFrame(animate)
+  window.animationRequest = requestAnimationFrame(window.updateAnimation)
+}
+
+window.pauseAnimation = function() {
+  cancelAnimationFrame(window.animationRequest)
 }
 
 function pos(lat, lng, radius) {
@@ -346,4 +335,23 @@ function loadTexture(filename) {
     loader.load(window[filename], resolve, undefined, reject)
   })
 }
+
+initRenderer()
+initScenery()
+initScene()
+initCamera()
+initControls()
+
+await initSpace()
+
+initSun()
+await initEarth()
+initInnerAtmosphere()
+initOuterAtmosphere()
+
+initConflict()
+initMissiles()
+// initAxes()
+
+startAnimation()
 

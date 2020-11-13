@@ -12,6 +12,8 @@ devServer.port = 8080
 devServer.writeToDisk = true
 
 const entry = {}
+entry.menu = {}
+entry.menu.import = "./src/menu.js"
 entry.wargames = {}
 entry.wargames.import = "./src/wargames.js"
 
@@ -31,13 +33,7 @@ module_.rules.push({
 })
 
 const optimization = {}
-optimization.minimizer = [new TerserPlugin({
-  extractComments: false,
-  parallel: true,
-  terserOptions: {
-    sourceMap: true,
-  },
-})]
+optimization.minimize = false
 
 const output = {}
 output.filename = "src/[name].js"
