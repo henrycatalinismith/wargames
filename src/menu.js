@@ -92,10 +92,16 @@ const loadingTransitionDuration = parseInt(
 )
 
 document.addEventListener("DOMContentLoaded", async () => {
-  initDependencies()
-  await loadDependencies()
-  await delay(loadingTransitionDuration * 2)
-  injectDependencies()
-  document.body.dataset.mode = "play"
+
+  const button = document.querySelector("button")
+  button.addEventListener("click", async () => {
+    document.body.dataset.mode = "load"
+    initDependencies()
+    await loadDependencies()
+    await delay(loadingTransitionDuration * 2)
+    injectDependencies()
+    document.body.dataset.mode = "play"
+  })
+
 })
 

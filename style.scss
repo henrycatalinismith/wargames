@@ -1,7 +1,12 @@
 :root {
+  --buttonDisplay: none;
   --canvasDisplay: none;
   --loadingTransitionDuration: 64ms;
   --svgDisplay: none;
+}
+
+body[data-mode="menu"] {
+  --buttonDisplay: flex;
 }
 
 body[data-mode="load"] {
@@ -26,6 +31,51 @@ body {
   margin: 0;
   width: 100vw;
 }
+
+button {
+  cursor: pointer;
+  display: var(--buttonDisplay);
+  height: 48px;
+  width: 108px;
+  align-items: center;
+  justify-content: center;
+  background-color: #29adff;
+  border: 2px solid #1d2b53;
+  box-shadow: 0 0 4px #c2c3c7;
+  border-radius: 4px;
+}
+
+button svg:nth-child(1) {
+  display: block;
+  width: 26px;
+  height: 32px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+button svg:nth-child(1) path:nth-child(1) {
+  stroke: #1d2b53;
+  stroke-width: 8;
+}
+
+button svg:nth-child(1) path:nth-child(2) {
+  fill: #00e436;
+  stroke: #008751;
+  stroke-width: 2;
+}
+
+button svg:nth-child(2) {
+  display: block;
+  width: 70px;
+  height: 24px;
+}
+
+button svg:nth-child(2) g {
+  stroke-linecap: square;
+  stroke-linejoin: round;
+}
+
+
 
 svg {
   display: var(--svgDisplay);
