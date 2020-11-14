@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "global thermonuclear war",
   "scripts": {
+    "build": "eleventy",
     "start": "eleventy --serve"
   },
   "dependencies": {
