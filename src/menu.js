@@ -2,8 +2,6 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-const progressBar = document.querySelector("path")
-
 function initDependencies() {
   window.dependencies = [
     "images/day.jpg",
@@ -78,6 +76,7 @@ function updateProgressBar() {
   const total = dependencies.length
   const loaded = dependencies.filter(d => d.loaded).length
   const progress = Math.min(loaded / total, 1)
+  const progressBar = document.querySelector("path")
   progressBar.style.strokeDashoffset = 128 - (
     128 * progress
   )
@@ -92,9 +91,11 @@ const loadingTransitionDuration = parseInt(
   10,
 )
 
-initDependencies()
-await loadDependencies()
-await delay(loadingTransitionDuration * 2)
-injectDependencies()
-document.body.dataset.mode = "play"
+document.addEventListener("DOMContentLoaded", async () => {
+  initDependencies()
+  await loadDependencies()
+  await delay(loadingTransitionDuration * 2)
+  injectDependencies()
+  document.body.dataset.mode = "play"
+})
 
