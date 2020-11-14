@@ -1,6 +1,7 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 const path = require("path")
 const TerserPlugin = require("terser-webpack-plugin")
@@ -16,6 +17,8 @@ entry.menu = {}
 entry.menu.import = "./src/menu.js"
 entry.wargames = {}
 entry.wargames.import = "./src/wargames.js"
+entry.stylesheet = {}
+entry.stylesheet.import = "./styles/wargames.scss"
 
 const experiments = {}
 experiments.topLevelAwait = true
@@ -30,6 +33,14 @@ module_.rules.push({
 module_.rules.push({
   test: /\.glsl$/,
   use: ["webpack-glsl-loader"]
+})
+module_.rules.push({
+  test: /\.scss$/,
+  use: [
+    MiniCssExtractPlugin.loader,
+    "css-loader",
+    "sass-loader",
+  ]
 })
 
 const optimization = {}
@@ -50,7 +61,6 @@ performance.assetFilter = function(assetFilename) {
 }
 
 const plugins = []
-// plugins.push(new BundleAnalyzerPlugin)
 
 plugins.push(new CleanWebpackPlugin({
   verbose: false,
@@ -87,6 +97,8 @@ plugins.push(new HtmlWebpackPlugin({
   inject: false,
   template: "index.ejs",
 }))
+
+plugins.push(new MiniCssExtractPlugin)
 
 const resolve = {}
 resolve.extensions = []

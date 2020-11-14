@@ -1,0 +1,45 @@
+:root {
+  --canvasDisplay: none;
+  --loadingTransitionDuration: 64ms;
+  --svgDisplay: none;
+}
+
+body[data-mode="load"] {
+  --svgDisplay: flex;
+}
+
+body[data-mode="play"] {
+  --canvasDisplay: flex;
+}
+
+html {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+body {
+  align-items: center;
+  background: red;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  margin: 0;
+  width: 100vw;
+}
+
+svg {
+  display: var(--svgDisplay);
+  width: 256px;
+}
+
+path {
+  transition-property: stroke-dashoffset;
+  transition-duration: var(--loadingTransitionDuration);
+  transition-timing-function: ease-in-out;
+}
+
+canvas {
+  display: var(--canvasDisplay);
+}
+
