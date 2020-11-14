@@ -5,12 +5,20 @@ function delay(ms) {
 const progressBar = document.querySelector("path")
 
 function initDependencies() {
-  window.dependencies = Object.entries(window.dependencies).map(([name, size]) => {
-    console.log(name, size)
+  window.dependencies = [
+    "images/day.jpg",
+    "images/night.jpg",
+    "images/space.jpg",
+    "missiles/000.json",
+    "vendor/d3-array.js",
+    "vendor/d3-geo.js",
+    "vendor/three.js",
+    "vendor/OrbitControls.js",
+    "src/wargames.js",
+  ].map(name => {
     return {
       name,
-      size,
-      loaded: 0,
+      loaded: false,
       payload: undefined,
     }
   })
@@ -56,12 +64,8 @@ function loadDependency(dependency) {
       request.responseType = "arraybuffer"
       // request.responseType = "blob"
     }
-    request.onprogress = pe => {
-      dependency.loaded = pe.loaded
-      updateProgressBar()
-    }
     request.onload = () => {
-      dependency.loaded = dependency.size
+      dependency.loaded = true
       dependency.payload = request.response
       updateProgressBar()
       resolve()
@@ -71,8 +75,8 @@ function loadDependency(dependency) {
 }
 
 function updateProgressBar() {
-  const total = dependencies.reduce((a, c) => a + c.size, 0)
-  const loaded = dependencies.reduce((a, c) => a + c.loaded, 0)
+  const total = dependencies.length
+  const loaded = dependencies.filter(d => d.loaded).length
   const progress = Math.min(loaded / total, 1)
   progressBar.style.strokeDashoffset = 128 - (
     128 * progress

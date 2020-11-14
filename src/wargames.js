@@ -1,8 +1,65 @@
-import { geoInterpolate } from "d3-geo"
-import atmosphereFragmentShader from "../atmosphere/fragment.glsl"
-import atmosphereVertexShader from "../atmosphere/vertex.glsl"
-import sunlightFragmentShader from "../sunlight/fragment.glsl"
-import sunlightVertexShader from "../sunlight/vertex.glsl"
+const atmosphereShader = {}
+const sunlightShader = {}
+
+atmosphereShader.fragment = `
+uniform vec3 glowColor;
+uniform float coeficient;
+uniform float power;
+
+varying vec3 vVertexNormal;
+varying vec3 vVertexWorldPosition;
+
+//varying vec4 vFragColor;
+
+void main(){
+  vec3 worldCameraToVertex = vVertexWorldPosition - cameraPosition;
+  vec3 viewCameraToVertex = (viewMatrix * vec4(worldCameraToVertex, 0.0)).xyz;
+  viewCameraToVertex = normalize(viewCameraToVertex);
+  float intensity = pow(coeficient + dot(vVertexNormal, viewCameraToVertex), power);
+  gl_FragColor = vec4(glowColor, intensity);
+}`,
+
+atmosphereShader.vertex = `
+varying vec3 vVertexWorldPosition;
+varying vec3 vVertexNormal;
+varying vec4 vFragColor;
+
+void main(){
+  vVertexNormal = normalize(normalMatrix * normal);
+  vVertexWorldPosition = (modelMatrix * vec4(position, 1.0)).xyz;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
+`
+
+sunlightShader.fragment = `
+uniform sampler2D dayTexture;
+uniform sampler2D nightTexture;
+uniform vec3 sunDirection;
+varying vec2 vUv;
+varying vec3 vNormal;
+
+void main(void) {
+  vec3 dayColor = texture2D(dayTexture, vUv).rgb;
+  vec3 nightColor = texture2D(nightTexture, vUv).rgb;
+  float cosineAngleSunToNormal = dot(normalize(vNormal), sunDirection);
+  cosineAngleSunToNormal = clamp(cosineAngleSunToNormal * 5.0, -1.0, 1.0);
+  float mixAmount = cosineAngleSunToNormal * 0.5 + 0.5;
+  vec3 color = mix(nightColor, dayColor, mixAmount);
+  gl_FragColor = vec4(color, 1.0);
+}
+`
+
+sunlightShader.vertex = `
+varying vec2 vUv;
+varying vec3 vNormal;
+
+void main() {
+  vUv = uv;
+  vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+  vNormal = normalMatrix * normal;
+  gl_Position = projectionMatrix * mvPosition;
+}
+`
 
 function initRenderer() {
   window.renderer = new THREE.WebGLRenderer
@@ -70,8 +127,8 @@ async function initEarth() {
         value: night,
       }
     },
-    vertexShader: sunlightVertexShader,
-    fragmentShader: sunlightFragmentShader,
+    vertexShader: sunlightShader.vertex,
+    fragmentShader: sunlightShader.fragment,
   })
 
   window.earth.mesh = new THREE.Mesh(
@@ -99,8 +156,8 @@ function initInnerAtmosphere() {
         value: new THREE.Color(0x88ffff),
       },
     },
-    vertexShader: atmosphereVertexShader,
-    fragmentShader: atmosphereFragmentShader,
+    vertexShader: atmosphereShader.vertex,
+    fragmentShader: atmosphereShader.fragment,
     transparent: true,
     depthWrite: false,
   })
@@ -130,8 +187,8 @@ function initOuterAtmosphere() {
       },
     },
     side: THREE.BackSide,
-    vertexShader: atmosphereVertexShader,
-    fragmentShader: atmosphereFragmentShader,
+    vertexShader: atmosphereShader.vertex,
+    fragmentShader: atmosphereShader.fragment,
     transparent: true,
     depthWrite: false,
   })
@@ -321,7 +378,7 @@ function spline(lat1, lon1, lat2, lon2) {
   const minAltitude = window.earth.radius * 0.3
   const maxAltitude = window.earth.radius * 0.5
   const altitude = Math.min(Math.max(distance, minAltitude), maxAltitude)
-  const interpolate = geoInterpolate([lon1, lat1], [lon2, lat2])
+  const interpolate = window.d3.geoInterpolate([lon1, lat1], [lon2, lat2])
   const midCoord1 = interpolate(0.25)
   const midCoord2 = interpolate(0.75)
   const mid1 = pos(midCoord1[1], midCoord1[0], window.earth.radius + altitude)
@@ -336,22 +393,23 @@ function loadTexture(filename) {
   })
 }
 
-initRenderer()
-initScenery()
-initScene()
-initCamera()
-initControls()
+(async function() {
+  initRenderer()
+  initScenery()
+  initScene()
+  initCamera()
+  initControls()
 
-await initSpace()
+  await initSpace()
 
-initSun()
-await initEarth()
-initInnerAtmosphere()
-initOuterAtmosphere()
+  initSun()
+  await initEarth()
+  initInnerAtmosphere()
+  initOuterAtmosphere()
 
-initConflict()
-initMissiles()
-// initAxes()
+  initConflict()
+  initMissiles()
+  // initAxes()
 
-startAnimation()
-
+  startAnimation()
+})()
