@@ -74,7 +74,7 @@ function updateProgressBar() {
   const total = dependencies.length
   const loaded = dependencies.filter(d => d.loaded).length
   const progress = Math.min(loaded / total, 1)
-  const progressBar = document.querySelector("path")
+  const progressBar = document.querySelector("[aria-label='loading'] path")
   progressBar.style.strokeDashoffset = 128 - (
     128 * progress
   )

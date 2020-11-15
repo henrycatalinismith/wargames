@@ -394,6 +394,8 @@ function loadTexture(filename) {
 }
 
 (async function() {
+  // console.log("loaded")
+  // return
   initRenderer()
   initScenery()
   initScene()
