@@ -4,26 +4,48 @@
   --bodyTemplateRows: 1fr;
   --playButtonDisplay: none;
   --canvasDisplay: none;
-  --thumbnailDisplay: none;
+  --imageDisplay: none;
   --loadingTransitionDuration: 64ms;
   --loadingBarDisplay: none;
-  --titleDisplay: none;
+  --nameDisplay: none;
+  --alternateNameAnimation: none;
+  --alternateNameDisplay: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    --alternateNameAnimation:
+      cursor 700ms step-end infinite,
+      typing 3000ms steps(24, end);
+  }
 }
 
 body[data-mode="menu"] {
   --bodyTemplateAreas:
-    ". ........... ."
-    ".    title    ."
-    ". ........... ."
-    ".  thumbnail  ."
-    ". ........... ."
-    ". play-button ."
-    ". ........... .";
+    ". ............. ."
+    ".      name     ."
+    ". ............. ."
+    ". alternateName ."
+    ". ............. ."
+    ".     image     ."
+    ". ............. ."
+    ".  play-button  ."
+    ". ............. .";
   --bodyTemplateColumns: 1rem auto 1rem;
-  --bodyTemplateRows: 1fr min-content 1rem 256px 1rem min-content 1fr;
-  --thumbnailDisplay: flex;
+  --bodyTemplateRows:
+    1fr
+    min-content
+    0.1rem
+    min-content
+    1rem
+    256px
+    1rem
+    min-content
+    1fr;
+  --imageDisplay: flex;
   --playButtonDisplay: flex;
-  --titleDisplay: flex;
+  --nameDisplay: flex;
+  --alternateNameDisplay: flex;
 }
 
 body[data-mode="load"] {
@@ -62,23 +84,56 @@ body {
   width: 100vw;
 }
 
-h1 {
+[itemprop="headline name"] {
+  background-image: url("data:image/svg+xml;utf8,#{
+    "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 32'>" +
+      "<path fill='white' d='M5.42 11.71l2.7 5.94 2.82-5.94h2.51l2.82 6.12 2.83-6.12h4.43L17.63 23h-2.66l-2.82-6.18L9.47 23h-2.7L.96 11.71h4.45zm22.62 5.61a2.7 2.7 0 00.72 1.85 2.57 2.57 0 004.2-.81c.15-.31.22-.64.22-1 0-.34-.07-.67-.22-.98a2.51 2.51 0 00-2.35-1.59 2.57 2.57 0 00-1.85.75c-.22.24-.4.5-.53.82-.13.29-.2.61-.2.96zm5.01-5.6h4V23h-4v-1.25c-.85 1.07-2 1.6-3.45 1.6-.82 0-1.58-.14-2.27-.44a5.6 5.6 0 01-3.01-3.19 6.7 6.7 0 010-4.68 5.36 5.36 0 012.95-3.19 5.33 5.33 0 012.28-.49c1.41 0 2.58.5 3.5 1.48V11.7zm6.72 0h3.98v1.84c.42-.67.94-1.19 1.56-1.54a4.13 4.13 0 012.16-.55h.33c.13 0 .27.02.44.05v3.8c-.53-.26-1.1-.4-1.72-.4-.92 0-1.62.28-2.1.84-.45.54-.67 1.34-.67 2.4V23h-3.98V11.71zm14.05 5.58a2.7 2.7 0 00.72 1.85 2.57 2.57 0 004.2-.81 2.42 2.42 0 000-2.03 2.57 2.57 0 00-2.35-1.56c-.35 0-.68.07-.99.22-.3.13-.58.32-.81.55-.24.22-.43.48-.58.8-.13.3-.2.63-.2.98zm8.93-5.59v10.52c0 .63-.04 1.2-.11 1.7s-.18.93-.3 1.31a5.23 5.23 0 01-2.18 2.44c-.54.31-1.14.56-1.81.73-.66.18-1.38.27-2.16.27a8.4 8.4 0 01-2.42-.33 6.58 6.58 0 01-1.93-.93 5.16 5.16 0 01-1.35-1.36 4.43 4.43 0 01-.7-1.7h4.49c.28.75.9 1.13 1.9 1.13.83 0 1.46-.24 1.9-.7a2.7 2.7 0 00.69-1.97v-1.07a4.88 4.88 0 01-1.67 1.14 5.41 5.41 0 01-1.9.33c-.8 0-1.54-.14-2.22-.42a5.35 5.35 0 01-1.76-1.16 5.47 5.47 0 01-1.54-4.12 6.4 6.4 0 011.63-4.33 5.45 5.45 0 014.1-1.78c1.33 0 2.45.5 3.36 1.5v-1.2h3.98zm6.64 5.61a2.7 2.7 0 00.73 1.85 2.57 2.57 0 004.2-.81c.15-.31.22-.64.22-1 0-.34-.07-.67-.22-.98a2.51 2.51 0 00-2.35-1.59 2.57 2.57 0 00-1.85.75c-.22.24-.4.5-.53.82-.13.29-.2.61-.2.96zm5.02-5.6h4V23h-4v-1.25c-.85 1.07-2 1.6-3.45 1.6-.83 0-1.58-.14-2.27-.44a5.6 5.6 0 01-3.02-3.19 6.7 6.7 0 010-4.68c.28-.74.67-1.38 1.17-1.92.5-.54 1.1-.97 1.78-1.27a5.33 5.33 0 012.3-.49c1.4 0 2.56.5 3.49 1.48V11.7zm6.71 0h3.98v1.38a5.15 5.15 0 013.66-1.56c1.67 0 2.94.7 3.82 2.11a4.27 4.27 0 013.83-2.13c.53 0 1.03.08 1.5.24.47.14.87.39 1.2.72.35.33.61.75.8 1.28.2.53.3 1.17.3 1.91V23h-3.97v-5.57a6.2 6.2 0 00-.14-1.4c-.07-.37-.19-.66-.35-.86a1.1 1.1 0 00-.53-.42c-.2-.07-.42-.11-.66-.11-1.27 0-1.9.93-1.9 2.8V23h-4v-5.57a7.4 7.4 0 00-.1-1.4 2.47 2.47 0 00-.33-.9.96.96 0 00-.53-.45 2.06 2.06 0 00-.77-.13c-.25 0-.48.04-.7.11-.22.08-.42.22-.6.44-.16.2-.29.5-.4.88-.08.37-.13.85-.13 1.45V23h-3.98V11.71zm30.08 4a2.28 2.28 0 00-2.31-1.85c-.61 0-1.12.16-1.52.48-.38.33-.62.78-.72 1.37h4.55zm-4.66 2.3c0 1.72.8 2.58 2.42 2.58.86 0 1.52-.35 1.96-1.05h3.84c-.77 2.58-2.72 3.87-5.83 3.87-.95 0-1.82-.14-2.61-.42a5.52 5.52 0 01-3.34-3.12 6.3 6.3 0 01-.47-2.47c0-.94.15-1.78.44-2.53a5.32 5.32 0 013.21-3.14c.78-.3 1.65-.44 2.62-.44.95 0 1.81.14 2.58.44a5.1 5.1 0 013.14 3.23c.28.78.42 1.66.42 2.64v.42h-8.38zm18.13-3.4a4.65 4.65 0 00-2.15-.57c-.37 0-.67.07-.9.22a.68.68 0 00-.33.59c0 .13.01.24.04.33.05.07.13.15.24.22.14.07.32.14.55.2l.97.22c1.1.22 1.92.61 2.47 1.19.54.55.8 1.27.8 2.15a3.93 3.93 0 01-1.49 3.13 5.2 5.2 0 01-1.7.81c-.65.2-1.38.3-2.17.3a8.85 8.85 0 01-4.5-1.29l1.44-2.82a5.67 5.67 0 003.17 1.15c.37 0 .67-.08.9-.24.24-.17.35-.37.35-.62a.8.8 0 00-.06-.35.47.47 0 00-.22-.27 1.5 1.5 0 00-.53-.22 7.6 7.6 0 00-.88-.22 5.25 5.25 0 01-2.6-1.1 2.81 2.81 0 01-.72-2.04c0-.63.12-1.2.35-1.7.24-.5.57-.94 1.01-1.3.44-.35.97-.62 1.59-.8a7.2 7.2 0 012.09-.3c1.24 0 2.45.25 3.63.73l-1.34 2.6z' />" +
+    "</svg>"
+  }");
+  background-size: 100% 100%;
   color: white;
-  display: var(--titleDisplay);
+  display: var(--nameDisplay);
   font-family: Futura, sans-serif;
+  height: min(12.5vw, 64px);
   justify-content: center;
-  grid-area: title;
+  grid-area: name;
   margin: 0;
   text-align: center;
+  text-indent: -200vw;
 }
 
-picture {
-  display: var(--thumbnailDisplay);
-  grid-area: thumbnail;
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes cursor {
+  from, to { border-color: transparent }
+  50% { border-color: gainsboro; }
+}
+
+[itemprop="alternativeHeadline alternateName"] {
+  animation: var(--alternateNameAnimation);
+  border-right: 0.6em solid gainsboro;
+  color: gainsboro;
+  display: var(--alternateNameDisplay);
+  font-family: monospace;
+  font-size: 1.4rem;
+  grid-area: alternateName;
+  margin: 0 auto;
+  overflow: hidden;
+  padding-right: 0.2em;
+  white-space: nowrap;
+}
+
+[itemprop="image"] {
+  display: var(--imageDisplay);
+  grid-area: image;
+  justify-self: center;
   overflow: hidden;
   position: relative;
-  height: 16rem;
-  width: 16rem;
+  height: 256px;
+  width: 256px;
 }
 
 picture img {

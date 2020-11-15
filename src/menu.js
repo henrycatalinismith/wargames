@@ -102,8 +102,21 @@ async function loadDemo() {
   button.removeEventListener("click", loadDemo)
 }
 
+function arrayBufferToBase64(buffer) {
+  let binary = ""
+  const bytes = [].slice.call(new Uint8Array(buffer))
+  bytes.forEach((b) => binary += String.fromCharCode(b))
+  return window.btoa(binary)
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("button")
   button.addEventListener("click", loadDemo)
+
+  const image = document.querySelector("[itemprop='image']")
+  fetch("/images/square.png")
+    .then(response => response.arrayBuffer())
+    .then(buffer => image.src = `data:image/jpeg;base64,${arrayBufferToBase64(buffer)}`)
+
 })
 

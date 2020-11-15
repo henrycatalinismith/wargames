@@ -1,6 +1,14 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+<html
+  lang="en"
+  dir="ltr"
+  itemscope
+  itemtype="http://schema.org/WebApplication">
   <head>
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1"
+    />
     <title>
       Wargames
     </title>
@@ -10,8 +18,9 @@
     </style>
   </head>
   <body data-mode="menu">
-    {% include "title.njk" %}
-    {% include "thumbnail.njk" %}
+    {% include "name.njk" %}
+    {% include "alternateName.njk" %}
+    {% include "image.njk" %}
     {% include "play-button.njk" %}
     {% include "loading-bar.njk" %}
     {% set js %}{% include "src/menu.js" %}{% endset %}
