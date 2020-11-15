@@ -11,6 +11,7 @@
   --nameDisplay: none;
   --alternateNameAnimation: none;
   --alternateNameDisplay: none;
+  --descriptionDisplay: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -52,6 +53,7 @@ body[data-mode="menu"] {
   --playButtonDisplay: flex;
   --nameDisplay: flex;
   --alternateNameDisplay: flex;
+  --descriptionDisplay: grid;
 }
 
 body[data-mode="load"] {
@@ -190,7 +192,7 @@ body {
 
 [itemprop="description"] {
   color: white;
-  display: grid;
+  display: var(--descriptionDisplay);;
   grid-auto-rows: min-content;
   font-family: Menlo, monospace;
   font-size: 1.4rem;
