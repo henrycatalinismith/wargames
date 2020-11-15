@@ -204,3 +204,9 @@ canvas {
   grid-area: canvas;
 }
 
+[itemprop="applicationCategory"],
+[itemprop="creator"],
+[itemprop="operatingSystem"] {
+  display: none;
+}
+

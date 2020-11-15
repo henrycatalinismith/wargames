@@ -23,6 +23,9 @@
     {% include "image.njk" %}
     {% include "play-button.njk" %}
     {% include "loading-bar.njk" %}
+    {% include "creator.njk" %}
+    {% include "applicationCategory.njk" %}
+    {% include "operatingSystem.njk" %}
     {% set js %}{% include "src/menu.js" %}{% endset %}
     <script type="text/javascript">
       {{ js | terser | safe }}

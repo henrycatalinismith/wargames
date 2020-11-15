@@ -117,6 +117,5 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch("/images/square.png")
     .then(response => response.arrayBuffer())
     .then(buffer => image.src = `data:image/jpeg;base64,${arrayBufferToBase64(buffer)}`)
-
 })
 
