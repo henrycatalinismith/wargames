@@ -10,6 +10,8 @@
     </style>
   </head>
   <body data-mode="menu">
+    {% include "title.njk" %}
+    {% include "thumbnail.njk" %}
     {% include "play-button.njk" %}
     {% include "loading-bar.njk" %}
     {% set js %}{% include "src/menu.js" %}{% endset %}

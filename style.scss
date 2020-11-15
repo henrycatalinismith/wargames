@@ -4,18 +4,26 @@
   --bodyTemplateRows: 1fr;
   --playButtonDisplay: none;
   --canvasDisplay: none;
+  --thumbnailDisplay: none;
   --loadingTransitionDuration: 64ms;
   --loadingBarDisplay: none;
+  --titleDisplay: none;
 }
 
 body[data-mode="menu"] {
   --bodyTemplateAreas:
     ". ........... ."
+    ".    title    ."
+    ". ........... ."
+    ".  thumbnail  ."
+    ". ........... ."
     ". play-button ."
     ". ........... .";
   --bodyTemplateColumns: 1rem auto 1rem;
-  --bodyTemplateRows: 1fr min-content 1fr;
+  --bodyTemplateRows: 1fr min-content 1rem 256px 1rem min-content 1fr;
+  --thumbnailDisplay: flex;
   --playButtonDisplay: flex;
+  --titleDisplay: flex;
 }
 
 body[data-mode="load"] {
@@ -42,6 +50,7 @@ html {
 
 body {
   align-items: center;
+  background-color: black;
   display: grid;
   flex-direction: column;
   grid-template-areas: var(--bodyTemplateAreas);
@@ -51,6 +60,31 @@ body {
   justify-content: center;
   margin: 0;
   width: 100vw;
+}
+
+h1 {
+  color: white;
+  display: var(--titleDisplay);
+  font-family: Futura, sans-serif;
+  justify-content: center;
+  grid-area: title;
+  margin: 0;
+  text-align: center;
+}
+
+picture {
+  display: var(--thumbnailDisplay);
+  grid-area: thumbnail;
+  overflow: hidden;
+  position: relative;
+  height: 16rem;
+  width: 16rem;
+}
+
+picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 [aria-label="play"] {
@@ -64,6 +98,7 @@ body {
   height: 48px;
   grid-area: play-button;
   justify-content: center;
+  justify-self: center;
   width: 108px;
 }
 
