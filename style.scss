@@ -1,4 +1,5 @@
 :root {
+  --bodyOverflow: hidden;
   --bodyTemplateAreas: "";
   --bodyTemplateColumns: 1fr;
   --bodyTemplateRows: 1fr;
@@ -21,19 +22,22 @@
 }
 
 body[data-mode="menu"] {
+  --bodyOverflow: scroll;
   --bodyTemplateAreas:
-    ". ............. ."
-    ".      name     ."
-    ". ............. ."
-    ". alternateName ."
-    ". ............. ."
-    ".     image     ."
-    ". ............. ."
-    ".  play-button  ."
-    ". ............. .";
-  --bodyTemplateColumns: 1rem auto 1rem;
+    ". ........... ............. ........... ."
+    ". ...........      name     ........... ."
+    ". ........... ............. ........... ."
+    ". ........... alternateName ........... ."
+    ". ........... ............. ........... ."
+    ". ...........     image     ........... ."
+    ". ........... ............. ........... ."
+    ". ...........  play-button  ........... ."
+    ". ........... ............. ........... ."
+    ". description description   description ."
+    ". ........... ............. ........... .";
+  --bodyTemplateColumns: 1fr 1fr 256px 1fr 1fr;
   --bodyTemplateRows:
-    1fr
+    2rem
     min-content
     0.1rem
     min-content
@@ -41,7 +45,9 @@ body[data-mode="menu"] {
     256px
     1rem
     min-content
-    1fr;
+    4rem
+    min-content
+    2rem;
   --imageDisplay: flex;
   --playButtonDisplay: flex;
   --nameDisplay: flex;
@@ -81,6 +87,7 @@ body {
   height: 100vh;
   justify-content: center;
   margin: 0;
+  overflow-y: var(--bodyOverflow);
   width: 100vw;
 }
 
@@ -136,12 +143,6 @@ body {
   width: 256px;
 }
 
-picture img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 [aria-label="play"] {
   align-items: center;
   background-color: #29adff;
@@ -185,6 +186,32 @@ picture img {
 [aria-label="play"] svg:nth-child(2) g {
   stroke-linecap: square;
   stroke-linejoin: round;
+}
+
+[itemprop="description"] {
+  color: white;
+  display: grid;
+  grid-auto-rows: min-content;
+  font-family: Menlo, monospace;
+  font-size: 1.4rem;
+  grid-area: description;
+  line-height: 1.4em;
+  row-gap: 2rem;
+  padding-bottom: 2rem;
+}
+
+[itemprop="description"] p {
+  margin: 0;
+  text-shadow:
+    1px 1px orangered,
+    -1px 1px darkgreen,
+    -1px -1px darkcyan
+}
+
+[itemprop="description"] p:nth-child(1) {
+}
+
+[itemprop="description"] p:nth-child(2) {
 }
 
 [aria-label="loading"] {
