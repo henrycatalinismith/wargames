@@ -29,7 +29,6 @@ function injectDependencies() {
       const script = document.createElement("script")
       script.type = "text/javascript"
       script.text = d.payload
-      console.log(d.name)
       document.body.appendChild(script)
     } else if (d.name.endsWith("json")) {
       window.missileQueue = JSON.parse(d.payload)
@@ -57,7 +56,6 @@ function loadDependency(dependency) {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest
     request.open("GET", dependency.name)
-    console.log(dependency)
     if (dependency.name.endsWith("jpg")) {
       request.responseType = "arraybuffer"
       // request.responseType = "blob"
@@ -82,26 +80,30 @@ function updateProgressBar() {
   )
 }
 
-const style = getComputedStyle(document.body)
-const loadingTransitionProperty = style.getPropertyValue(
-  "--loadingTransitionDuration"
-)
-const loadingTransitionDuration = parseInt(
-  loadingTransitionProperty,
-  10,
-)
-
-document.addEventListener("DOMContentLoaded", async () => {
+async function loadDemo() {
+  const style = getComputedStyle(document.body)
+  const loadingTransitionProperty = style.getPropertyValue(
+    "--loadingTransitionDuration"
+  )
+  const loadingTransitionDuration = parseInt(
+    loadingTransitionProperty,
+    10,
+  )
 
   const button = document.querySelector("button")
-  button.addEventListener("click", async () => {
-    document.body.dataset.mode = "load"
-    initDependencies()
-    await loadDependencies()
-    await delay(loadingTransitionDuration * 2)
-    injectDependencies()
-    document.body.dataset.mode = "play"
-  })
+  button.addEventListener("click", loadDemo)
 
+  document.body.dataset.mode = "load"
+  initDependencies()
+  await loadDependencies()
+  await delay(loadingTransitionDuration * 2)
+  injectDependencies()
+  document.body.dataset.mode = "play"
+  button.removeEventListener("click", loadDemo)
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector("button")
+  button.addEventListener("click", loadDemo)
 })
 

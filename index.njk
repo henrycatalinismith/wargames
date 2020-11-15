@@ -57,8 +57,9 @@
       />
     </svg>
 
+    {% set js %}{% include "src/menu.js" %}{% endset %}
     <script type="text/javascript">
-      {% include "src/menu.js" %}
+      {{ js | terser | safe }}
     </script>
   </body>
 </html>
