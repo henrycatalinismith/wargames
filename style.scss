@@ -3,6 +3,7 @@
   --bodyTemplateAreas: "";
   --bodyTemplateColumns: 1fr;
   --bodyTemplateRows: 1fr;
+
   --playButtonBackground: #29adff;
   --playButtonBorder: 2px solid #1d2b53;
   --playButtonBorderRadius: 4px;
@@ -10,13 +11,17 @@
   --playButtonDisplay: none;
   --playButtonHeight: 48px;
   --playButtonWidth: 108px;
+
   --canvasDisplay: none;
   --imageDisplay: none;
-  --loadingTransitionDuration: 64ms;
-  --loadingBarDisplay: none;
-  --loadingBarWidth: 256px;
-  --loadingBarHeight: var(--playButtonHeight);
-  --loadingBarTransform: scaleX(1);
+
+  --progressDisplay: none;
+  --progressWidth: 256px;
+  --progressHeight: var(--playButtonHeight);
+  --progressResizeDuration: 128ms;
+  --progressTransitionDuration: 64ms;
+  --progressTransform: scaleX(1);
+
   --nameDisplay: none;
   --alternateNameAnimation: none;
   --alternateNameDisplay: none;
@@ -39,7 +44,7 @@
       cursor 700ms step-end infinite,
       typing 3000ms steps(24, end);
     --descriptionTransition: all 128ms ease-in-out;
-    --loadingBarTransform: scaleX(0.55);
+    --progressTransform: scaleX(0.55);
   }
 }
 
@@ -86,7 +91,7 @@ body[data-mode="load"] {
     ". ........... ............. ........... ."
     ". ...........     image     ........... ."
     ". ........... ............. ........... ."
-    ". ...........  loading-bar  ........... ."
+    ". ...........    progress   ........... ."
     ". ........... ............. ........... ."
     ". description description   description ."
     ". ........... ............. ........... .";
@@ -106,7 +111,7 @@ body[data-mode="load"] {
   --imageDisplay: flex;
   --nameDisplay: flex;
   --alternateNameDisplay: flex;
-  --loadingBarDisplay: flex;
+  --progressDisplay: flex;
   --descriptionDisplay: grid;
   --descriptionOpacity: 0;
   --descriptionTransform: scaleY(0);
@@ -273,7 +278,7 @@ body {
 @keyframes resize {
   from {
     background-color: var(--playButtonBackground);
-    transform: var(--loadingBarTransform);
+    transform: var(--progressTransform);
   }
 
   to {
@@ -285,25 +290,25 @@ body {
 [aria-label="loading"] {
   animation-name: resize;
   background-color: var(--playButtonBackground);
-  display: var(--loadingBarDisplay);
-  height: var(--loadingBarHeight);
-  width: var(--loadingBarWidth);
-  transform: var(--loadingBarTransform);
+  display: var(--progressDisplay);
+  height: var(--progressHeight);
+  width: var(--progressWidth);
+  transform: var(--progressTransform);
 
   border: var(--playButtonBorder);
   box-shadow: var(--playButtonBoxShadow);
 
-  animation-duration: 1028ms;
+  animation-duration: var(--progressResizeDuration);
   animation-fill-mode: forwards;
   animation-timing-function: ease-in-out;
-  grid-area: loading-bar;
+  grid-area: progress;
   justify-self: center;
   transform-origin: center;
 }
 
 [aria-label="loading"] path {
   transition-property: stroke-dashoffset;
-  transition-duration: var(--loadingTransitionDuration);
+  transition-duration: var(--progressTransitionDuration);
   transition-timing-function: ease-in-out;
 
   stroke: indianred;
