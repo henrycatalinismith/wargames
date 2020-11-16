@@ -4,6 +4,8 @@
   --bodyTemplateColumns: 1fr;
   --bodyTemplateRows: 1fr;
 
+  --headerPosition: static;
+
   --playButtonBackground: #29adff;
   --playButtonBorder: 2px solid #1d2b53;
   --playButtonBorderRadius: 4px;
@@ -23,8 +25,11 @@
   --progressTransform: scaleX(1);
 
   --nameDisplay: none;
+
   --alternateNameAnimation: none;
   --alternateNameDisplay: none;
+  --alternateNameWidth: 100%;
+
   --descriptionDisplay: none;
   --descriptionFontSize: 1rem;
   --descriptionOpacity: 1;
@@ -41,8 +46,9 @@
 @media (prefers-reduced-motion: no-preference) {
   :root {
     --alternateNameAnimation:
-      cursor 700ms step-end infinite,
-      typing 3000ms steps(24, end);
+      cursor 700ms step-end 0ms infinite,
+      typing 3000ms steps(24, end) 1400ms 1 forwards;
+    --alternateNameWidth: 0%;
     --descriptionTransition: all 128ms ease-in-out;
     --progressTransform: scaleX(0.55);
   }
@@ -51,30 +57,22 @@
 body[data-mode="menu"] {
   --bodyOverflow: scroll;
   --bodyTemplateAreas:
-    ". ........... ............. ........... ."
-    ". ...........      name     ........... ."
-    ". ........... ............. ........... ."
-    ". ........... alternateName ........... ."
-    ". ........... ............. ........... ."
-    ". ...........     image     ........... ."
-    ". ........... ............. ........... ."
-    ". ...........  play-button  ........... ."
-    ". ........... ............. ........... ."
-    ". description description   description ."
-    ". ........... ............. ........... .";
-  --bodyTemplateColumns: 1fr 1fr 256px 1fr 1fr;
+    ". ............. ."
+    ".     header    ."
+    ". ............. ."
+    ".     image     ."
+    ". ............. ."
+    ".  play-button  ."
+    ". ............. .";
+  --bodyTemplateColumns: 1fr min-content 1fr;
   --bodyTemplateRows:
-    2rem
-    min-content
-    0.1rem
-    min-content
+    1fr
+    96px
     1rem
     256px
     1rem
     min-content
-    4rem
-    min-content
-    2rem;
+    1fr;
   --imageDisplay: flex;
   --playButtonDisplay: flex;
   --nameDisplay: flex;
@@ -84,30 +82,22 @@ body[data-mode="menu"] {
 
 body[data-mode="load"] {
   --bodyTemplateAreas:
-    ". ........... ............. ........... ."
-    ". ...........      name     ........... ."
-    ". ........... ............. ........... ."
-    ". ........... alternateName ........... ."
-    ". ........... ............. ........... ."
-    ". ...........     image     ........... ."
-    ". ........... ............. ........... ."
-    ". ...........    progress   ........... ."
-    ". ........... ............. ........... ."
-    ". description description   description ."
-    ". ........... ............. ........... .";
-  --bodyTemplateColumns: 1fr 1fr 256px 1fr 1fr;
+    ". ............. ."
+    ".     header    ."
+    ". ............. ."
+    ".     image     ."
+    ". ............. ."
+    ".    progress   ."
+    ". ............. .";
+  --bodyTemplateColumns: 1fr min-content 1fr;
   --bodyTemplateRows:
-    2rem
-    min-content
-    0.1rem
-    min-content
+    1fr
+    96px
     1rem
     256px
     1rem
     min-content
-    4rem
-    min-content
-    2rem;
+    1fr;
   --imageDisplay: flex;
   --nameDisplay: flex;
   --alternateNameDisplay: flex;
@@ -121,6 +111,9 @@ body[data-mode="play"] {
   --bodyTemplateAreas: "canvas";
   --bodyTemplateColumns: 1fr;
   --bodyTemplateRows: 1fr;
+  --headerPosition: absolute;
+  --nameDisplay: flex;
+  --alternateNameDisplay: flex;
   --canvasDisplay: flex;
 }
 
@@ -146,6 +139,35 @@ body {
   margin: 0;
   overflow-y: var(--bodyOverflow);
   width: 100vw;
+}
+
+@keyframes toBottom {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  49% {
+    opacity: 0;
+    transform: translate(-50%, 128px);
+  }
+
+  50% {
+    opacity: 0;
+    transform: translate(-50%, 256px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 512px);
+  }
+}
+
+header {
+  grid-area: header;
+  left: calc(50% - 128px);
+  bottom: 2rem;
+  position: var(--headerPosition);
 }
 
 [itemprop="headline name"] {
@@ -185,8 +207,9 @@ body {
   font-size: 1.4rem;
   grid-area: alternateName;
   margin: 0 auto;
+  padding: 0;
   overflow: hidden;
-  padding-right: 0.2em;
+  width: var(--alternateNameWidth);
   white-space: nowrap;
 }
 
@@ -247,7 +270,7 @@ body {
 
 [itemprop="description"] {
   color: white;
-  display: var(--descriptionDisplay);
+  display: none;
   grid-auto-rows: min-content;
   font-family: Menlo, monospace;
   font-size: var(--descriptionFontSize);
