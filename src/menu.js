@@ -94,9 +94,11 @@ async function loadDemo() {
   button.addEventListener("click", loadDemo)
 
   document.body.dataset.mode = "load"
+
+  await delay(512)
   initDependencies()
   await loadDependencies()
-  await delay(loadingTransitionDuration * 2)
+  await delay(512)
   injectDependencies()
   document.body.dataset.mode = "play"
   button.removeEventListener("click", loadDemo)

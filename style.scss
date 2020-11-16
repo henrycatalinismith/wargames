@@ -3,15 +3,34 @@
   --bodyTemplateAreas: "";
   --bodyTemplateColumns: 1fr;
   --bodyTemplateRows: 1fr;
+  --playButtonBackground: #29adff;
+  --playButtonBorder: 2px solid #1d2b53;
+  --playButtonBorderRadius: 4px;
+  --playButtonBoxShadow: 0 0 4px #c2c3c7;
   --playButtonDisplay: none;
+  --playButtonHeight: 48px;
+  --playButtonWidth: 108px;
   --canvasDisplay: none;
   --imageDisplay: none;
   --loadingTransitionDuration: 64ms;
   --loadingBarDisplay: none;
+  --loadingBarWidth: 256px;
+  --loadingBarHeight: var(--playButtonHeight);
+  --loadingBarTransform: scaleX(1);
   --nameDisplay: none;
   --alternateNameAnimation: none;
   --alternateNameDisplay: none;
   --descriptionDisplay: none;
+  --descriptionFontSize: 1rem;
+  --descriptionOpacity: 1;
+  --descriptionTransform: unset;
+  --descriptionTransition: none;
+}
+
+@media (min-width: 32rem) {
+  :root {
+    --descriptionFontSize: 1.4rem;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -19,6 +38,8 @@
     --alternateNameAnimation:
       cursor 700ms step-end infinite,
       typing 3000ms steps(24, end);
+    --descriptionTransition: all 128ms ease-in-out;
+    --loadingBarTransform: scaleX(0.55);
   }
 }
 
@@ -58,12 +79,37 @@ body[data-mode="menu"] {
 
 body[data-mode="load"] {
   --bodyTemplateAreas:
-    ". ........... ."
-    ". loading-bar ."
-    ". ........... .";
-  --bodyTemplateColumns: 1rem auto 1rem;
-  --bodyTemplateRows: 1fr min-content 1fr;
+    ". ........... ............. ........... ."
+    ". ...........      name     ........... ."
+    ". ........... ............. ........... ."
+    ". ........... alternateName ........... ."
+    ". ........... ............. ........... ."
+    ". ...........     image     ........... ."
+    ". ........... ............. ........... ."
+    ". ...........  loading-bar  ........... ."
+    ". ........... ............. ........... ."
+    ". description description   description ."
+    ". ........... ............. ........... .";
+  --bodyTemplateColumns: 1fr 1fr 256px 1fr 1fr;
+  --bodyTemplateRows:
+    2rem
+    min-content
+    0.1rem
+    min-content
+    1rem
+    256px
+    1rem
+    min-content
+    4rem
+    min-content
+    2rem;
+  --imageDisplay: flex;
+  --nameDisplay: flex;
+  --alternateNameDisplay: flex;
   --loadingBarDisplay: flex;
+  --descriptionDisplay: grid;
+  --descriptionOpacity: 0;
+  --descriptionTransform: scaleY(0);
 }
 
 body[data-mode="play"] {
@@ -76,6 +122,10 @@ body[data-mode="play"] {
 html {
   box-sizing: border-box;
   overflow: hidden;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 body {
@@ -147,17 +197,17 @@ body {
 
 [aria-label="play"] {
   align-items: center;
-  background-color: #29adff;
-  border-radius: 4px;
-  border: 2px solid #1d2b53;
-  box-shadow: 0 0 4px #c2c3c7;
+  background-color: var(--playButtonBackground);
+  border-radius: var(--playButtonBorderRadius);
+  border: var(--playButtonBorder);
+  box-shadow: var(--playButtonBoxShadow);
   cursor: pointer;
   display: var(--playButtonDisplay);
-  height: 48px;
+  height: var(--playButtonHeight);
   grid-area: play-button;
   justify-content: center;
   justify-self: center;
-  width: 108px;
+  width: var(--playButtonWidth);
 }
 
 [aria-label="play"] svg:nth-child(1) {
@@ -192,14 +242,18 @@ body {
 
 [itemprop="description"] {
   color: white;
-  display: var(--descriptionDisplay);;
+  display: var(--descriptionDisplay);
   grid-auto-rows: min-content;
   font-family: Menlo, monospace;
-  font-size: 1.4rem;
+  font-size: var(--descriptionFontSize);
   grid-area: description;
   line-height: 1.4em;
+  opacity: var(--descriptionOpacity);
   row-gap: 2rem;
   padding-bottom: 2rem;
+  transform: var(--descriptionTransform);
+  transform-origin: top;
+  transition: var(--descriptionTransition);
 }
 
 [itemprop="description"] p {
@@ -216,16 +270,46 @@ body {
 [itemprop="description"] p:nth-child(2) {
 }
 
+@keyframes resize {
+  from {
+    background-color: var(--playButtonBackground);
+    transform: var(--loadingBarTransform);
+  }
+
+  to {
+    background-color: transparent;
+    transform: scaleX(1);
+  }
+}
+
 [aria-label="loading"] {
+  animation-name: resize;
+  background-color: var(--playButtonBackground);
   display: var(--loadingBarDisplay);
+  height: var(--loadingBarHeight);
+  width: var(--loadingBarWidth);
+  transform: var(--loadingBarTransform);
+
+  border: var(--playButtonBorder);
+  box-shadow: var(--playButtonBoxShadow);
+
+  animation-duration: 1028ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in-out;
   grid-area: loading-bar;
-  width: 256px;
+  justify-self: center;
+  transform-origin: center;
 }
 
 [aria-label="loading"] path {
   transition-property: stroke-dashoffset;
   transition-duration: var(--loadingTransitionDuration);
   transition-timing-function: ease-in-out;
+
+  stroke: indianred;
+  stroke-width: 32;
+  stroke-dasharray: 256;
+  stroke-dashoffset: 256;
 }
 
 canvas {
