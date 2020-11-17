@@ -90,10 +90,23 @@ async function loadDemo() {
     10,
   )
 
-  const button = document.querySelector("button")
-  button.addEventListener("click", loadDemo)
+  const playButton = document.querySelector("button")
+  playButton.addEventListener("click", loadDemo)
 
   document.body.dataset.mode = "load"
+
+  const progressBar = document
+    .querySelector("[aria-label='loading']")
+    .getBoundingClientRect()
+  document.documentElement.style.setProperty(
+    "--pauseScaleX",
+    `${progressBar.width / 32}`
+  )
+  document.documentElement.style.setProperty(
+    "--pauseScaleY",
+    `${progressBar.height / 32}`
+  )
+
 
   await delay(512)
   initDependencies()
@@ -114,6 +127,18 @@ function arrayBufferToBase64(buffer) {
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("button")
   button.addEventListener("click", loadDemo)
+
+  const playButton = document
+    .querySelector("[aria-label='play']")
+    .getBoundingClientRect()
+  document.documentElement.style.setProperty(
+    "--pauseX",
+    `${0 - playButton.left - (playButton.width / 2) + 32}px`
+  )
+  document.documentElement.style.setProperty(
+    "--pauseY",
+    `${0 - playButton.top + 16}px`
+  )
 
   const header = document
     .querySelector("header")

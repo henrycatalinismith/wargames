@@ -24,6 +24,7 @@
   --activityTop: calc(
     50% + (var(--imageHeight) / 2)
   );
+  --activityTransform: none;
 
   --playButtonBackground: #29adff;
   --playButtonBorder: 2px solid #1d2b53;
@@ -32,6 +33,8 @@
   --playButtonDisplay: none;
   --playButtonHeight: 48px;
   --playButtonWidth: 108px;
+
+  --pauseButtonDisplay: none;
 
   --canvasDisplay: none;
 
@@ -117,6 +120,12 @@ body[data-mode="play"] {
   --nameDisplay: flex;
   --alternateNameDisplay: flex;
   --canvasDisplay: flex;
+
+  --activityHeight: 2rem;
+  --activityWidth: 2rem;
+  --activityTransform: translate(-128px, -128px);
+
+  --pauseButtonDisplay: flex;
 }
 
 html {
@@ -338,5 +347,56 @@ canvas {
 [itemprop="creator"],
 [itemprop="operatingSystem"] {
   display: none;
+}
+
+@keyframes movePause {
+  0% {
+    transform:
+      scale(
+        var(--pauseScaleX),
+        var(--pauseScaleY)
+      )
+      translate(0, 0);
+  }
+
+  10% {
+    transform:
+      scale(1, 1)
+      translate(0, 0);
+  }
+
+  100% {
+    transform:
+      scale(1, 1)
+      translate(
+        var(--pauseX),
+        var(--pauseY)
+      );
+  }
+}
+
+[aria-label="pause"] {
+  animation: movePause 256ms ease-in-out 1 forwards;
+
+  display: var(--pauseButtonDisplay);
+  height: var(--activityHeight);
+  left: calc(
+    50% - (var(--activityWidth) / 2)
+  );
+  top: var(--activityTop);
+  width: var(--activityWidth);
+
+  cursor: pointer;
+  border: 1px solid gainsboro;
+  border-radius: 2px;
+  padding: 0;
+  background: transparent;
+  position: absolute;
+}
+
+[aria-label="pause"] svg {
+  flex: 1;
+  stroke: white;
+  stroke-width: 4px;
 }
 

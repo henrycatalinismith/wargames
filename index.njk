@@ -29,6 +29,7 @@
     {% include "creator.njk" %}
     {% include "applicationCategory.njk" %}
     {% include "operatingSystem.njk" %}
+    {% include "pauseButton.njk" %}
     {% set js %}{% include "src/menu.js" %}{% endset %}
     <script type="text/javascript">
       {{ js | terser | safe }}

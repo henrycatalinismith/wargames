@@ -393,6 +393,13 @@ function loadTexture(filename) {
   })
 }
 
+function initPauseButton() {
+  window.pauseButton = document.querySelector("[aria-label='pause']")
+  window.pauseButton.addEventListener("click", event => {
+    window.pauseAnimation()
+  })
+}
+
 (async function() {
   // console.log("loaded")
   // return
@@ -413,5 +420,6 @@ function loadTexture(filename) {
   initMissiles()
   // initAxes()
 
+  initPauseButton()
   startAnimation()
 })()
