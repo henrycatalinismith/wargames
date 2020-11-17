@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .getBoundingClientRect()
   document.documentElement.style.setProperty(
     "--headerOffset",
-    `${window.innerHeight - header.top - header.height - 32}px`
+    `${window.innerHeight - header.top - header.height - 16}px`
   )
 
   const image = document.querySelector("[itemprop='image']")
