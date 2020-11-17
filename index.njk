@@ -20,6 +20,7 @@
   <body data-mode="menu">
     <header>
       {% include "name.njk" %}
+      {% include "logo.njk" %}
       {% include "alternateName.njk" %}
     </header>
     {% include "image.njk" %}
@@ -30,6 +31,7 @@
     {% include "applicationCategory.njk" %}
     {% include "operatingSystem.njk" %}
     {% include "pauseButton.njk" %}
+    {% include "progressBar.njk" %}
     {% set js %}{% include "src/menu.js" %}{% endset %}
     <script type="text/javascript">
       {{ js | terser | safe }}

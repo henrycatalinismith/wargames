@@ -89,7 +89,11 @@ function initCamera() {
   )
   window.camera.position.x = 0
   window.camera.position.y = 0
-  window.camera.position.z = 2
+  window.camera.position.z = 3
+
+  if (window.innerWidth > 512 && window.innerHeight > 512) {
+    window.camera.position.z = 2
+  }
 }
 
 function initSun() {
@@ -240,6 +244,8 @@ function initMissiles() {
   window.missileCooldownActive = false
   window.missileCooldownTimeout = undefined
   window.missileLimit = Math.pow(2, 9)
+  window.missileTotal = window.missileQueue.length // TODO: chunks
+  window.missileCount = 0
   window.missiles = []
 
   launchMissiles()
@@ -281,7 +287,7 @@ function launchMissile() {
   missile.maxDrawRange = missile.drawRangeDelta * missile.curveSegments
 
   missile.spline = spline(lat1, lon1, lat2, lon2)
-  missile.speed = 4 / missile.spline.getLength()
+  missile.speed = 16 / missile.spline.getLength()
 
   missile.geometry = new THREE.TubeBufferGeometry(
     missile.spline,
@@ -299,6 +305,9 @@ function launchMissile() {
 
   window.conflict.mesh.add(missile.mesh)
   window.missiles.push(missile)
+  window.missileCount += 1
+
+  updateProgressBar()
 }
 
 function updateMissiles() {
@@ -314,7 +323,7 @@ function updateMissiles() {
     } else if (start < missile.maxDrawRange) {
       start = Math.min(
         missile.maxDrawRange,
-        start + 3,
+        start + 24,
       )
     } else {
       window.conflict.mesh.remove(missile)
@@ -339,8 +348,14 @@ function initControls() {
     window.camera,
     window.renderer.domElement,
   )
+  window.controls.autoRotate = true
+  window.controls.autoRotateSpeed = -0.9
+  window.controls.dampingFactor = 0.5
+  window.controls.enableDamping = true
+  window.controls.enablePan = false
   window.controls.maxDistance = 3
-  window.controls.minDistance = 1.5
+  window.controls.minDistance = 2
+  controls.target = new THREE.Vector3(0, 0.1, 0)
 }
 
 window.startAnimation = function() {
@@ -349,7 +364,7 @@ window.startAnimation = function() {
 
 window.updateAnimation = function() {
   updateMissiles()
-  scenery.rotation.y -= 0.001
+  // scenery.rotation.y -= 0.001
   // sunDirection.x += 0.005
   window.controls.update()
   window.renderer.render(window.scene, window.camera)
@@ -391,6 +406,7 @@ function loadTexture(filename) {
 
 function initPauseButton() {
   window.pauseButton = document.querySelector("[aria-label='pause']")
+  window.paused = false
   window.pauseButton.addEventListener("click", event => {
     if (document.body.dataset.mode == "play") {
       window.pause()
@@ -403,13 +419,52 @@ function initPauseButton() {
 window.pause = function() {
   document.body.dataset.mode = "pause"
   window.controls.enabled = false
+  window.paused = true
   cancelAnimationFrame(window.animationRequest)
 }
 
 window.unpause = function() {
   document.body.dataset.mode = "play"
   window.controls.enabled = true
+  window.paused = false
   window.startAnimation()
+}
+
+function initProgressBar() {
+  window.progressBar = document.querySelector(
+    "[aria-label='progress'] path:nth-child(2)"
+  )
+}
+
+function updateProgressBar() {
+  const progress = window.missileCount / window.missileTotal
+  window.progressBar.style.strokeDashoffset = 1024 - Math.floor(
+    1024 * progress
+  )
+}
+
+function initCanvas() {
+  window.canvas = document.querySelector("canvas")
+  window.touchActive = false
+
+  function touchStart(event) {
+    if (window.paused) {
+      return
+    }
+    console.log(event)
+    window.touchActive = true
+  }
+
+  function touchEnd(event) {
+    if (window.paused) {
+      return
+    }
+  }
+
+  canvas.addEventListener("mousedown", touchStart)
+  canvas.addEventListener("mouseup", touchEnd)
+  canvas.addEventListener("touchstart", touchStart)
+  canvas.addEventListener("touchend", touchEnd)
 }
 
 ;(async function() {
@@ -429,9 +484,11 @@ window.unpause = function() {
   initOuterAtmosphere()
 
   initConflict()
+  initProgressBar()
   initMissiles()
   // initAxes()
 
   initPauseButton()
   startAnimation()
+  initCanvas()
 })()

@@ -132,15 +132,15 @@ document.addEventListener("DOMContentLoaded", () => {
   )
   document.documentElement.style.setProperty(
     "--pauseY",
-    `${0 - playRect.top + 16}px`
+    `${window.innerHeight - playRect.top - playRect.height}px`
   )
 
-  const header = document
+  const headerRect = document
     .querySelector("header")
     .getBoundingClientRect()
   document.documentElement.style.setProperty(
     "--headerOffset",
-    `${window.innerHeight - header.top - header.height - 16}px`
+    `${0 - headerRect.top}px`
   )
 
   const image = document.querySelector("[itemprop='image']")
