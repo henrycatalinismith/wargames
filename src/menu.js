@@ -63,19 +63,19 @@ function loadDependency(dependency) {
     request.onload = () => {
       dependency.loaded = true
       dependency.payload = request.response
-      updateProgressBar()
+      updateLoadingBar()
       resolve()
     }
     request.send()
   })
 }
 
-function updateProgressBar() {
+function updateLoadingBar() {
   const total = dependencies.length
   const loaded = dependencies.filter(d => d.loaded).length
   const progress = Math.min(loaded / total, 1)
-  const progressBar = document.querySelector("[aria-label='loading'] path")
-  progressBar.style.strokeDashoffset = 128 - (
+  const loadingBar = document.querySelector("[aria-label='loading'] path")
+  loadingBar.style.strokeDashoffset = 128 - (
     128 * progress
   )
 }
@@ -92,16 +92,16 @@ async function loadDemo() {
 
   document.body.dataset.mode = "load"
 
-  const progressBar = document
+  const loadingBar = document
     .querySelector("[aria-label='loading']")
     .getBoundingClientRect()
   document.documentElement.style.setProperty(
     "--pauseScaleX",
-    `${progressBar.width / 32}`
+    `${loadingBar.width / 32}`
   )
   document.documentElement.style.setProperty(
     "--pauseScaleY",
-    `${progressBar.height / 32}`
+    `${loadingBar.height / 32}`
   )
 
 

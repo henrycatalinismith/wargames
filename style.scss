@@ -22,6 +22,7 @@
     50%
     - (var(--imageHeight) / 2)
     - var(--headerHeight)
+    - 1rem
   );
   --headerTransform: none;
   --headerTransition: none;
@@ -32,7 +33,9 @@
     50% - (var(--activityWidth) / 2)
   );
   --activityTop: calc(
-    50% + (var(--imageHeight) / 2)
+    50%
+    + (var(--imageHeight) / 2)
+    + 1rem
   );
   --activityTransform: none;
 
@@ -50,12 +53,12 @@
   --canvasFilter: none;
   --canvasOpacity: 0;
 
-  --progressDisplay: none;
-  --progressWidth: 256px;
-  --progressHeight: var(--playButtonHeight);
-  --progressResizeDuration: 128ms;
-  --progressTransitionDuration: 64ms;
-  --progressTransform: scaleX(1);
+  --loadingDisplay: none;
+  --loadingWidth: 256px;
+  --loadingHeight: var(--playButtonHeight);
+  --loadingResizeDuration: 128ms;
+  --loadingTransitionDuration: 64ms;
+  --loadingTransform: scaleX(1);
 
   --nameDisplay: none;
 
@@ -103,7 +106,7 @@
     --typingAnimation: var(--typingAnimationOn);
     --alternateNameWidth: 0%;
     --descriptionTransition: all 128ms ease-in-out;
-    --progressTransform: scaleX(0.55);
+    --loadingTransform: scaleX(0.55);
   }
 }
 
@@ -121,7 +124,7 @@ body[data-mode="load"] {
   --imageDisplay: flex;
   --nameDisplay: flex;
   --alternateNameDisplay: flex;
-  --progressDisplay: flex;
+  --loadingDisplay: flex;
   --descriptionDisplay: grid;
   --descriptionOpacity: 0;
   --descriptionTransform: scaleY(0);
@@ -327,7 +330,7 @@ header {
 @keyframes resize {
   from {
     background-color: var(--playButtonBackground);
-    transform: var(--progressTransform);
+    transform: var(--loadingTransform);
   }
 
   to {
@@ -344,12 +347,12 @@ header {
   top: var(--activityTop);
   width: var(--activityWidth);
 
-  animation-duration: var(--progressResizeDuration);
+  animation-duration: var(--loadingResizeDuration);
   background-color: var(--playButtonBackground);
   border: var(--playButtonBorder);
   box-shadow: var(--playButtonBoxShadow);
-  display: var(--progressDisplay);
-  transform: var(--progressTransform);
+  display: var(--loadingDisplay);
+  transform: var(--loadingTransform);
 
   animation-name: resize;
   animation-fill-mode: forwards;
@@ -361,7 +364,7 @@ header {
 
 [aria-label="loading"] path {
   transition-property: stroke-dashoffset;
-  transition-duration: var(--progressTransitionDuration);
+  transition-duration: var(--loadingTransitionDuration);
   transition-timing-function: ease-in-out;
 
   stroke: indianred;
