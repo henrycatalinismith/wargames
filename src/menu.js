@@ -98,9 +98,9 @@ async function loadDemo() {
   await delay(512)
   initDependencies()
   await loadDependencies()
+  document.body.dataset.mode = "play"
   await delay(512)
   injectDependencies()
-  document.body.dataset.mode = "play"
   button.removeEventListener("click", loadDemo)
 }
 
@@ -114,6 +114,14 @@ function arrayBufferToBase64(buffer) {
 document.addEventListener("DOMContentLoaded", () => {
   const button = document.querySelector("button")
   button.addEventListener("click", loadDemo)
+
+  const header = document
+    .querySelector("header")
+    .getBoundingClientRect()
+  document.documentElement.style.setProperty(
+    "--headerOffset",
+    `${window.innerHeight - header.top - header.height - 32}px`
+  )
 
   const image = document.querySelector("[itemprop='image']")
   fetch("/images/square.png")

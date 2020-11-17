@@ -1,10 +1,29 @@
 :root {
-  --bodyOverflow: hidden;
-  --bodyTemplateAreas: "";
-  --bodyTemplateColumns: 1fr;
-  --bodyTemplateRows: 1fr;
+  --imageDisplay: none;
+  --imageHeight: 4rem;
+  --imageWidth: var(--imageHeight);
 
-  --headerPosition: static;
+  --headerHeight: 6rem;
+  --headerWidth: 18rem;
+  --headerLeft: calc(
+    50% - (var(--headerWidth) / 2)
+  );
+  --headerTop: calc(
+    50%
+    - (var(--imageHeight) / 2)
+    - var(--headerHeight)
+  );
+  --headerTransform: none;
+  --headerTransition: none;
+
+  --activityHeight: 3rem;
+  --activityWidth: 7rem;
+  --activityLeft: calc(
+    50% - (var(--activityWidth) / 2)
+  );
+  --activityTop: calc(
+    50% + (var(--imageHeight) / 2)
+  );
 
   --playButtonBackground: #29adff;
   --playButtonBorder: 2px solid #1d2b53;
@@ -15,7 +34,6 @@
   --playButtonWidth: 108px;
 
   --canvasDisplay: none;
-  --imageDisplay: none;
 
   --progressDisplay: none;
   --progressWidth: 256px;
@@ -37,6 +55,24 @@
   --descriptionTransition: none;
 }
 
+@media (min-height: 20rem) {
+  :root {
+    --imageHeight: 8rem;
+  }
+}
+
+@media (min-height: 24rem) {
+  :root {
+    --imageHeight: 12rem;
+  }
+}
+
+@media (min-height: 24rem) {
+  :root {
+    --imageHeight: 16rem;
+  }
+}
+
 @media (min-width: 32rem) {
   :root {
     --descriptionFontSize: 1.4rem;
@@ -55,24 +91,6 @@
 }
 
 body[data-mode="menu"] {
-  --bodyOverflow: scroll;
-  --bodyTemplateAreas:
-    ". ............. ."
-    ".     header    ."
-    ". ............. ."
-    ".     image     ."
-    ". ............. ."
-    ".  play-button  ."
-    ". ............. .";
-  --bodyTemplateColumns: 1fr min-content 1fr;
-  --bodyTemplateRows:
-    1fr
-    96px
-    1rem
-    256px
-    1rem
-    min-content
-    1fr;
   --imageDisplay: flex;
   --playButtonDisplay: flex;
   --nameDisplay: flex;
@@ -81,23 +99,8 @@ body[data-mode="menu"] {
 }
 
 body[data-mode="load"] {
-  --bodyTemplateAreas:
-    ". ............. ."
-    ".     header    ."
-    ". ............. ."
-    ".     image     ."
-    ". ............. ."
-    ".    progress   ."
-    ". ............. .";
-  --bodyTemplateColumns: 1fr min-content 1fr;
-  --bodyTemplateRows:
-    1fr
-    96px
-    1rem
-    256px
-    1rem
-    min-content
-    1fr;
+  --activityWidth: 16rem;
+
   --imageDisplay: flex;
   --nameDisplay: flex;
   --alternateNameDisplay: flex;
@@ -108,10 +111,9 @@ body[data-mode="load"] {
 }
 
 body[data-mode="play"] {
-  --bodyTemplateAreas: "canvas";
-  --bodyTemplateColumns: 1fr;
-  --bodyTemplateRows: 1fr;
-  --headerPosition: absolute;
+  --headerTransform: translateY(var(--headerOffset));
+  --headerTransition: transform 256ms;
+
   --nameDisplay: flex;
   --alternateNameDisplay: flex;
   --canvasDisplay: flex;
@@ -127,47 +129,25 @@ html {
 }
 
 body {
-  align-items: center;
   background-color: black;
-  display: grid;
-  flex-direction: column;
-  grid-template-areas: var(--bodyTemplateAreas);
-  grid-template-columns: var(--bodyTemplateColumns);
-  grid-template-rows: var(--bodyTemplateRows);
   height: 100vh;
-  justify-content: center;
   margin: 0;
-  overflow-y: var(--bodyOverflow);
+  overflow: hidden;
   width: 100vw;
 }
 
-@keyframes toBottom {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-
-  49% {
-    opacity: 0;
-    transform: translate(-50%, 128px);
-  }
-
-  50% {
-    opacity: 0;
-    transform: translate(-50%, 256px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate(-50%, 512px);
-  }
-}
-
 header {
-  grid-area: header;
-  left: calc(50% - 128px);
-  bottom: 2rem;
-  position: var(--headerPosition);
+  height: var(--headerHeight);
+  left: var(--headerLeft);
+  top: var(--headerTop);
+  width: var(--headerWidth);
+  transform: var(--headerTransform);
+  transition: var(--headerTransition);
+
+  display: grid;
+  grid-auto-columns: min-content;
+  justify-content: center;
+  position: absolute;
 }
 
 [itemprop="headline name"] {
@@ -179,10 +159,10 @@ header {
   background-size: 100% 100%;
   color: white;
   display: var(--nameDisplay);
+  font-size: 3rem;
   font-family: Futura, sans-serif;
   height: min(12.5vw, 64px);
   justify-content: center;
-  grid-area: name;
   margin: 0;
   text-align: center;
   text-indent: -200vw;
@@ -205,7 +185,7 @@ header {
   display: var(--alternateNameDisplay);
   font-family: monospace;
   font-size: 1.4rem;
-  grid-area: alternateName;
+  height: min-content;
   margin: 0 auto;
   padding: 0;
   overflow: hidden;
@@ -215,27 +195,32 @@ header {
 
 [itemprop="image"] {
   display: var(--imageDisplay);
-  grid-area: image;
-  justify-self: center;
+  height: var(--imageHeight);
+  left: 50%;
   overflow: hidden;
-  position: relative;
-  height: 256px;
-  width: 256px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  width: var(--imageWidth);
 }
 
 [aria-label="play"] {
-  align-items: center;
+  height: var(--activityHeight);
+  left: var(--activityLeft);
+  top: var(--activityTop);
+  width: var(--activityWidth);
+
   background-color: var(--playButtonBackground);
-  border-radius: var(--playButtonBorderRadius);
   border: var(--playButtonBorder);
+  border-radius: var(--playButtonBorderRadius);
   box-shadow: var(--playButtonBoxShadow);
-  cursor: pointer;
   display: var(--playButtonDisplay);
-  height: var(--playButtonHeight);
-  grid-area: play-button;
+
+  align-items: center;
+  cursor: pointer;
   justify-content: center;
-  justify-self: center;
-  width: var(--playButtonWidth);
+  position: absolute;
+  transform-origin: center;
 }
 
 [aria-label="play"] svg:nth-child(1) {
@@ -311,21 +296,25 @@ header {
 }
 
 [aria-label="loading"] {
-  animation-name: resize;
-  background-color: var(--playButtonBackground);
-  display: var(--progressDisplay);
-  height: var(--progressHeight);
-  width: var(--progressWidth);
-  transform: var(--progressTransform);
-
-  border: var(--playButtonBorder);
-  box-shadow: var(--playButtonBoxShadow);
+  height: var(--activityHeight);
+  left: calc(
+    50% - (var(--activityWidth) / 2)
+  );
+  top: var(--activityTop);
+  width: var(--activityWidth);
 
   animation-duration: var(--progressResizeDuration);
+  background-color: var(--playButtonBackground);
+  border: var(--playButtonBorder);
+  box-shadow: var(--playButtonBoxShadow);
+  display: var(--progressDisplay);
+  transform: var(--progressTransform);
+
+  animation-name: resize;
   animation-fill-mode: forwards;
   animation-timing-function: ease-in-out;
-  grid-area: progress;
   justify-self: center;
+  position: absolute;
   transform-origin: center;
 }
 
