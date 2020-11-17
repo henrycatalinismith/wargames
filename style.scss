@@ -47,6 +47,8 @@
   --pauseButtonDisplay: none;
 
   --canvasDisplay: none;
+  --canvasFilter: none;
+  --canvasOpacity: 0;
 
   --progressDisplay: none;
   --progressWidth: 256px;
@@ -141,9 +143,15 @@ body[data-mode="pause"] {
   --pauseButtonDisplay: flex;
 }
 
+body[data-mode="play"] {
+  --canvasOpacity: 1;
+}
+
 body[data-mode="pause"] {
   --cursorAnimationPlayState: paused;
   --typingAnimationPlayState: paused;
+  --canvasFilter: blur(4px);
+  --canvasOpacity: 0.5;
 }
 
 html {
@@ -175,6 +183,7 @@ header {
   grid-auto-columns: min-content;
   justify-content: center;
   position: absolute;
+  z-index: 2;
 }
 
 [itemprop="headline name"] {
@@ -251,6 +260,7 @@ header {
   justify-content: center;
   position: absolute;
   transform-origin: center;
+  z-index: 2;
 }
 
 [aria-label="play"] svg:nth-child(1) {
@@ -361,7 +371,10 @@ header {
 
 canvas {
   display: var(--canvasDisplay);
-  grid-area: canvas;
+  filter: var(--canvasFilter);
+  opacity: var(--canvasOpacity);
+  transition: opacity 64ms ease-in-out;
+  z-index: 1;
 }
 
 [itemprop="applicationCategory"],
@@ -413,6 +426,7 @@ canvas {
   padding: 0;
   background: transparent;
   position: absolute;
+  z-index: 2;
 }
 
 [aria-label="pause"] svg {
