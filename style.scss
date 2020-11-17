@@ -1,4 +1,14 @@
 :root {
+  --cursorAnimationOn: cursor 700ms step-end 0ms infinite;
+  --cursorAnimationOff: none;
+  --cursorAnimationPlayState: running;
+  --cursorAnimation: var(--cursorAnimationOff);
+
+  --typingAnimationOn: typing 3000ms steps(24, end) 1400ms 1 forwards;
+  --typingAnimationOff: none;
+  --typingAnimationPlayState: running;
+  --typingAnimation: var(--typingAnimationOff);
+
   --imageDisplay: none;
   --imageHeight: 4rem;
   --imageWidth: var(--imageHeight);
@@ -48,6 +58,9 @@
   --nameDisplay: none;
 
   --alternateNameAnimation: none;
+  --alternateNameAnimation:
+    var(--cursorAnimation),
+    var(--typingAnimation);
   --alternateNameDisplay: none;
   --alternateNameWidth: 100%;
 
@@ -84,9 +97,8 @@
 
 @media (prefers-reduced-motion: no-preference) {
   :root {
-    --alternateNameAnimation:
-      cursor 700ms step-end 0ms infinite,
-      typing 3000ms steps(24, end) 1400ms 1 forwards;
+    --cursorAnimation: var(--cursorAnimationOn);
+    --typingAnimation: var(--typingAnimationOn);
     --alternateNameWidth: 0%;
     --descriptionTransition: all 128ms ease-in-out;
     --progressTransform: scaleX(0.55);
@@ -113,7 +125,8 @@ body[data-mode="load"] {
   --descriptionTransform: scaleY(0);
 }
 
-body[data-mode="play"] {
+body[data-mode="play"],
+body[data-mode="pause"] {
   --headerTransform: translateY(var(--headerOffset));
   --headerTransition: transform 256ms;
 
@@ -126,6 +139,11 @@ body[data-mode="play"] {
   --activityTransform: translate(-128px, -128px);
 
   --pauseButtonDisplay: flex;
+}
+
+body[data-mode="pause"] {
+  --cursorAnimationPlayState: paused;
+  --typingAnimationPlayState: paused;
 }
 
 html {
@@ -189,6 +207,9 @@ header {
 
 [itemprop="alternativeHeadline alternateName"] {
   animation: var(--alternateNameAnimation);
+  animation-play-state:
+    var(--cursorAnimationPlayState),
+    var(--typingAnimationPlayState);
   border-right: 0.6em solid gainsboro;
   color: gainsboro;
   display: var(--alternateNameDisplay);

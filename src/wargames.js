@@ -357,10 +357,6 @@ window.updateAnimation = function() {
   window.animationRequest = requestAnimationFrame(window.updateAnimation)
 }
 
-window.pauseAnimation = function() {
-  cancelAnimationFrame(window.animationRequest)
-}
-
 function pos(lat, lng, radius) {
   const φ = (90 - lat) * Math.PI / 180
   const θ = (lng + 180) * Math.PI / 180
@@ -396,11 +392,27 @@ function loadTexture(filename) {
 function initPauseButton() {
   window.pauseButton = document.querySelector("[aria-label='pause']")
   window.pauseButton.addEventListener("click", event => {
-    window.pauseAnimation()
+    if (document.body.dataset.mode == "play") {
+      window.pause()
+    } else {
+      window.unpause()
+    }
   })
 }
 
-(async function() {
+window.pause = function() {
+  document.body.dataset.mode = "pause"
+  window.controls.enabled = false
+  cancelAnimationFrame(window.animationRequest)
+}
+
+window.unpause = function() {
+  document.body.dataset.mode = "play"
+  window.controls.enabled = true
+  window.startAnimation()
+}
+
+;(async function() {
   // console.log("loaded")
   // return
   initRenderer()
