@@ -50,6 +50,8 @@
   --pauseButtonDisplay: none;
   --pauseButtonHeight: 2rem;
   --pauseButtonWidth: var(--pauseButtonHeight);
+  --pauseButtonPauseIconDisplay: flex;
+  --pauseButtonPlayIconDisplay: none;
 
   --canvasDisplay: none;
   --canvasFilter: none;
@@ -163,6 +165,8 @@ body[data-mode="pause"] {
 
 body[data-mode="play"] {
   --canvasOpacity: 1;
+  --pauseButtonPauseIconDisplay: flex;
+  --pauseButtonPlayIconDisplay: none;
 }
 
 body[data-mode="pause"] {
@@ -170,6 +174,8 @@ body[data-mode="pause"] {
   --typingAnimationPlayState: paused;
   --canvasFilter: blur(4px) brightness(0.5) grayscale(0.5);
   --canvasOpacity: 0.5;
+  --pauseButtonPauseIconDisplay: none;
+  --pauseButtonPlayIconDisplay: flex;
 }
 
 html {
@@ -293,13 +299,8 @@ header {
 
 [aria-label="play"] svg:nth-child(2) {
   display: block;
-  width: 70px;
-  height: 24px;
-}
-
-[aria-label="play"] svg:nth-child(2) g {
-  stroke-linecap: square;
-  stroke-linejoin: round;
+  width: 64px;
+  height: 32px;
 }
 
 [itemprop="description"] {
@@ -440,8 +441,21 @@ canvas {
 
 [aria-label="pause"] svg {
   flex: 1;
+  stroke-width: 4px;
+}
+
+[aria-label="pause"] svg:nth-child(1) {
+  display: var(--pauseButtonPauseIconDisplay);
   stroke: white;
   stroke-width: 4px;
+}
+
+[aria-label="pause"] svg:nth-child(2) {
+  display: var(--pauseButtonPlayIconDisplay);
+  fill: white;
+  stroke: white;
+  stroke-linejoin: round;
+  stroke-width: 5px;
 }
 
 [aria-label="progress"] {

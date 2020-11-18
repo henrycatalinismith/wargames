@@ -323,7 +323,7 @@ function updateMissiles() {
     } else if (start < missile.maxDrawRange) {
       start = Math.min(
         missile.maxDrawRange,
-        start + 24,
+        start + 33,
       )
     } else {
       window.conflict.mesh.remove(missile)
