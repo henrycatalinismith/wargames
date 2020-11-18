@@ -26,6 +26,7 @@
   );
   --headerTransform: none;
   --headerTransition: none;
+  --headerOpacity: 1;
 
   --activityHeight: 3rem;
   --activityWidth: 7rem;
@@ -39,7 +40,7 @@
   );
   --activityTransform: none;
 
-  --playButtonBackground: #29adff;
+  --playButtonBackground: orangered;
   --playButtonBorder: 2px solid #1d2b53;
   --playButtonBorderRadius: 4px;
   --playButtonBoxShadow: 0 0 4px #c2c3c7;
@@ -151,7 +152,7 @@ body[data-mode="load"] {
 body[data-mode="play"],
 body[data-mode="pause"] {
   --headerTransform: translateY(var(--headerOffset));
-  --headerTransition: transform 256ms;
+  --headerTransition: transform 256ms, opacity 256ms;
 
   --nameDisplay: flex;
   --alternateNameDisplay: flex;
@@ -166,6 +167,7 @@ body[data-mode="pause"] {
 }
 
 body[data-mode="play"] {
+  --headerOpacity: 0;
   --canvasOpacity: 1;
   --pauseButtonPauseIconDisplay: flex;
   --pauseButtonPlayIconDisplay: none;
@@ -205,6 +207,7 @@ header {
   width: var(--headerWidth);
   transform: var(--headerTransform);
   transition: var(--headerTransition);
+  opacity: var(--headerOpacity);
 
   display: grid;
   grid-auto-columns: min-content;
@@ -291,13 +294,14 @@ header {
 
 [aria-label="play"] svg:nth-child(1) path:nth-child(1) {
   stroke: #1d2b53;
-  stroke-width: 8;
+  fill: white;
+  stroke-width: 10;
 }
 
 [aria-label="play"] svg:nth-child(1) path:nth-child(2) {
-  fill: #00e436;
-  stroke: #008751;
-  stroke-width: 2;
+  fill: white;
+  // stroke: #008751;
+  // stroke-width: 2;
 }
 
 [aria-label="play"] svg:nth-child(2) {
@@ -502,16 +506,17 @@ canvas {
 
 aside {
   display: var(--pauseMenuDisplay);
+
+  align-items: center;
+  bottom: 0;
   color: white;
   font-family: Futura, sans-serif;
   font-size: 2rem;
-  align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
   left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
   z-index: 1;
 }
 

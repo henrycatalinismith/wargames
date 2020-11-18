@@ -474,6 +474,9 @@ function initMenu() {
   initMissiles()
   // initAxes()
 
+  document.body.dataset.mode = "play"
+  await delay(256)
+
   initPauseButton()
   startAnimation()
   initMenu()

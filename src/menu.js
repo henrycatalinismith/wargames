@@ -108,8 +108,6 @@ async function loadDemo() {
   await delay(512)
   initDependencies()
   await loadDependencies()
-  document.body.dataset.mode = "play"
-  await delay(512)
   injectDependencies()
 }
 
