@@ -61,6 +61,18 @@ void main() {
 }
 `
 
+function initReducedMotion() {
+  window.reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches
+
+  if (window.reducedMotion) {
+    document.querySelector(
+      "#rotation-zero"
+    ).checked = true
+  }
+}
+
 function initRenderer() {
   window.renderer = new THREE.WebGLRenderer
   window.renderer.setClearColor(0x000000, 1.0)
@@ -349,12 +361,17 @@ function initControls() {
     window.renderer.domElement,
   )
   window.controls.autoRotate = true
-  window.controls.autoRotateSpeed = -0.9
+  window.controls.autoRotateSpeed = parseInt(
+    document.querySelector(
+      "[name='rotation']:checked"
+    ).value
+  )
   window.controls.dampingFactor = 0.5
   window.controls.enableDamping = true
   window.controls.enablePan = false
   window.controls.maxDistance = 3
   window.controls.minDistance = 2
+
   controls.target = new THREE.Vector3(0, 0.1, 0)
 }
 
@@ -444,18 +461,21 @@ function updateProgressBar() {
 }
 
 function initMenu() {
-  window.rotate = document.querySelector("#rotate")
-  window.rotate.addEventListener(
-    "change",
-    event => {
-      window.controls.autoRotate = window.rotate.checked
-    }
-  )
+  window.rotationButtons = document.querySelectorAll("input[name='rotation']")
+  window.rotationButtons.forEach(button => {
+    button.addEventListener(
+      "change",
+      event => {
+        if (event.target.checked) {
+          window.controls.autoRotateSpeed = parseInt(event.target.value, 10)
+        }
+      }
+    )
+  })
 }
 
 ;(async function() {
-  // console.log("loaded")
-  // return
+  initReducedMotion()
   initRenderer()
   initScenery()
   initScene()
