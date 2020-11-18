@@ -443,28 +443,14 @@ function updateProgressBar() {
   )
 }
 
-function initCanvas() {
-  window.canvas = document.querySelector("canvas")
-  window.touchActive = false
-
-  function touchStart(event) {
-    if (window.paused) {
-      return
+function initMenu() {
+  window.rotate = document.querySelector("#rotate")
+  window.rotate.addEventListener(
+    "change",
+    event => {
+      window.controls.autoRotate = window.rotate.checked
     }
-    console.log(event)
-    window.touchActive = true
-  }
-
-  function touchEnd(event) {
-    if (window.paused) {
-      return
-    }
-  }
-
-  canvas.addEventListener("mousedown", touchStart)
-  canvas.addEventListener("mouseup", touchEnd)
-  canvas.addEventListener("touchstart", touchStart)
-  canvas.addEventListener("touchend", touchEnd)
+  )
 }
 
 ;(async function() {
@@ -490,5 +476,5 @@ function initCanvas() {
 
   initPauseButton()
   startAnimation()
-  initCanvas()
+  initMenu()
 })()

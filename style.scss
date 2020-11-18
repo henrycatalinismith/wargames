@@ -90,6 +90,8 @@
     - var(--progressBarLeft)
     - var(--progressBarRight)
   );
+
+  --pauseMenuDisplay: none;
 }
 
 @media (min-height: 20rem) {
@@ -176,6 +178,7 @@ body[data-mode="pause"] {
   --canvasOpacity: 0.5;
   --pauseButtonPauseIconDisplay: none;
   --pauseButtonPlayIconDisplay: flex;
+  --pauseMenuDisplay: flex;
 }
 
 html {
@@ -495,5 +498,40 @@ canvas {
   stroke-dasharray: 1024;
   stroke-dashoffset: 1024;
   transition: stroke-dashoffset 64ms ease-in-out;
+}
+
+aside {
+  display: var(--pauseMenuDisplay);
+  color: white;
+  font-family: Futura, sans-serif;
+  font-size: 2rem;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 1;
+}
+
+aside section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 1rem;
+}
+
+aside input[type="checkbox"] {
+  cursor: pointer;
+  height: 2rem;
+  width: 2rem;
+}
+
+aside label {
+  cursor: pointer;
+  font-size: 2rem;
+  text-shadow: 0 0 1rem black;
+  user-select: none;
 }
 
