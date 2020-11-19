@@ -68,7 +68,7 @@ function initReducedMotion() {
 
   if (window.reducedMotion) {
     document.querySelector(
-      "#rotation-zero"
+      "#rotation-stop"
     ).checked = true
   }
 }
@@ -259,6 +259,14 @@ function initMissiles() {
   window.missileTotal = window.missileQueue.length // TODO: chunks
   window.missileCount = 0
   window.missiles = []
+  window.missileSpeeds = {
+    stop: [0, 0],
+    slow: [4, 3],
+    fast: [16, 33],
+  }
+  window.missileSpeed = document.querySelector(
+    "[type='radio'][name='missiles']:checked"
+  ).value
 
   launchMissiles()
 }
@@ -323,6 +331,7 @@ function launchMissile() {
 }
 
 function updateMissiles() {
+  const [head, tail] = window.missileSpeeds[window.missileSpeed]
   for (const m in window.missiles) {
     const missile = window.missiles[m]
     let { start, count } = missile.geometry.drawRange
@@ -330,12 +339,12 @@ function updateMissiles() {
     if (count < missile.maxDrawRange) {
       count = Math.min(
         missile.maxDrawRange,
-        count + missile.speed,
+        count + head,
       )
     } else if (start < missile.maxDrawRange) {
       start = Math.min(
         missile.maxDrawRange,
-        start + 33,
+        start + tail,
       )
     } else {
       window.conflict.mesh.remove(missile)
@@ -461,7 +470,20 @@ function updateProgressBar() {
 }
 
 function initMenu() {
+  window.missileButtons = document.querySelectorAll("input[name='missiles']")
   window.rotationButtons = document.querySelectorAll("input[name='rotation']")
+
+  window.missileButtons.forEach(button => {
+    button.addEventListener(
+      "change",
+      event => {
+        if (event.target.checked) {
+          window.missileSpeed = event.target.value
+        }
+      }
+    )
+  })
+
   window.rotationButtons.forEach(button => {
     button.addEventListener(
       "change",
@@ -472,6 +494,7 @@ function initMenu() {
       }
     )
   })
+
 }
 
 ;(async function() {

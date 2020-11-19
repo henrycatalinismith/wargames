@@ -1,12 +1,10 @@
 :root {
   --cursorAnimationOn: cursor 700ms step-end 0ms infinite;
   --cursorAnimationOff: none;
-  --cursorAnimationPlayState: running;
   --cursorAnimation: var(--cursorAnimationOff);
 
   --typingAnimationOn: typing 3000ms steps(24, end) 1400ms 1 forwards;
   --typingAnimationOff: none;
-  --typingAnimationPlayState: running;
   --typingAnimation: var(--typingAnimationOff);
 
   --imageDisplay: none;
@@ -181,8 +179,6 @@ body[data-mode="play"] {
 }
 
 body[data-mode="pause"] {
-  --cursorAnimationPlayState: paused;
-  --typingAnimationPlayState: paused;
   --canvasFilter: blur(4px) brightness(0.5) grayscale(0.5);
   --canvasOpacity: 0.5;
   --pauseButtonPauseIconDisplay: none;
@@ -244,9 +240,6 @@ header {
 
 [itemprop="alternativeHeadline alternateName"] {
   animation: var(--alternateNameAnimation);
-  animation-play-state:
-    var(--cursorAnimationPlayState),
-    var(--typingAnimationPlayState);
   border-right: 0.6em solid gainsboro;
   color: gainsboro;
   display: var(--alternateNameDisplay);
@@ -534,7 +527,7 @@ aside h2 {
   margin: 0;
 }
 
-section#rotation {
+aside section {
   background-color: white;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -543,26 +536,29 @@ section#rotation {
   width: 16rem;
 }
 
-input[name="rotation"] {
+input[type="radio"] {
   cursor: pointer;
   opacity: 0.0001;
   height: 100%;
   width: 100%;
 }
 
-input[name="rotation"]#rotation-zero {
+input[type="radio"][id*="stop"],
+label[for*="-stop"] {
   grid-area: 1/1;
 }
 
-input[name="rotation"]#rotation-slow {
+input[type="radio"][id*="slow"],
+label[for*="-slow"] {
   grid-area: 1/2;
 }
 
-input[name="rotation"]#rotation-fast {
+input[type="radio"][id*="fast"],
+label[for*="-fast"] {
   grid-area: 1/3;
 }
 
-label[for*="rotation"] {
+input[type="radio"] + label {
   align-self: center;
   cursor: pointer;
   justify-self: center;
@@ -572,25 +568,13 @@ label[for*="rotation"] {
   text-align: center;
 }
 
-input[name="rotation"]:checked + label {
+input[type="radio"]:checked + label {
   background-color: white;
   color: black;
 }
 
-input[name="rotation"]:not(:checked) + label {
+input[type="radio"]:not(:checked) + label {
   background-color: black;
   color: white;
-}
-
-label[for="rotation-zero"] {
-  grid-area: 1/1;
-}
-
-label[for="rotation-slow"] {
-  grid-area: 1/2;
-}
-
-label[for="rotation-fast"] {
-  grid-area: 1/3;
 }
 
