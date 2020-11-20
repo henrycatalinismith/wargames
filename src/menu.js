@@ -1,3 +1,10 @@
+function url(path) {
+  if (location.host === "hen.cat") {
+    return `https://hen.cat/wargames/${path}`
+  }
+  return path
+}
+
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
@@ -49,25 +56,22 @@ function injectDependencies() {
 }
 
 async function loadDependencies() {
-  await Promise.all(window.dependencies.map(loadDependency))
-}
-
-function loadDependency(dependency) {
-  return new Promise((resolve, reject) => {
-    const request = new XMLHttpRequest
-    request.open("GET", dependency.name)
-    if (dependency.name.endsWith("jpg")) {
-      request.responseType = "arraybuffer"
-      // request.responseType = "blob"
-    }
-    request.onload = () => {
-      dependency.loaded = true
-      dependency.payload = request.response
-      updateLoadingBar()
-      resolve()
-    }
-    request.send()
-  })
+  await Promise.all(window.dependencies.map(dependency => {
+    return new Promise((resolve, reject) => {
+      const request = new XMLHttpRequest
+      request.open("GET", url(dependency.name))
+      if (dependency.name.endsWith("jpg")) {
+        request.responseType = "arraybuffer"
+      }
+      request.onload = () => {
+        dependency.loaded = true
+        dependency.payload = request.response
+        updateLoadingBar()
+        resolve()
+      }
+      request.send()
+    })
+  }))
 }
 
 function updateLoadingBar() {
@@ -142,8 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
   )
 
   const image = document.querySelector("[itemprop='image']")
-  fetch("/images/square.png").then(response => {
-    image.src = "/images/square.png"
+  fetch(url("/images/square.png")).then(response => {
+    image.src = url("/images/square.png")
   })
 })
 
