@@ -378,10 +378,8 @@ function initControls() {
   window.controls.dampingFactor = 0.5
   window.controls.enableDamping = true
   window.controls.enablePan = false
-  window.controls.maxDistance = 3
-  window.controls.minDistance = 2
-
-  controls.target = new THREE.Vector3(0, 0.1, 0)
+  window.controls.maxDistance = 4
+  window.controls.minDistance = 1
 }
 
 window.startAnimation = function() {
