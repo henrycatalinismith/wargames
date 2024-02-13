@@ -146,8 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
   )
 
   const image = document.querySelector("[itemprop='image']")
-  fetch(url("/images/square.png")).then(response => {
-    image.src = url("/images/square.png")
+  fetch(url("images/square.png")).then(response => {
+    image.src = url("images/square.png")
   })
 })
 
