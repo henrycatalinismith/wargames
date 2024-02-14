@@ -7,18 +7,18 @@
     "start": "eleventy --serve"
   },
   "dependencies": {
-    "d3-geo": "^3.1.0",
-    "three": "^0.161.0"
+    "d3-geo": "^2.0.1",
+    "three": "^0.122.0"
   },
   "license": "MIT",
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.1",
-    "clean-css": "^5.3.3",
-    "fs-extra": "^11.2.0",
+    "@11ty/eleventy": "^0.11.1",
+    "clean-css": "^4.2.3",
+    "fs-extra": "^9.0.1",
     "html-minifier": "^4.0.0",
-    "jsdom": "^24.0.0",
+    "jsdom": "^16.4.0",
     "line-reader": "^0.4.0",
-    "sass": "^1.70.0",
-    "terser": "^5.27.0"
+    "sass": "^1.29.0",
+    "terser": "^5.3.8"
   }
 }
