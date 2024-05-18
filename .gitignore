@@ -11,4 +11,4 @@ wargames.js
 yarn-error.log
 three.min.js
 OrbitControls.min.js
-
+.yarn/
