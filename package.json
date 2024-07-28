@@ -1,5 +1,6 @@
 {
   "name": "@henrycatalinismith/wargames",
+  "type": "module",
   "version": "0.0.0",
   "description": "global thermonuclear war",
   "scripts": {
@@ -12,7 +13,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@11ty/eleventy": "^0.11.1",
+    "@11ty/eleventy": "^3.0.0-alpha.17",
     "clean-css": "^4.2.3",
     "fs-extra": "^9.0.1",
     "html-minifier": "^4.0.0",

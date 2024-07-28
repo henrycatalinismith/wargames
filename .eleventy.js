@@ -1,12 +1,11 @@
-const CleanCSS = require("clean-css")
-const fs = require("fs-extra")
-const htmlmin = require("html-minifier")
-const { JSDOM } = require("jsdom")
-const sass = require("sass")
-const { minify } = require("terser")
-const version = require("./_data/version")
+import CleanCSS from "clean-css";
+import fs from "fs-extra";
+import htmlmin from "html-minifier";
+import { JSDOM } from "jsdom";
+import sass from "sass";
+import { minify } from "terser";
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("images")
   eleventyConfig.addPassthroughCopy("missiles")
   eleventyConfig.addPassthroughCopy("src")

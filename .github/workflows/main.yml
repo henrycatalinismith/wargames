@@ -10,18 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: 18
+          node-version: 20
 
-      - name: Build and deploy
-        run: |
-          yarn
-          yarn build
+      - run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+
+      - run: yarn install
+
+      - uses: actions/checkout@v4
+        with:
+          repository: henrycatalinismith/henrycatalinismith.github.io
+          sparse-checkout: |
+            wargames/index.html
+          path: _root
+
+      - run: mv _root/wargames _site/
+
+      - run: yarn build --output _site/play
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
