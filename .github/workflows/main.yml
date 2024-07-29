@@ -25,16 +25,7 @@ jobs:
 
       - run: yarn install
 
-      - uses: actions/checkout@v4
-        with:
-          repository: henrycatalinismith/henrycatalinismith.github.io
-          sparse-checkout: |
-            wargames/index.html
-          path: _root
-
-      - run: mv _root/wargames _site/
-
-      - run: yarn build --output _site/play
+      - run: yarn build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
