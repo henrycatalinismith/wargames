@@ -8,19 +8,19 @@
     "start": "eleventy --serve"
   },
   "dependencies": {
-    "d3-geo": "^2.0.1",
-    "three": "^0.122.0"
+    "d3-geo": "^3.1.1",
+    "three": "^0.167.1"
   },
   "license": "MIT",
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0-alpha.17",
-    "clean-css": "^4.2.3",
-    "fs-extra": "^9.0.1",
+    "clean-css": "^5.3.3",
+    "fs-extra": "^11.2.0",
     "html-minifier": "^4.0.0",
-    "jsdom": "^16.4.0",
+    "jsdom": "^24.1.1",
     "line-reader": "^0.4.0",
-    "sass": "^1.29.0",
-    "terser": "^5.3.8"
+    "sass": "^1.77.8",
+    "terser": "^5.31.3"
   },
   "packageManager": "yarn@4.0.0"
 }

@@ -2,7 +2,7 @@ import CleanCSS from "clean-css";
 import fs from "fs-extra";
 import htmlmin from "html-minifier";
 import { JSDOM } from "jsdom";
-import sass from "sass";
+import * as sass from "sass";
 import { minify } from "terser";
 
 export default function(eleventyConfig) {
