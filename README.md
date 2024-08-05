@@ -3,7 +3,7 @@ wargames
 
 Back in 2014 this was a real-time multiplayer global thermonuclear war game, built using the Google Maps API. It looked like this.
 
-![2D Google Maps screenshot covered in red geodesic lines indicating missile trajectories and red circles indicating explosion sites](https://henrycatalinismith.github.io/2024/02/13/wargames.png)
+![2D Google Maps screenshot covered in red geodesic lines indicating missile trajectories and red circles indicating explosion sites](https://henry.catalinismith.com/2024/02/13/wargames.png)
 
 It was in the news for a while because my landlord saw the designs for it and thought they were [suspicious enough to report me to the police](https://www.theguardian.com/technology/2014/aug/26/police-video-game-developer-global-thermonuclear-war-plans). That's probably why you've heard of it.
 
@@ -15,4 +15,4 @@ If you're curious about what the code for a multiplayer JavaScript game looked l
 
 https://github.com/henrycatalinismith/wargames-wip/assets/566159/8c618d5e-7e73-46cc-97a7-81ea3136b603
 
-And if you'd like to watch an even longer version of that, check out [henrycatalinismith.github.io/wargames](https://henrycatalinismith.github.io/wargames) for a Three.js-based demo that serves as a kind of shrine to this odd little episode in web history.
+And if you'd like to watch an even longer version of that, check out [henry.catalinismith.com/wargames](https://henry.catalinismith.com/wargames) for a Three.js-based demo that serves as a kind of shrine to this odd little episode in web history.
