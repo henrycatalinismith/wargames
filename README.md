@@ -19,4 +19,4 @@ And if you'd like to watch an even longer version of that, check out [henry.cata
 
 ## License
 
-[MIT](https://codeberg.org/henrycatalinismith/wargames/src/branch/main/license)
+[MIT](https://github.com/henrycatalinismith/wargames/blob/main/license)
