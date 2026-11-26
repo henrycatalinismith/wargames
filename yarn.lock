@@ -164,7 +164,7 @@ __metadata:
     line-reader: "npm:^0.4.0"
     sass: "npm:^1.77.8"
     terser: "npm:^5.31.3"
-    three: "npm:^0.167.1"
+    three: "npm:0.147.0"
   languageName: unknown
   linkType: soft
 
@@ -2812,10 +2812,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"three@npm:^0.167.1":
-  version: 0.167.1
-  resolution: "three@npm:0.167.1"
-  checksum: 3040ffb013b6bb063d96ecff51acc6e6390a92d616a0d0db39550ad516eb0be8e50342f0c2c97892fbd983d03c7319f44b56bde881e1f3e6bc612d559b1276ea
+"three@npm:0.147.0":
+  version: 0.147.0
+  resolution: "three@npm:0.147.0"
+  checksum: 292dabf63b66d17ffd7c1088093a8c1b79cf36a5f50e04a9d211ce6763fc47c8d635ec4e69af5188943b220b30360752c2846aff9e940c5483b588fe43470f08
   languageName: node
   linkType: hard
 
